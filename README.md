@@ -2,7 +2,7 @@
 
 *Tunator* is a program which helps musicians to improve *intonation*, i.e the art of finding the correct pitch.
 
-*Tunator* is open source, hosted on [github](https://github.com/geschole/tunator)
+*Tunator* is open source, hosted on [github](https://github.com/algorithmixx/tunator)
 
 *Tunator* was created by Gero Scholz, Germany, Bad Nauheim.
 
