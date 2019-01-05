@@ -11,7 +11,7 @@ class Lang {
 				trh (for html content of an HTML tag)
 				trt (for the title attribute of an HTML tag)
 				trx (for arbitary texts whioch are programmatocally accessed)
-/*
+*/
 
 	constructor() {
 		this.lang="en";

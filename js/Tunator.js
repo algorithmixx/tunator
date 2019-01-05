@@ -335,9 +335,8 @@ class Tunator {
 	}
 
 	createNode(type,size,loop) {
-		// create a MediaAPI audio node, connect and start setInterval(function () {
-
-		}, 10);
+		// create a MediaAPI audio node, connect and start
+		
 		this.audioNode = audioContext.createBufferSource();
 		this.audioNode.loop=loop;
 		this.audioNode.buffer = audioContext.createBuffer(1, size, audioContext.sampleRate);
