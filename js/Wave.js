@@ -3,6 +3,9 @@
 // ======================================================================================================== Wave
 
 class Wave {
+/*
+	Wave provides an oscilloscope-like view of a signal shape
+*/
 
 	constructor(width,height) {
 		this.width=width;
@@ -13,24 +16,27 @@ class Wave {
 	}
 
 	show() {
+		// show the blue wave area
 		if (this.tag.is(":visible")) return;
-		
+
 		this.tag.show();
 		$("#toggleWave").css("background-color","lightgreen");
 		theAnalyser.showSampling(true);
 		theLessons.adaptHeight();
 	}
-	
+
 	hide() {
+		// hide the blue wave area
 		if (!this.tag.is(":visible")) return;
-		
+
 		this.tag.hide();
 		$("#toggleWave").css("background-color","");
 		theAnalyser.showSampling(false);
 		theLessons.adaptHeight();
 	}
-	
+
 	toggle() {
+		// show/hide the blue wave area
 		if (this.tag.is(":visible"))	this.hide();
 		else							this.show();
 	}
@@ -49,7 +55,7 @@ class Wave {
 		this.canvas.moveTo(0,this.height/2);
 		this.canvas.lineTo(this.width,this.height/2);
 		this.canvas.stroke();
-		
+
 		this.canvas.beginPath();
 		if (type =="notes") {
 			this.canvas.fillStyle = "black";
@@ -82,14 +88,16 @@ class Wave {
 				this.canvas.lineTo(tick,this.height/2);
 			}
 		}
-		
+
 		this.canvas.stroke();
 
 	}
 
 	drawNoise(buf) {
+		// draw aperiodic signal
+
 		if (!this.tag.is(":visible")) return;
-		
+
 		this.drawAxis("time",buf.length,0);
 
 		// scale buffer to fill the vertical axis
@@ -97,7 +105,7 @@ class Wave {
 		for (var s=0;s<buf.length;s++) if (Math.abs(buf[s])>peak) peak=Math.abs(buf[s]);
 		var scale=1.0/peak*(this.height-10)/2;
 		var centerY = this.height/2;
-		
+
 		this.canvas.beginPath();
 		this.canvas.moveTo(0,centerY-scale*buf[0]);
 		this.canvas.strokeStyle = "#bbf";
@@ -109,6 +117,8 @@ class Wave {
 	}
 
 	drawNote(buf,signal) {
+		// draw a periodic signal
+
 		if (!this.tag.is(":visible")) return;
 
 		this.drawAxis("notes",buf.length,signal.note);
@@ -127,15 +137,15 @@ class Wave {
 				}
 			}
 		}
-		// look near the end if we have got a higher signal level there
+		// look near the end if we got a higher signal level there
 		var scale=0.95/signal.peak;
-		
+
 		var y=[];
 		var fac = 500.0 / this.width;  // zoom into the wave
 		for (var i=0; i<this.width; i++) {
 			y.push(this.height/2-scale*(buf[Math.round(crossing+i*fac)]*(this.height-10)/2));
 		}
-		
+
 		// draw full frame
 		this.canvas.beginPath();
 			this.canvas.moveTo(0,this.height/2+(buf[0]*(this.height-10)/2));
@@ -146,7 +156,7 @@ class Wave {
 				b=Math.round(i*fac)+crossing;
 				if (b>=buf.length) break;
 				this.canvas.lineTo(i,this.height/2-scale*(buf[b]*(this.height-10)/2));
-			}			
+			}
 		this.canvas.stroke();
 
 		// draw magnified portion of detected tone
@@ -163,7 +173,7 @@ class Wave {
 		this.canvas.stroke();
 
 		// asterisks
-		
+
 		var tick = 998./Math.pow(1.059463094359,Math.round( signal.note ) + 26);
 		this.canvas.beginPath();
 			this.canvas.fillStyle = "red";
@@ -176,8 +186,7 @@ class Wave {
 		this.canvas.stroke();
 
 		this.canvas.lineWidth = 1;
-		
+
 	}
 
 }
-

@@ -1,7 +1,20 @@
 ﻿"use strict";
 
 var	LangDef = {
+/*
+	LangDef contains language specific texts for
+		HTMl element hover title attributes ("trt")
+		HTML element text content ("trh"),
+		programmatic access ("trx") which is not directly linked to a specific HTML tag
 
+		The last group ("trx") is speciofically intended to be used for lesson titles and lesson text.
+		It can contain MARK DOWN syntax and supports some additional proprietory syntax extensions
+		which are similar to MEDIAWIKI syntax:
+			IMG:[[path|attributes]] - inserts an image (floating right), attributes are added to the style oif the <img> tag
+			LINK:[[URL|label]] - links to A web URL
+			WP:[[name|label]] - links to the Wikipedia in the configured language
+			DEMO:[[demo-ID|label]] - produces a button to invoke a DEMO script defined in Lessons.js
+*/
 	trt : {											//============================ "title" attributes to be added to a tag with the given "id"
 
 		createdBy: {

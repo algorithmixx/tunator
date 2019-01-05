@@ -5,67 +5,71 @@
 class Analyser {
 /*
 	The Analyser offers an analyse() method which is expected to be called in regular intervals.
-	When called it takes a frame (e.g. 2048 samples) from the current audio source and passes it to the 
+	When called it takes a frame (e.g. 2048 samples) from the current audio source and passes it to the
 	Detector which tries to identify a periodic signal in the frame.
 	Thereafter the Analyser shows the signal (using class Wave and/or Timeline).
 
 	The Analyser stores the latest frame and can extract exactly one (or more) signal periods from that frame,
 	thus creating a pattern sample. The Analyser can replay this sample in an endless loop.
 	It can also use the pattern sample to extract its harmonics (fast Fourier trabsform) and pass them to the Oscillator class.
-	
+
 	Apart from finding periodic signals the Analyser can also be asked to care for aperiodic signals (sudden volume rises).
-	This can be useful for rhythmis training. In that case the user typically will "tap" on the table to produce 
-	a clear rise in volume.
+	This can be useful for rhythmic training. In that case the user typically will "tap" on the table to produce
+	a significant rise in volume.
 */
- 	
+
 	constructor() {
 
-		this.analyserNode	= null;		// Media API analyser
+		this.analyserNode			= null;		// Media API analyser
 		this.resetWaveTime();
-		
-		this.sampleLoop		= null;		// a loop frame which is constructed from periodic samples
-		this.holdTime		= 300;		// milliseconds to hold the reference tone after micro signal has gone
-		this.refToneInterval= +4;		// difference between generated reference tone and detected tone (in semitones)
-		
-		this.toneBuffer		= null;
-		this.noiseBuffer	= null;
-		
-		this.lastNote		= "none";	// last detected note
-		this.lastSignal		= null;
-		this.lastTapTime	= 0;		// time of last detected rhythm "tap" event (=significant raise in signal energy)
-		this.minTapPeakLevel= 0.05;		// the minimum signal level required for a "tap" detection (rhythmic analysis)
-		this.tapDeadTime	= 20;		// minimum time distance (msec) between two tap events (when closer the second event is ignored)
-		this.now			= Date.now();
-		this.noteNames		= false;
-		this.noteSpoken		= false;
-		this.noteChangeTime	= 0;
-		
+
+		this.sampleLoop				= null;		// a loop frame which is constructed from periodic samples
+		this.holdTime				= 300;		// milliseconds to hold the reference tone after micro signal has gone
+		this.refToneInterval		= +4;		// difference between generated reference tone and detected tone (in semitones)
+
+		this.toneBuffer				= null;
+		this.noiseBuffer			= null;
+
+		this.lastNote				= "none";	// last detected note
+		this.lastSignal				= null;
+		this.lastTapTime			= 0;		// time of last detected rhythm "tap" event (=significant raise in signal energy)
+		this.minTapPeakLevel		= 0.05;		// the minimum signal level required for a "tap" detection (rhythmic analysis)
+		this.tapDeadTime			= 20;		// minimum time distance (msec) between two tap events (when closer the second event is ignored)
+		this.now					= Date.now();
+		this.shallAnnounceNoteNames	= false;
+		this.noteSpoken				= false;
+		this.noteChangeTime			= 0;
+
 		$("#sampling").hide();
 	}
-	
+
 	resetWaveTime() {
+		// reset and define the interval for refreshing the oscilloscope view
 		this.lastWaveDrawingTime = 0;
 		this.waveDrawingInterval = 500; 	// redraw wave form every 500 msec
 	}
-	
+
 	showSampling(val) {
 		// show or hide the menu which allows sample patterns to be taken and replayed in a loop
 		if (val)	$('#sampling').show();
 		else		$('#sampling').hide();
 	}
-	
+
 	create(input,fftSize) {
 		// create a Media API Analyser Node; must be called once before analyse() can be called
+		// fftSize must pe a power of 2, typical values: 2048 or 4096
+		// input is the Media AOI node which provides the audio stream data for the analyser
+
 		this.analyserNode = audioContext.createAnalyser();
 		this.fftSize=fftSize;
 		this.analyserNode.fftSize = fftSize;
 		this.buf = new Float32Array(fftSize);
 		input.connect(this.analyserNode);
 	}
-		
+
 	analyse( animationTime ) {
 		// request a frame, trigger signal detection and care for showing the result
-						
+
 		var that=theAnalyser;
 
 		// time stamps to monitor calling rhythm and time consumption
@@ -74,10 +78,10 @@ class Analyser {
 
 		// request data buffer
 		that.analyserNode.getFloatTimeDomainData( that.buf );
-				
+
 		// let the Detector find potential periodicity of the signal (in normal mode) or first signal raise (in "rhythm" mode)
 		var signal = theDetector.autoCorrelate( that.buf, audioContext.sampleRate, theTunator.mode=="rhythm" );
-		
+
 		// show the amount of time that was necessary for detection (the calling period should be significantly larger)
 		$("#loopTime").text(that.now-that.past);
 		$("#detectTime").text(Date.now()-that.now);
@@ -88,10 +92,10 @@ class Analyser {
 				// calculate start time in msec (relative to the beginning of the detection process)
 				var startTime = that.now+1000*signal.start/48000. - theTunator.detectionStart;
 				// console.log((that.now-theTunator.detectionStart)+": "+startTime+" "+signal.peak);
-				
+
 				// if signal is strong enough: add signal to Timeline and show
 				if (Math.abs(that.lastTapTime-startTime) > that.tapDeadTime) {
-					// due to slightly overlapping frames we may see the same signal twice 
+					// due to slightly overlapping frames we may see the same signal twice
 					// therefore two signals closer than a certain time (20 msec) are considered to be the same signal
 					// console.log (" ************ TICK");
 					theTimeline.addTick(startTime, signal);
@@ -102,47 +106,49 @@ class Analyser {
 		}
 		else if (signal.freq < 0) {
 
+			// weg did not find a periodic signal
+
 			if (theTunator.mode=="intonation") {
 				if (that.lastNote!="none" && Date.now() - that.lastTapTime>that.holdTime) {
 					theOscillator.pause();
 					that.lastNote="none";
 				}
 			}
-			
+
 			theTimeline.add(1000);
 			theTimeline.drawNote(1000);
-			
+
 			if (signal.freq<-1) theWave.drawNoise(that.buf);
-			
+
 			theDetector.draw(signal,null);	// keep last frequency, use grey color
-			
+
 			// unless we are already playing a loop sample: store the unrecognized pitch ("noise") so that we can use it for a loop sample
 			if (signal.freq==-2 && theTunator.speakerSource!="sample") that.noiseBuffer=that.buf.slice();
-			
+
 			that.noteChangeTime=that.now;
 
 		}
 
 		else {
+			// we found a periodic signal
 
 			// add freq to timeline array (also calculates smoothed pitch)
 			var smoothedNote = theTimeline.add(signal.note);
 			var smoothedNoteCents = Math.round(100 * smoothedNote);
 			var scaledNoteCents = 100 * Math.round(smoothedNote);
 
-			// set oscillator to scaled note
+			// set oscillator to scaled note when in intonation mode (accompanied playing)
 			if (theTunator.mode=="intonation") {
 				if (that.lastNote=="none") theOscillator.resume();
 				theOscillator.setDetune(scaledNoteCents,smoothedNoteCents);
 				that.lastNote=scaledNoteCents;
 			}
 
-			// update detector ui
+			// update detector ui: show note name, deviation, note system
 			theDetector.draw(signal,smoothedNote);
-			
+
 			// draw the current wave form in regular intervals
-			// if we did not detect a periodic signal do nothing (so the last valid signal remains visible)
-			if (animationTime-that.lastWaveDrawingTime > that.waveDrawingInterval && signal.freq>0) {
+			if (animationTime-that.lastWaveDrawingTime > that.waveDrawingInterval) {
 				theWave.drawNote(that.buf,signal);
 				that.lastWaveDrawingTime=animationTime;
 			}
@@ -153,11 +159,11 @@ class Analyser {
 			// if we are not playing a loop sample
 			if (theTunator.speakerSource!="sample") {
 
-				//store the buffer so that we can use it for a loop sample
+				//store the buffer so that we can use it for a loop sample (on the user´s request)
 				that.toneBuffer=that.buf.slice();
 
 				// speak the note name if we have had a stable new note for more than 1 second
-				if (that.noteNames) {
+				if (that.shallAnnounceNoteNames) {
 					if (that.lastSignal!=null && Math.round(that.lastSignal.note)!=Math.round(signal.note)) {
 						// we have a different note
 						that.noteChangeTime=that.now;
@@ -169,49 +175,50 @@ class Analyser {
 					}
 				}
 
+				// store latest signal
 				that.lastSignal=signal;
 				that.lastTapTime=that.now;
 
 			}
-			
+
 		}
 
 		$("#loopTime").text(that.now-that.past);
 
 	}
-	
+
 	captureSample(n) {
-		// capture one (repetitive) sample (1) or as many as possible (2) or just take the last pitched frame (3) or the last noise frame (4)
-		// we start at a point where we have at least 33% of the peak signal
-		// this cuts out leading silence and gives better triggering
-		
+		// capture one cycle of a repetitive pattern (1) or as many repetitions as possible (2)
+		// or just take the last frame with periodicity (3) or the last noise frame (4)
+
 		var that=theAnalyser;
-				
+
 		if (n==4) {
 			// use the last noise buffer as a loop frame
-			
+
 			if (that.noiseBuffer==null) return;
 
 			theTunator.stopDetection();
 
 			var size=that.noiseBuffer.length;
 			that.sampleLoop = new Float32Array(size);
-			for(var b=0;b<that.noiseBuffer.length;b++) that.sampleLoop[b] = that.noiseBuffer[b];	
+			for(var b=0;b<that.noiseBuffer.length;b++) that.sampleLoop[b] = that.noiseBuffer[b];
 		}
 		else {
 			// use the last tone buffer (or a part of it) as loop frame
-			
+
 			if (that.toneBuffer==null) return;
 
 			theTunator.stopDetection();
 
 			var start=0;
 			var length=that.toneBuffer.length;
-			
+
 			if (n<3) {
 
-				// find a start position with sufficient signal strength
-				// = exclude a potentially long period of no signal at the beginning of the frame
+				// find a good point for triggering: ignore initial period of weak signal or silence
+				// we start at a point where we have at least 30% of the peak signal
+
 				var threshold=0.3;
 				var repeats=1;
 				var crossing=-1;
@@ -226,17 +233,18 @@ class Analyser {
 					}
 					if (Math.abs(that.toneBuffer[start])>that.lastSignal.peak*threshold) break;
 				}
-				// advance to the previous or next zero crossing from - to +
+				// from there we advance to the previous or next zero crossing from negative to positive values
 				if (crossing>0) {
-					start=crossing;
+					start=crossing; // wel already had such a crossing
 				}
 				else {
+					// we look for the next crossing
 					for(;start<length-1;start++) {
 						if (that.toneBuffer[start]<=0 && that.toneBuffer[start+1]>0) break;
 					}
 				}
 
-				// find an end position with sufficient signal strength 
+				// find an end position with sufficient signal strength
 				// = exclude a potentially long period of no signal at the end of he frame
 				var end;
 				for( ; threshold>0;threshold-=0.05) {
@@ -249,7 +257,8 @@ class Analyser {
 					}
 					if (Math.abs(that.toneBuffer[end])>that.lastSignal.peak*threshold) break;
 				}
-				
+
+				// now we have a range which can be used to extract one or more periods
 				var period=that.lastSignal.period;	// take a single period
 
 				// if the number of usable samples is less than one period: quit
@@ -257,20 +266,21 @@ class Analyser {
 					that.sampleLoop = null;
 					return;
 				}
-				
+
 				if (n==2 && period>0) {
 					// take as many periods as possible
 					repeats = Math.floor((end-start+1)/period);
 				}
-				
+
 				// calculate the number of samples that match the given number of repetitions of the period
-				length=period*repeats;
+				length=period*repeats;	// this is what we would expect
 
 				// fine tuning: find smoothest transition for wrap around near the calculated length
 				var startBuffer = that.toneBuffer[start];
 				var pos=start+length;
 				var delta1=Math.abs(that.toneBuffer[pos]-startBuffer);
 				var length1=length;
+				// extend the range by up to 30% of one period
 				for (var n=1;n<period*0.3;n++) {
 					// check neighborhood
 					if (Math.abs(that.toneBuffer[pos+n]-startBuffer)<delta1) {
@@ -281,6 +291,7 @@ class Analyser {
 				}
 				var delta2=Math.abs(that.toneBuffer[pos]-startBuffer);
 				var length2=length;
+				// shrink the range by up to 30% of one period
 				for (var n=1;n<period*0.3;n++) {
 					// check neighborhood
 					if (Math.abs(that.toneBuffer[pos-n]-startBuffer)<delta2) {
@@ -289,74 +300,89 @@ class Analyser {
 					}
 					else break;
 				}
+				// now take the best fitting interval length
 				length = (delta1<=delta2) ? length1 : length2;
 				// console.log("sample loop period alignment from "+repeats+" * "+that.lastSignal.period+" = "+(period*repeats)+" to "+length);
 			}
-			
+
 			var size=Math.floor(that.toneBuffer.length/length)*length;
-			
+
 			if (size<=0) {
 				that.sampleLoop = null;
 				return;
 			}
 
+			// transfer the samples from the toneBuffer to the sampleLoop
 			that.sampleLoop = new Float32Array(size);
 			for(var b=0;b<size;b++) that.sampleLoop[b] = that.toneBuffer[start+ (b%length)];
 		}
-				
+
+		// highlight tel "loop" button to indiocate that a sample was successfully selected
 		$("#sampleLoopSource").css("background-color","lightyellow");
 
+		// use the sample loop data for detection and play it voa the speakers
 		theTunator.selectAudio("");
 		theTunator.selectDetectionSource("");
 		theTunator.selectAudio("sample");
 	}
-	
+
 	fillFromSampleLoop(buf) {
+		// fill the passed buffer with the sample loop data
 		for (var b=0;b<buf.length;b++) {
 			buf[b]=this.sampleLoop[b];
 		}
 	}
-	
-	speakName(val) {
-		this.noteNames=val;
-		$("#speakName").css("background-color",this.noteNames ? "lightgreen" : "");
+
+	announceNoteNames(val) {
+		// activate or deactivate the announcements of note names
+		this.shallAnnounceNoteNames=val;
+		$("#announceNoteNames").css("background-color",val ? "lightgreen" : "");
 	}
-	
-	toggleSpeakName() {
-		this.speakName(!this.noteNames);
+
+	toggleAnnounceNoteNames() {
+		this.announceNoteNames(!this.shallAnnounceNoteNames);
 	}
 
 	fft() {
+		// perform fast Fourier analysis for the sample loop updateAuxInterval
+		// and return two arrays with real and imaginary values
+
 		this.captureSample(1);
 		if (!this.sampleLoop) return null;
 		var size = this.sampleLoop.length;
 		if (size<=0) return [[],[]];
-		
+
 		var inputreal = new Array(size);
 		for(var v=0;v<size;v++) inputreal[size-1-v]=this.sampleLoop[v];
 		var inputimag = new Array(size); inputimag.fill(0);
 		var refoutreal = new Array(size);
 		var refoutimag = new Array(size);
 		naiveDft(inputreal, inputimag, refoutreal, refoutimag, false);
-	
+
 		// var actualoutreal = inputreal.slice();
 		// var actualoutimag = inputimag.slice();
 		// transform(actualoutreal, actualoutimag);
-	
+
 		return [refoutreal,refoutimag];
-		
+
 		//		document.write("fftsize=" + size + "  logerr=" +
 		//			log10RmsErr(refoutreal, refoutimag, actualoutreal, actualoutimag).toFixed(1) + "\n");
 	}
-	
+
 }
 
-/* 
+// ***************************************************************************************************
+//
+//	hereafter we include a set of library functions to perform FFT ...
+//
+// ***************************************************************************************************
+
+/*
  * Free FFT and convolution (JavaScript)
- * 
+ *
  * Copyright (c) 2017 Project Nayuki. (MIT License)
  * https://www.nayuki.io/page/free-small-fft-in-multiple-languages
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
@@ -377,7 +403,7 @@ class Analyser {
 "use strict";
 
 
-/* 
+/*
  * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
  * The vector can have any length. This is a wrapper function.
  */
@@ -394,7 +420,7 @@ function transform(real, imag) {
 }
 
 
-/* 
+/*
  * Computes the inverse discrete Fourier transform (IDFT) of the given complex vector, storing the result back into the vector.
  * The vector can have any length. This is a wrapper function. This transform does not perform scaling, so the inverse is not a true inverse.
  */
@@ -403,7 +429,7 @@ function inverseTransform(real, imag) {
 }
 
 
-/* 
+/*
  * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
  * The vector's length must be a power of 2. Uses the Cooley-Tukey decimation-in-time radix-2 algorithm.
  */
@@ -421,7 +447,7 @@ function transformRadix2(real, imag) {
 	}
 	if (levels == -1)
 		throw "Length is not a power of 2";
-	
+
 	// Trigonometric tables
 	var cosTable = new Array(n / 2);
 	var sinTable = new Array(n / 2);
@@ -429,7 +455,7 @@ function transformRadix2(real, imag) {
 		cosTable[i] = Math.cos(2 * Math.PI * i / n);
 		sinTable[i] = Math.sin(2 * Math.PI * i / n);
 	}
-	
+
 	// Bit-reversed addressing permutation
 	for (var i = 0; i < n; i++) {
 		var j = reverseBits(i, levels);
@@ -442,7 +468,7 @@ function transformRadix2(real, imag) {
 			imag[j] = temp;
 		}
 	}
-	
+
 	// Cooley-Tukey decimation-in-time radix-2 FFT
 	for (var size = 2; size <= n; size *= 2) {
 		var halfsize = size / 2;
@@ -459,7 +485,7 @@ function transformRadix2(real, imag) {
 			}
 		}
 	}
-	
+
 	// Returns the integer whose value is the reverse of the lowest 'bits' bits of the integer 'x'.
 	function reverseBits(x, bits) {
 		var y = 0;
@@ -471,8 +497,7 @@ function transformRadix2(real, imag) {
 	}
 }
 
-
-/* 
+/*
  * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
  * The vector can have any length. This requires the convolution function, which in turn requires the radix-2 FFT function.
  * Uses Bluestein's chirp z-transform algorithm.
@@ -485,7 +510,7 @@ function transformBluestein(real, imag) {
 	var m = 1;
 	while (m < n * 2 + 1)
 		m *= 2;
-	
+
 	// Trignometric tables
 	var cosTable = new Array(n);
 	var sinTable = new Array(n);
@@ -494,7 +519,7 @@ function transformBluestein(real, imag) {
 		cosTable[i] = Math.cos(Math.PI * j / n);
 		sinTable[i] = Math.sin(Math.PI * j / n);
 	}
-	
+
 	// Temporary vectors and preprocessing
 	var areal = newArrayOfZeros(m);
 	var aimag = newArrayOfZeros(m);
@@ -510,12 +535,12 @@ function transformBluestein(real, imag) {
 		breal[i] = breal[m - i] = cosTable[i];
 		bimag[i] = bimag[m - i] = sinTable[i];
 	}
-	
+
 	// Convolution
 	var creal = new Array(m);
 	var cimag = new Array(m);
 	convolveComplex(areal, aimag, breal, bimag, creal, cimag);
-	
+
 	// Postprocessing
 	for (var i = 0; i < n; i++) {
 		real[i] =  creal[i] * cosTable[i] + cimag[i] * sinTable[i];
@@ -524,7 +549,7 @@ function transformBluestein(real, imag) {
 }
 
 
-/* 
+/*
  * Computes the circular convolution of the given real vectors. Each vector's length must be the same.
  */
 function convolveReal(x, y, out) {
@@ -535,7 +560,7 @@ function convolveReal(x, y, out) {
 }
 
 
-/* 
+/*
  * Computes the circular convolution of the given complex vectors. Each vector's length must be the same.
  */
 function convolveComplex(xreal, ximag, yreal, yimag, outreal, outimag) {
@@ -543,21 +568,21 @@ function convolveComplex(xreal, ximag, yreal, yimag, outreal, outimag) {
 	if (n != ximag.length || n != yreal.length || n != yimag.length
 			|| n != outreal.length || n != outimag.length)
 		throw "Mismatched lengths";
-	
+
 	xreal = xreal.slice();
 	ximag = ximag.slice();
 	yreal = yreal.slice();
 	yimag = yimag.slice();
 	transform(xreal, ximag);
 	transform(yreal, yimag);
-	
+
 	for (var i = 0; i < n; i++) {
 		var temp = xreal[i] * yreal[i] - ximag[i] * yimag[i];
 		ximag[i] = ximag[i] * yreal[i] + xreal[i] * yimag[i];
 		xreal[i] = temp;
 	}
 	inverseTransform(xreal, ximag);
-	
+
 	for (var i = 0; i < n; i++) {  // Scaling (because this FFT implementation omits it)
 		outreal[i] = xreal[i] / n;
 		outimag[i] = ximag[i] / n;
@@ -576,7 +601,7 @@ function naiveDft(inreal, inimag, outreal, outimag, inverse) {
 	var n = inreal.length;
 	if (n != inimag.length || n != outreal.length || n != outimag.length)
 		throw "Mismatched lengths";
-	
+
 	var coef = (inverse ? 2 : -2) * Math.PI;
 	for (var k = 0; k < n; k++) {  // For each output element
 		var sumreal = 0;

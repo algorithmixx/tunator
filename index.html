@@ -14,7 +14,7 @@
 			box-sizing: border-box;
 			font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
 		}
-		
+
 		h2,h3,h4,h5     {font-family:Arial;}
 		.droptarget 	{ background-color: #348781}
 		#deviation		{ display: inline-block; }
@@ -24,7 +24,7 @@
 			-webkit-appearance: none;
 			width: 80px;
 			height: 1px;
-			background: #000;	
+			background: #000;
 			-webkit-transition: .2s;
 			transition: opacity .2s;
 		}
@@ -34,7 +34,7 @@
 			appearance: none;
 			width: 10px;
 			height: 10px;
-			border-radius: 50%; 
+			border-radius: 50%;
 			background: #000;
 			cursor: pointer;
 		}
@@ -65,8 +65,8 @@
 
 	<!-- intro    ================================================================================= -->
 
-	<button class="trh" id="intro" 
-		style="width:100%;height:400px;font-size:200%" 
+	<button class="trh" id="intro"
+		style="width:100%;height:400px;font-size:200%"
 		onclick = "theTunator.introConfirmed();"
 		onkeypress="theTunator.introConfirmed();">
 	</button>
@@ -75,7 +75,7 @@
 
 	<div style="margin-bottom:5px;padding:5px;background:#ddd"> 🎵
 		<select style="font-size:100%;padding:5px;	"
-			id="lessons" onchange="if (typeof(this.selectedIndex) != undefined) { theLessons.set($('#lessons option:selected').val(),$('#lessons option:selected').text()); this.blur();}" 
+			id="lessons" onchange="if (typeof(this.selectedIndex) != undefined) { theLessons.set($('#lessons option:selected').val(),$('#lessons option:selected').text()); this.blur();}"
 			onfocus="this.selectedIndex = -1;">
 		</select>
 		<span class="trh" id="chooseLesson" style="margin-left:20px;margin-right:50px">Please, choose a lesson!</span>
@@ -86,7 +86,7 @@
 			<img src="img/flag-es.png" onclick="theTunator.setLanguage('es');"/> &nbsp;
 		</span>
 	</div>
-	
+
 	<!-- detector    ================================================================================= -->
 
 	<div class="trt" id="detector" style="vertical-align:top;display:inline-block;height:110px;padding:5px;background:#cfc">
@@ -114,7 +114,7 @@
 			<option value="+5" > Eb sound</option>
 			<option value="+12"> C8 sound</option>
 		</select>
-	
+
 		<div style="vertical-align:top;padding-left:5px;background:#cfc;">
 			<div class="pitch" style="display:inline-block">
 				<span class="trt" id="rms" style="display:inline-block;width:50px;"></span>
@@ -123,13 +123,13 @@
 				<span class="trt" id="pitch" style="display:inline-block;width:50px;">--</span>
 				<span class="trt trh" id="hz">Hz</span>
 				<br/>
-				<button class="trt trh" id="speakName" onclick="theAnalyser.toggleSpeakName();">speak name</button>
-			</div>	
+				<button class="trt trh" id="announceNoteNames" onclick="theAnalyser.toggleAnnounceNoteNames();">speak name</button>
+			</div>
 		</div>
 	</div>
 
 	<div class="trt" id="detectedNote" style="vertical-align:top;display:inline-block;background:#f0f0f0;padding:5px;width:110px;height:106px;border:2px solid gray;border-radius:8px;text-align:center;">
-		<div id="noteName" style="font-family: Courier; font-weight:600; font-size: 64px; display:inline-block;margin-top:10px;	text-align: center;"></div> 
+		<div id="noteName" style="font-family: Courier; font-weight:600; font-size: 64px; display:inline-block;margin-top:10px;	text-align: center;"></div>
 		<div id="detune" style="height:18px;font-family:Courier;">
 			<span id="detuneAmount"></span>
 		</div>
@@ -139,11 +139,11 @@
 		<img id="note" style="display:none;height:24px;width:32px;position:absolute;top:18px;left:37px;" src="img/note.png"</img>
 		<img id="noteFlat" style="display:none;height:24px;width:32px;position:absolute;top:18px;left:37px;" src="img/noteflat.png"</img>
 		<img id="noteSharp" style="display:none;height:24px;width:32px;position:absolute;top:18px;left:37px;" src="img/notesharp.png"</img>
-	</div> 
+	</div>
 
 
 	<!-- main control    ================================================================================= -->
-		
+
 	<div id="menu" style="vertical-align:top;display:inline-block;padding:5px;height:110px;background:#fcf;" title="select a MODE">
 		<button id="microInput" onclick="theTunator.selectDetectionSource('micro')" style="width:70px;"
 			title="switch microphone on/off">
@@ -161,7 +161,7 @@
 			title="show / hide tone generator (oscillator)">
 			<img alt="generator" src="img/generator.png"/>
 		</button>
-					
+
 		<br/>
 		<button style="margin-bottom:5px" id="songSource"	onclick="theTunator.selectAudio(this.outerText)">song</button>
 		<select id="song" onchange="theTunator.songChanged()">
@@ -185,7 +185,7 @@
 
 
 	<!-- sampling    ================================================================================= -->
-		
+
 	<div id="sampling" style="vertical-align:top;display:inline-block;padding:5px;height:110px;background:#e8e8ff" title="take a SAMPLE">
 		sampling:<p/>
 		<button id="captureSample1" onclick="theAnalyser.captureSample(1)" style="width:50px;margin-bottom:6px;">1</button>
@@ -196,7 +196,7 @@
 		<br/>
 		<button id="sampleLoopSource" onclick="theTunator.selectAudio('sampleLoop');" style="width:50px">loop</button>
 	</div>
-	
+
 
 	<!-- timelineControl    ================================================================================= -->
 
@@ -237,7 +237,7 @@
 					<button onclick="theTunator.changeOscDetune(+100)">++</button>
 					<input id="oscFreq" onchange="theOscillator.setFreq(this.value);" style="width:70px"/>
 					<button onclick="theTunator.changeOscDetune(-5)">-</button>
-					<button onclick="theTunator.changeOscDetune(+5)">+</button> 
+					<button onclick="theTunator.changeOscDetune(+5)">+</button>
 					<br/>
 					<select id="oscMode" onchange="theOscillator.setMode(this[this.selectedIndex].outerText)" title="select operations mode">
 						<option>straight</option>
@@ -272,11 +272,11 @@
 				</td>
 
 				<td>
-					<span id="oscNote" style="margin-left:10px;display:inline-block;width:80px;vertical-align:top;font-size:150%;fontWeight:800;"></span>			
+					<span id="oscNote" style="margin-left:10px;display:inline-block;width:80px;vertical-align:top;font-size:150%;fontWeight:800;"></span>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">	
+				<td colspan="2">
 					<select id="chord" style="font-family:monospace;font-size:150%;" onchange="theTunator.changeChord()" title="interval between your note and the reference note">
 						<option value="0">I</option>
 						<option value="0.0040">I [&plusmn; 40 ct.]</option>
@@ -298,10 +298,10 @@
 						<option value="0,107">I +V</option>
 						<option value="0,-107">I -V</option>
 						<option value="0">-----------</option>
-						<option value="103">+iii</option>	
-						<option value="-103">-iii</option>	
-						<option value="104">+III</option>	
-						<option value="-104">-III</option>	
+						<option value="103">+iii</option>
+						<option value="-103">-iii</option>
+						<option value="104">+III</option>
+						<option value="-104">-III</option>
 						<option value="107">+V</option>
 						<option value="-107">-V</option>
 						<option value="12">XII</option>
@@ -320,23 +320,23 @@
 						<option value="0,103,107">I +iii +V</option>
 						<option value="0,104,107">I +III +V</option>
 						<option value="0,4,7">1 +3 +5</option>
-						
+
 						<option value="0,104,107,110">I +III +V +vii</option>
-						<option value="0,104,107,111">I +III +V +VII</option>			
+						<option value="0,104,107,111">I +III +V +VII</option>
 					</select>
 					<button
-						id="toggleHarmonics" onclick="theOscillator.toggleHarmonics();" 
+						id="toggleHarmonics" onclick="theOscillator.toggleHarmonics();"
 						title="show / hide oscillator custom harmonics" style="font-size:100%">&apid;
 					</button>
-					<button 
-						id="fft" onclick="theTunator.fft();" style="font-size:100%" 
+					<button
+						id="fft" onclick="theTunator.fft();" style="font-size:100%"
 						title="create oscillator harmonics from signal sample (FFT)">&perp;
 					</button>
 					&nbsp; &nbsp; <span id="auxInterval">...</span>
 
 					<br/>
 					<button id="aux" style="width:40px" onclick="theOscillator.toggleAux();"><b>&asymp;</b></button>
-					<button 
+					<button
 						onmousedown="$(this).css('backgroundColor','#faa');theOscillator.auxShifter = setInterval(function() {theOscillator.changeAuxDetune(-4);},20);"
 						onmouseup="$(this).css('backgroundColor','');clearInterval(theOscillator.auxShifter);"
 						onmouseout="$(this).css('backgroundColor','');clearInterval(theOscillator.auxShifter);">&dArr;
@@ -354,7 +354,7 @@
 	</div>
 
 	<!-- other    ================================================================================= -->
-	
+
 	<div id="other" style="vertical-align:top;display:inline-block;padding:5px;height:110px;background:#eee" title="other settings">
 		<table>
 			<tr>
@@ -396,12 +396,12 @@
 		<input id="p7" type="range" min="-300" max="300" value="0"		class="slider" oninput="theTunator.setOscPhase(7,this.value);"/>
 		<input id="p8" type="range" min="-300" max="300" value="0"		class="slider" oninput="theTunator.setOscPhase(8,this.value);"/>
 	</div>
-	
+
 
 	<!-- wave (oscilloscope)    ================================================================================= -->
 
 	<canvas style="padding-top:5px;background-color:#e8e8ff;" id="wave" width="1024" height="160"></canvas>
-	
+
 
 	<!-- timeline (sequencer)    ================================================================================= -->
 
@@ -409,7 +409,7 @@
 	<div id="timelineBox" style="margin-top:10px;overflow:auto;height:400px;width:100%;resize:vertical">
 		<canvas id="timeline" width="1320px" height="2640px" onclick="theTimeline.clicked(event);"></canvas>
 	</div>
-	
+
 
 	<!-- instruction (help, lesson)    ================================================================================= -->
 

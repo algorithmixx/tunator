@@ -3,24 +3,23 @@
 // ======================================================================================================== Oscillator
 
 class Oscillator {
+/*
+	Oscillator has a main tone generator which can produce chords with various wave shapes
+	and a second (auxiliary) generator.
+	The main generator can play melodies, let the tone drift away, produce vibrato,
+	produce pairs of tones for pitch comparison etc.
 
-	/*
-		A main tone generator which can produce chords with various wave shapes
-		A second (auxiliary) generator.
-		The main generator can play melodies, let the tone drift away, produce vibrato,
-		produce pairs of tones for pitch comparison etc.
-		
-					 /----> main osc [0] ---\
-					/-----> main osc [1] ----\
-		sweeper -->					  ...        -----+--> gainSum --\         /--> wave (scope)
-					\----->	main osc [n] ----/                        \       /
-																       +-----+----> gainMix -----> speakers
-							second osc [1] --------------->-----------/
-							
-		The UI has a primary yellow area for the most important controls 
-		and an optional second yellow area for the sliders which control the harmonics of the main osc wave shape
-	*/
-		
+				 /----> main osc [0] ---\
+				/-----> main osc [1] ----\
+	sweeper -->					  ...        -----+--> gainSum --\         /--> wave (scope)
+				\----->	main osc [n] ----/                        \       /
+															       +-----+----> gainMix -----> speakers
+						second osc [1] --------------->-----------/
+
+	The UI has a primary yellow area for the most important controls
+	and an optional second yellow area for the sliders which control the harmonics of the main osc wave shape
+*/
+
 	constructor (mode,reference,freq,type,span,melody,rhythm) {
 
 		this.custom = {
@@ -29,24 +28,24 @@ class Oscillator {
 		}
 
 		this.range			= { low:0, high:0 };		// lowest and highest tone of current chord
-		
+
 		// define initial settings for an oscillator audio node
 		this.harmonics		= this.custom.harmonics.splice(0);
 		this.phases			= this.custom.phases.splice(0);
 		this.reference		= reference;			// in Hz
-		this.setReference(reference);	
+		this.setReference(reference);
 		this.tones			= [0];					// offset in cents for each tone of a chord
 		this.setFreq(freq);							// initial frequency in Hertz
-		
-		this.gainMix		= audioContext.createGain();	// mixer for main generator and auxiliary  
+
+		this.gainMix		= audioContext.createGain();	// mixer for main generator and auxiliary
 		this.gainMix.connect(audioContext.destination);
-		
+
 		this.gainSum		= audioContext.createGain();	// a node to sum the partial chord tones of the main oscillator
 		this.gainSum.connect(this.gainMix);
 
 		this.aux			= null;					// auxiliary generator for comparisons
 		this.auxDetune		= 0;					// the base detune of the auxiliary generator
-		
+
 		$("#oscType").val(type);
 		this.setType(type);
 		this.span			= span;					// basic time unit for the sweeper
@@ -59,45 +58,45 @@ class Oscillator {
 		this.paused			= false;
 
 		// this.rand		= RandomMulberry32(315);			// set up a repeatable random generator with a certain seed
-		
+
 		this.setMode(mode);
 	}
 
 	showControl() {
-		// show the control area in the menu for the oscillator
+		// show the yellow control area in the menu for the oscillator
 		$('#generator').show();
 		$("#toggleGenerator").css("background-color","lightgreen");
 	}
 
-	hideControl() {		
-		// hide the control area in the menu for the oscillator
+	hideControl() {
+		// hide the yellow control area in the menu for the oscillator
 		$('#generator').hide();
 		$("#toggleGenerator").css("background-color","");
 	}
 
 	toggleControl() {
-		// show/hide the control area in the menu for the oscillator
+		// show/hide the yellow control area in the menu for the oscillator
 		if ($("#generator").is(":visible")) this.hideControl();
 		else								this.showControl();
 	}
-	
+
 	toggleHarmonics() {
-		// show/hide the sliders which control the intensity of harmonics
+		// show/hide the yelow slider area which controls the intensity and phase of harmonics
 		$('#harmonics').toggle();
 		$("#toggleHarmonics").css("background-color",$("#harmonics").is(":visible") ? "lightgreen":"");
 		theLessons.adaptHeight();
 
 	}
-	
+
 	toggleMain() {
 		// switch the sound of the main oscillator on/off
 		if (this.osc)	this.terminate();
 		else			this.start();
 	}
-	
+
 	toggleAux() {
 		// switch the sound of the auxiliary oscillator on/off
-		// main and aux get added in a gain mixer node
+		// the signals from main and aux oscialltor are added in a gain mixer node
 
 		if (this.aux!=null) {
 			this.aux.disconnect(this.gainMix);
@@ -128,7 +127,7 @@ class Oscillator {
 				// start with previous frequency
 				this.changeAuxDetune(0);
 			}
-			
+
 			// use same wave form as main oscillator
 			if (this.type=="custom") this.aux.setPeriodicWave(audioContext.createPeriodicWave(this.harmonics, this.phases));
 			else this.aux.type=this.type;
@@ -138,13 +137,14 @@ class Oscillator {
 			$("#aux").css("background-color","lightgreen");
 		}
 	}
-	
+
 	start() {
 		// create a new main oscillator based on the current settings
+		// effectively we need an oscillator node for each tone of a chord
 		// note that multiple start/stop calls are not permitted for OscillatorNode objects
-		
+
 		this.terminate();	// stop in case the oscillator is running
-		
+
 		// one Media API oscillator node for each tone of a chord
 		this.osc=[];
 		for (var t=0;t<this.tones.length;t++) {
@@ -157,7 +157,7 @@ class Oscillator {
 		this.setType(this.type);
 
 		// add the chord tones in the gainSum node
-		this.gainSum.gain.value= 1.0 / this.tones.length;	
+		this.gainSum.gain.value= 1.0 / this.tones.length;
 		for (var t=0;t<this.tones.length;t++) this.osc[t].connect(this.gainSum);
 
 		// start the oscillator for each tone, note starting time
@@ -167,64 +167,65 @@ class Oscillator {
 		this.time=0;							// define time relative to the starting time
 		this.sweep(this.span,this.drift);		// start sweeping (vibrato, drift, melody)
 	}
-	
+
 	terminate() {
-		// destroy main oscillator nodes
+		// destroy the main oscillator nodes
 		if (this.osc) {
-			
+
 			// clear sweeping interval timeout
 			if (this.sweeper) {
 				clearTimeout(this.sweeper);
 				this.sweeper=null;
 			}
-			
+
 			// clear comparator interval timeout
 			for (var comp of this.comparator) clearTimeout(comp);
 			this.comparator=[];
 			$("#comparison").html("&nbsp;");
-			
+
 			// in case the oscillator was paused: resume
 			this.resume();
-			
+
 			// stop the oscillator nodes
 			for (var t=0;t<this.tones.length;t++) {
 				this.osc[t].stop();
 			}
-			
-			// mark oscillator is terminated
+
+			// mark oscillator as terminated
 			this.osc=null;
 			this.setDetune(this.detune); // marks oscillator as inactive in the control area
 		}
 	}
 
 	pause() {
-		// temporarily disable main oscillator by setting its detune value to a very low value
+		// temporarily disable the main oscillator by setting its detune value to a very low value
+		// this is better than turning the volume down because it dies not cause abrupt transitions
 		if (this.osc && !this.paused) {
 			this.lastDetune= this.detune;	// store current detune for later resume
 			this.setDetune(-1000000); // set to very low frequency
 			this.paused=true;
 		}
 	}
-	
+
 	resume() {
-		// continue main oscillation after a pause()
+		// continue the main oscillation after a pause()
 		if (this.osc && this.paused) {
 			this.setDetune(this.lastDetune);
 			this.paused=false;
 		}
 	}
-		
+
 	sweep(span,drift) {
-		// start a frequency sweep process for the main oscillator; this can be 
+		// start a frequency sweep process for the main oscillator; this can be
 		// * a continuous sweep (vibrato, drift)
-		// * a group of tones to be compared 
+		// * a group of tones to be compared
 		// * a sequence of discrete semitone steps (melody)
 
 		var that=this;
-		
+
 		// clear current sweep (if it exists)
 		if (that.sweeper!=null) clearTimeout(that.sweeper);
-		
+
 		// if pitch comparison was active: set the detune value back to the reference value for comparisons
 		for (var comp of this.comparator) clearTimeout(comp);
 		this.comparator=[];
@@ -235,34 +236,34 @@ class Oscillator {
 
 		if (that.mode.substr(0,7)=="compare") {							// create a group of tone pairs for comparison
 
-			// insert some space into the timeline			
+			// insert some space into the timeline
 			for(var t=0;t<50;t++) theTimeline.add(1000);
 
 			// create a series of comparisons (pitch pairs)
 			that.pitchComparisons= [];
 			var minDev,maxDev,changeHarmonics,changeBase,changeOctave;
-			if (that.mode=="compare (easy)") 		{ 
+			if (that.mode=="compare (easy)") 		{
 				minDev=25;		maxDev=40;		changeOctave=0;		changeBase=false;	changeHarmonics=false;
 			}
-			if (that.mode=="compare (medium)") 		{ 
+			if (that.mode=="compare (medium)") 		{
 				minDev=15;		maxDev=25;		changeOctave=0;		changeBase=true;	changeHarmonics=true;
 			}
-			if (that.mode=="compare (difficult)")	{ 
+			if (that.mode=="compare (difficult)")	{
 				minDev=4; 		maxDev=15;		changeOctave=0;		changeBase=true;	changeHarmonics=true;
 			}
-			if (that.mode=="compare (difficult -8)")	{ 
+			if (that.mode=="compare (difficult -8)")	{
 				minDev=4; 		maxDev=15;		changeOctave=-1;	changeBase=true;	changeHarmonics=true;
 			}
-			if (that.mode=="compare (difficult +8)")	{ 
+			if (that.mode=="compare (difficult +8)")	{
 				minDev=4; 		maxDev=15;		changeOctave=+1;	changeBase=true;	changeHarmonics=true;
 			}
-			if (that.mode=="compare (hard)")	{ 
+			if (that.mode=="compare (hard)")	{
 				minDev=1; 		maxDev= 4;		changeOctave=0;		changeBase=true;	changeHarmonics=true;
 			}
-			if (that.mode=="compare (hard -8)")	{ 
+			if (that.mode=="compare (hard -8)")	{
 				minDev=1; 		maxDev= 4;		changeOctave=-1;	changeBase=true;	changeHarmonics=true;
 			}
-			if (that.mode=="compare (hard +8)")	{ 
+			if (that.mode=="compare (hard +8)")	{
 				minDev=1; 		maxDev= 4;		changeOctave=+1;	changeBase=true;	changeHarmonics=true;
 			}
 			var base = this.detune;
@@ -297,7 +298,7 @@ class Oscillator {
 		// return a random number between min and (max-1)
 		return Math.round(min+Math.random()*(max-min));
 	}
-	
+
 	compare(duration,spacing) {
 		// produces an endless loop of comparisons
 		// progress to the next comparison in the list (wrap around)
@@ -339,7 +340,7 @@ class Oscillator {
 			}
 			,duration
 		));
-		
+
 		// play that tone for some time, then reset tone and pause
 		that.comparator.push(setTimeout(
 			function () {
@@ -353,7 +354,7 @@ class Oscillator {
 		that.comparator.push(setTimeout(
 			function () {
 				that.resume();
-				that.compare(duration,spacing);			
+				that.compare(duration,spacing);
 			}
 			,3*duration
 		));
@@ -364,16 +365,16 @@ class Oscillator {
 		// rhythm can be 1,2,4,8,16 for note time values or 0.1..0.99 for percentage or 0 for legato
 
 		var that	= theOscillator;
-		
+
 		var duration= that.span;
 		var units=0;
-		
+
 		if (that.drift>0) {
 			// continuous variation
 			var delta;
 			for(;;) {
 				delta = Math.random();
-				if (Math.random()>0.2) break;				
+				if (Math.random()>0.2) break;
 			}
 			if (Math.random()>0.5)	that.changeDetune(that.drift*delta);
 			else 					that.changeDetune(-that.drift*delta);
@@ -384,8 +385,8 @@ class Oscillator {
 
 			that.resume();
 			that.changeDetune(that.melody[that.time]*100);
-						
-			// calculate note duration			
+
+			// calculate note duration
 			units = that.rhythm[that.time % that.rhythm.length];
 			if 		(units == 1) duration *= 4;
 			if 		(units == 2) duration *= 2;
@@ -405,7 +406,7 @@ class Oscillator {
 		// trigger the next sweep step after the given duration
 		that.sweeper=setTimeout( function() { that.sweepStep(); }, duration );
 	}
-	
+
 	setReference(reference) {
 		// set the reference frequency for note 'a' ( ~ 440 Hz)
 		this.reference=reference;
@@ -415,14 +416,14 @@ class Oscillator {
 			}
 		}
 	}
-	
+
 	setGainPercent(gain) {
 		// set gain of the main osc output to a percentage of the max. possible gain without distortion
 		if (this.osc) {
 			this.gainSum.gain.value= gain / 100. / this.tones.length;
 		}
 	}
-	
+
 	setChord(chord) {
 		// take a comma separated representation of an array holding (arab or roman) numbers like e.g. "0,3,7" or "0.1"
 		// the numbers define RELATIVE detune values (in semi-notes) : [ val0, val1, val2, ..]
@@ -436,7 +437,7 @@ class Oscillator {
 		// by more than number*100 cents it will produce a semitone above or below the base note
 		// example: 0.0030 will remain quiet as long as the base note differs by less than 30 cents
 		// from the correct scale pitch; if the difference is greater it will produce a neighboring semitone
-			
+
 		var tones = chord.split(",");
 		var mustStart=false;
 		if (tones.length!=this.tones.length) {
@@ -447,7 +448,7 @@ class Oscillator {
 		}
 		this.tones=[];
 		this.delta=0;
-		for(var tone of chord.split(",")) {			
+		for(var tone of chord.split(",")) {
 			if (tone.charAt(1)==".") {
 				this.tones.push(parseFloat(tone)*100);
 			}
@@ -460,7 +461,7 @@ class Oscillator {
 		if (mustStart) this.start();	// create new number of oscillators
 		else this.setDetune(this.detune);	// adapt pitches of existing chord tones
 	}
-	
+
 	getChord() {
 		// return an array of detune values in cents for the current chord of the main oscillator
 		if (!this.osc) return [];
@@ -470,7 +471,7 @@ class Oscillator {
 		}
 		return chord;
 	}
-	
+
 	getRatio(val) {
 		// translate a number like 104 into a pure interval ratio (4 semitones ==> 1.25 = 5 / 4)
 		// a negative number translates down
@@ -490,10 +491,10 @@ class Oscillator {
 		if (val<0) ratio = 1. / ratio;
 		return Math.log(ratio) / Math.log(2) * 12;
 	}
-	
+
 	setDetune(detune,realDetune) {
-		// set the main oscialltor´s detune values
-		// realDetune allows to define a threshold which mutes the tone if its deviation is below that value
+		// set the main oscillator´s detune values
+		// "realDetune" allows to define a threshold which mutes the tone if its deviation is below that value
 		this.detune= detune;
 		if (this.osc) {
 			var tone;
@@ -537,7 +538,7 @@ class Oscillator {
 				else {
 					// if osc is terminated show notes of chord in parethesis
 					var tone = this.detune/100;
-					chord = "<i>("+theDetector.naturalNoteName(tone)+")</i>";				
+					chord = "<i>("+theDetector.naturalNoteName(tone)+")</i>";
 					this.range.low  = tone;
 					this.range.high = tone;
 				}
@@ -551,10 +552,15 @@ class Oscillator {
 				// very low frequencies (below 3 Hz) are considered to be BPM for rhythm
 				// because we use a symmetric square signal we get two impulses per second
 				var bpm = Math.round(freq*120.);
-				$("#oscNote").html(bpm + " BPM");			
+				$("#oscNote").html(bpm + " BPM");
 			}
-			
+
 		}
+	}
+
+	changeDetune(cents) {
+		// set detune value (cents) for the main oscillator
+		this.setDetune(this.detune+cents);
 	}
 
 	setAuxDetune(val) {
@@ -571,14 +577,9 @@ class Oscillator {
 		this.auxDetune= this.aux.detune.value + delta;
 		this.setAuxDetune(0);
 		$('#auxDetune').val(0);
-		
+
 	}
-	
-	changeDetune(cents) {
-		// set detune value (cents) for the main oscillator
-		this.setDetune(this.detune+cents);
-	}
-	
+
 	updateAuxInterval() {
 		// calculate and show in the UI the current distance between the two oscillators
 		if (this.aux) {
@@ -605,7 +606,7 @@ class Oscillator {
 			setTimeout(function() { $("#auxInterval").html(""); }, 1200);
 		}
 	}
-	
+
 	getFreq() {
 		// get the frequenciy in Hz for the current detune value of the main oscillator
 		return this.reference*Math.pow(2,this.detune/1200);
@@ -626,12 +627,12 @@ class Oscillator {
 		theTimeline.reset(true,grid,grid*group);
 		$("#oscNote").html(bpm + " BPM");
 	}
-	
+
 	changeFreqRatio(ratio) {
 		// change the main oscillators frequncy by a given ratio factor
 		this.setFreq(this.getFreq()*ratio);
 	}
-	
+
 	setType(type) {
 		// set the wave type of the main oscilator (sine, triagle, swatooth, rectangle, custom harmonics)
 		this.type=type;
@@ -649,21 +650,21 @@ class Oscillator {
 		}
 		$("#oscType").val(type);
 	}
-	
+
 	setHarmonic(harm,val) {
 		// set a single harmonic value of the main oscillator (real part)
 		if (harm<0)	this.harmonics=val.slice(0);
 		else 		this.harmonics[harm]=val;
 		this.setType("custom");
-	}	
-	
+	}
+
 	setPhase(harm,val) {
 		// set a single harmonic value of the main oscillator (imaginary part)
 		if (harm<0) this.phases=val.slice(0);
 		else		this.phases[harm]=val;
 		this.setType("custom");
 	}
-	
+
 	randomHarmonics() {
 		// set all harmonics to random values (real part)
 		for (var h=1;h<this.harmonics.length;h++) {
@@ -679,14 +680,14 @@ class Oscillator {
 		}
 		this.setType("custom");
 	}
-	
+
 	setMode(mode) {
 		// set the operating mode
 		// straight tone, drift, vibrato, pitch comparisons, fixed and random melodies
-		
+
 		this.mode=mode;
 		$("#oscMode").val(mode);
-		
+
 		for (var comp of this.comparator) clearTimeout(comp);
 		this.comparator=[];
 
@@ -746,16 +747,16 @@ class Oscillator {
 			this.sweep(2000,0);
 		}
 		else if (mode=="tune: Herbstwind") {
-			this.melody = [ 
+			this.melody = [
 				 0, 0,-5, 0,	 5, 0, 2,	 2, 1, 2,-3,	-2, 2,	-4, 0,-5, 0,	 5, 0, 2,	 2, 1, 2,-3,	-2,-2];
-			this.rhythm = [ 
+			this.rhythm = [
 				 8, 8, 8, 8,	 8, 8, 4,	 8, 8, 8, 8,	 4, 4,	 8, 8, 8, 8,	 8, 8, 4,	 8, 8, 8, 8,	 4, 4];
 			this.sweep(700,0);
 		}
 		else if (mode=="tune: Amen") {
-			this.melody = [ 
+			this.melody = [
 				 5, 7,	 -2,-1,-2,-2,+2,	 +2,+3,		+90,-88,-2,	 5, 2,-2,-1,  	 -2, 3,-1,	 1,-5,-3,-2,-2,	 2,-7];
-			this.rhythm = [ 
+			this.rhythm = [
 				 2, 2,	  4, 8, 4, 8, 4,	  3, 4,		 4, 4,	2,	 4, 8, 4, 8,	 4, 2, 4,	 4, 8, 4, 8, 4,	 2, 2];
 			this.sweep(500,0);
 		}
@@ -763,21 +764,21 @@ class Oscillator {
 			// relative frequency of intervals
 			var cumul = [100,100,100,100,100,0,100,50,100,20,20,100];
 			this.randomMelody(cumul,24);
-			this.rhythm = [0.4]; 
+			this.rhythm = [0.4];
 			this.sweep(7000,0);
 		}
 		else if (mode=="random: 1 octave, 90%") {
 			// relative frequency of intervals
 			var cumul = [100,100,100,100,100,0,100,50,100,20,20,100];
 			this.randomMelody(cumul,24);
-			this.rhythm = [0.9]; 
+			this.rhythm = [0.9];
 			this.sweep(7000,0);
 		}
 	}
 
 	randomMelody(cumul,size) {
 		// produce a sequence of pitches for a random melody
-		
+
 		// calculate threshold levels
 		var sum=cumul[0];
 		for (var c=1;c<cumul.length;c++) {
@@ -823,6 +824,5 @@ class Oscillator {
 		}
 		// close the loop
 		this.melody[size-1]= -lastNote;
-	}	
+	}
 }
-

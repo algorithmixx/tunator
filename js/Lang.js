@@ -1,18 +1,29 @@
 ﻿"use strict";
 
 class Lang {
+/*
+
+	Lang.js : minimalistic multi language support, based on
+				class="trh" for html contents
+				class="trt" for html element titles (hover texts)
+
+			The texts are defined in LangDef.js in three groups:
+				trh (for html content of an HTML tag)
+				trt (for the title attribute of an HTML tag)
+				trx (for arbitary texts whioch are programmatocally accessed)
+/*
 
 	constructor() {
 		this.lang="en";
 	}
 
 	load(lang) {
-		// load the texts defined in LangDef.js	
+		// load the texts defined in LangDef.js
 		// class="trt" is used to classify html tags where the title shall be translated
 		// class="trh" is used to classify html tags where the html content shall be translated
-		
+
 		if (lang!="") this.lang=lang;
-		
+
 		$(".trt").each(function(index,elm) {
 			var id=elm.id;
 			if (id=="") {
@@ -28,7 +39,7 @@ class Lang {
 					elm.title=LangDef.trt[id][lang];
 				}
 			}
-		});		
+		});
 
 		$(".trh").each(function(index,elm) {
 			var id=elm.id;
@@ -47,10 +58,12 @@ class Lang {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	tr(id) {
+		// return the language specific text for an item listed in the "trx" group
+
 		if (typeof LangDef.trx[id] == "undefined") {
 			return "no translation found for text with id='"+id+"'\n";
 		}
@@ -63,6 +76,6 @@ class Lang {
 					"</span></small><br/>\n"+LangDef.trx[id].en.trim();
 			}
 			return LangDef.trx[id][lang].trim();
-		}	
+		}
 	}
 }

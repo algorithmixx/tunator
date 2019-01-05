@@ -6,14 +6,14 @@ class Detector {
 /*
 
 	Detector tries to identify a periodic signal using a sophisticated autocorrelation method
-	
+
 	For frequencies above 100 Hz on an average modern CPU detection will need 3 msec or less.
 	For lower frequencies it will be somewhat more.
-	
-	The first detection may take significantly longer (50..100 msec). 
-	Subsequent detections are faster because they assume to see a similar frequency as the last time. 
+
+	The first detection may take significantly longer (50..100 msec).
+	Subsequent detections are faster because they assume to see a similar frequency as the last time.
 	If there is a huge jump in frequency detection may take longer (typically 10..20 msec)
-*/	
+*/
 
 	constructor(reference) {
 
@@ -30,7 +30,7 @@ class Detector {
 				"C 7", "C♯ 7", "D 7", "Eb 7", "E 7", "F 7", "F♯ 7", "G 7", "Ab 7", "A 7", "Bb 7", "B 7",
 				"C 8",
 			],
-			[							// GERMAN  
+			[							// GERMAN
 				                                                                   "A ²", "B ²", "H ²",
 				"C 1", "C♯ 1", "D 1", "Es 1", "E 1", "F 1", "F♯ 1", "G 1", "As 1", "A 1", "B 1", "H 1",
 				"C  ", "C♯  ", "D  ", "Es  ", "E  ", "F  ", "F♯  ", "G  ", "As  ", "A  ", "B  ", "H  ",
@@ -42,7 +42,7 @@ class Detector {
 				"c 5",
 			],
 		];
-		
+
 		this.notePositions= [                  102, 96, 96,
 			90,	90,	84,	78,	78,	72,	72, 66, 60,	60,	54,	54,
 			48,	48,	42,	36,	36,	30,	30, 96, 90,	90,	84,	84,
@@ -53,7 +53,7 @@ class Detector {
 			-7,	-7,	30,	24,	24,	18,	18,	12,	 6,	 6,	 0,	 0,
 			-7,
 		];
-		
+
 		this.noteAlterations= [
 												0,	-1,	0,
 			0,	1,	0,	-1,	0,	0,	1,	0,	-1,	0,	-1,	0,
@@ -76,14 +76,14 @@ class Detector {
 			detune:			$("#detune"),
 			detuneAmount:	$("#detuneAmount"),
 			rms:			$("#rms"),
-			
+
 		}
-		
+
 		this.minCorrelation	= 0.8;  // correlations below this threshold are ignored
 		this.goodCorrelation= 0.9;
 		this.exact			= 1;	// tolerable deviation to show a note as "exact"
 
-		this.minSignal		= 0.05;	// initial or trailing frame values below this level are considered to be noise 
+		this.minSignal		= 0.05;	// initial or trailing frame values below this level are considered to be noise
 									// and not taken into account for correlation finding
 		this.setMinRMS		(3); 	// signals below this threshold are ignored (0..100)
 		this.minSampleLevel	= 0.1;	// samples of the normalized signal below this threshold are skipped
@@ -95,44 +95,46 @@ class Detector {
 		this.peakSignal		= 0;	// current peak value
 
 		this.minOffset		= 5;	// initial starting position for match search if no previous freq is known
-		
+
 		this.transposition	= 0;	// note key
-		
+
 		this.buf			= new Float32Array(8192); // work buffer
-		
+
 		this.showDeviation(true);
-		
+
 		this.reset();
 
 	}
-	
+
 	reset() {
+		// setup the array of correlations
 		this.correlations	= new Array(4096);
 		this.nextMinOffset	= this.minOffset;	// store the last match and start next matching process near to that offset
 		this.lastDisplayTime = 0;
 	}
-	
+
 	setMinRMS(rms) {
 		// define the minimum real mean square energy which is needed to trigger a detection
 		// signals below this value are regarded as silence
-		
+
 		this.minRMS=rms/100.;
 		$("#minRMS").val(rms);
 	}
-	
+
 	showDeviation(val) {
+		// whether to show the pitch deviation in cents or not
 		this.withDeviation=val;
 		if (!val) this.ui.detuneAmount.html("");
 	}
-	
+
 	autoCorrelate( buf, sampleRate, tickOnly ) {
-		// analyse a frame of samples: look for repetitive pattern; 
+		// analyse a frame of samples: look for repetitive pattern;
 		// return frequency and rms
 		// return -1 if volume is too low
 		// return -2 if no pattern could be detected
 
 		var that=theDetector;
-		
+
 		// find start and end of signal, first relative maximum, absolute peak and calculate mean value
 		var start	= -1;
 		var end		= 0;
@@ -159,7 +161,7 @@ class Detector {
 			else if (val<-peak) { peakPos=i; peak=-val; }
 		}
 		end++;  // the first sample to be ignored after end of signal
-		
+
 		if (start>0) {
 			var x = start;
 		}
@@ -167,8 +169,8 @@ class Detector {
 		if (tickOnly || end-start<10) {
 			if (start>0) start=peakPos;
 			return {freq:-1,rms:0,period:0,peak:peak,start:start,end:end};
-		}		
-		
+		}
+
 		mean /= (buf.length-start+1);
 		var adjust = 1./(peak+Math.abs(mean)); // magnification factor for normalization
 
@@ -181,13 +183,13 @@ class Detector {
 			this.buf[i] *=adjust;
 		}
 		rms = Math.sqrt(rms/(end-start));
-		
+
 		// ignore frames which do not have enough energy, RETURN immediately
 		if (rms<that.minRMS) {
 			that.nextMinOffset=that.minOffset;
 			return {freq:-1,rms:rms,period:0,peak:peak,start:start,end:end}; // not enough signal
-		}		
-		
+		}
+
 		// framesize = 2048 ~ 43 msec at 48.000 Hz sampling rate
 		// min frequency ~ 49 Hz (sub contra "G")
 		// max frequency = 4000 Hz, which is a period of 11 samples;
@@ -196,7 +198,7 @@ class Detector {
 		var vali, valo;
 
 		var offset, maxOffset;
-		
+
 		// try two iterations to avoid false frequency doubles (octave jumps)
 		// 	(a) find the first relative maximum of correlation
 		// 	(b) try again near the half frequency (double period)
@@ -225,7 +227,7 @@ class Detector {
 			var risen		= false; 			// true if we have seen sufficient consecutive rises
 			var maxSamples	= (start+end)/2;	// the number of samples to compare
 			var offsetSteps	= 1;				// sweep step size
-			
+
 			// move the offset stepwise until we have a relative maximum of the correlation
 			for (; offset < maxOffset; offset+=offsetSteps) {
 
@@ -245,7 +247,7 @@ class Detector {
 					if (offsetSteps<offsetStepsMax) offsetSteps++;
 					continue;
 				}
-				
+
 				// calculate and store correlation
 				correlation = 1 - (correlation/validSamples);	// the correlation can be between -1 .. +1
 				that.correlations[offset] = correlation; 			// needed for final interpolation
@@ -254,7 +256,7 @@ class Detector {
 				if (correlation>lastCorrelation) {
 					if (!risen && offsetSteps>1) {
 						// make a single huge step to get near the expected maximum
-						var jump = Math.floor(offset*0.8)-10; 
+						var jump = Math.floor(offset*0.8)-10;
 						// if (jump>0) offset +=jump;
 						offsetSteps=1;  // from now on use small steps
 						lastCorrelation=correlation;
@@ -267,7 +269,7 @@ class Detector {
 					rises=0; // declining correlations
 					if (offsetSteps<offsetStepsMax) offsetSteps++;  // use larger steps
 				}
-				
+
 				// at the beginning the correlation will typically decrease
 				// only after we have seen at least once a steady increase of correlations things start to become interesting
 				// if we see another decrease afterwards and if we had a sufficiently positive correlation before we are done
@@ -286,7 +288,7 @@ class Detector {
 					bestOffsets[iter] = offset;
 				}
 			}
-						
+
 			// stop if we did not find any good correlation in the first iteration
 			if (iter== 0 && bestCorrelations[iter] <= that.minCorrelation) {
 				that.nextMinOffset=that.minOffset;
@@ -298,18 +300,18 @@ class Detector {
 
 		// now we have two good correlations
 		// we pick the second one if it is significantly better
-		
+
 		var bestOffset=bestOffsets[0];
 		if (bestCorrelations[1]>bestCorrelations[0]*that.octaveMin) {
 			console.log("octave");
 		}
 		if (bestCorrelations[1]>bestCorrelations[0]*that.octaveMin) bestOffset=bestOffsets[1];
-		
+
 		// interpolating between the values to the left and right of the best offset.
 		var shift=0;
 		if (that.correlations[bestOffset+1]>0 && that.correlations[bestOffset-1]>0) {
 			//interpolate
-			shift = (that.correlations[bestOffset+1] - that.correlations[bestOffset-1])/that.correlations[bestOffset];  
+			shift = (that.correlations[bestOffset+1] - that.correlations[bestOffset-1])/that.correlations[bestOffset];
 		}
 		else {
 			// This should hardly occur: we have a good correlation and the adjacent offsets did not deliver
@@ -320,7 +322,7 @@ class Detector {
 		// start next search close to this offset
 		that.nextMinOffset=Math.round(bestOffset/2.6);  // this finds upward jumps of 1 (octave+quint)
 		var freq = sampleRate/(bestOffset+(8*shift));
-		
+
 		if (relMax+bestOffset*11<buf.length) {
 			// for high frequencies we try to match relative peeks
 			var expectedRelMax=relMax+Math.round(10*bestOffset+(8*shift));
@@ -337,30 +339,37 @@ class Detector {
 				freq = sampleRate/(bestOffset);
 			}
 		}
-				
+
 		// return frequency, period, peak, start, end and note number (semitones from "A")
 		return {freq:freq,rms:rms,period:Math.round(bestOffset),peak:peak,start:start,end:end,note:theDetector.noteFromPitch(freq)};
 
 	}
-		
+
 	draw(signal,smoothedNote) {
 		// refresh the box with the note name and detune amount
 
+		// switch last shown values to gray color if we did not receive a valid signal frequency
 		var freq = signal.freq;
 		this.ui.noteName.css("color", freq>0 ? "black":"lightgray");
 		if (this.withDeviation) this.ui.detuneAmount.css("color", freq>0 ? "black":"lightgray");
 
+		// dynamik peak meter:
+		// update the peak signal display if the current value is greater than the last value shown and reset timer
+		// reset the peak signal to the current value if there was no greater value for more than one second
 		var peak = Math.round(signal.peak*100);
 		var now=Date.now();
 		if((peak>0 && peak>this.peakSignal) || now-this.lastDisplayTime>1000) {	// hold for 1 second
 			this.peakSignal=peak;
 			this.ui.rms.html(peak);
 			this.lastDisplayTime=now;
-		}	
+		}
+
+		// if we do not have a periodic siognal: exit
 		if (freq<0) return;
-		
+
+		// show frequency (pitch value) in Hz
 		this.ui.pitch.text(Math.round( freq * 10 ) / 10.);
-		
+
 		// display note name and octave (language dependent)
 		var name = this.noteName(signal.note,false);
 		if (name.length==1) name=name+"&nbsp;";
@@ -374,10 +383,12 @@ class Detector {
 			octave = "<sup><span style='font-size:50%'>&nbsp;"+octave+"</span></sup>";
 		}
 		this.ui.noteName.html(name+octave);
-		
+
+		// use treble or bass clef to show the note depending on its pitch
 		if (signal.note+this.transposition<=-26)	$("#system").css("backgroundImage","url('img/systemLow.png')");
 		else 										$("#system").css("backgroundImage","url('img/system.png')");
-		
+
+		// calculate vertical position of the note symbol and apply it to the note symbol in the staff system
 		var pos=this.notePos(signal.note);
 		if (pos.alt==1) {
 			this.ui.noteSharp.css({top:pos.top});
@@ -397,10 +408,12 @@ class Detector {
 			this.ui.noteFlat.hide();
 			this.ui.noteSharp.hide();
 		}
-		
+
+		// if requested: show the pitch deviation in cents within the gray box with the note name
 		if (this.withDeviation) {
-			// var detune = Math.round(100 * (signal.note-Math.round(signal.note)));
+			// use the smoothed note so the cent indication will not change too fast
 			var detune = Math.round(100 * (smoothedNote-Math.round(smoothedNote)));
+			// very low deviations will not be shown
 			if (detune >= -this.exact && detune <= this.exact) this.ui.detuneAmount.html("--");
 			else if (detune<=-10) this.ui.detuneAmount.html(detune + " cents");
 			else if (detune>=+10) this.ui.detuneAmount.html("&nbsp;"+detune + " cents");
@@ -410,24 +423,29 @@ class Detector {
 	}
 
 	setReference(reference) {
+		// set the reference frequency for the main and the aux oscilator (~ 440 Hz)
 		theOscillator.setReference(reference);	// align the standard oscillator
 		this.reference	= reference;
 	}
-	
+
 	setTransposition(transposition) {
+		// set the transposition (semitones) to be applied when calculating note names and note positions within the staff system
 		this.transposition=transposition;
 	}
-	
+
 	noteName(noteNr,withOctave) {
-		// expecting a note number (a = 44x Hz = 0 )
+		// retun the name for a note (-48..+40, where 0 == "A" ~ 440 Hz)
+
 		var note = Math.round(noteNr + 48 + this.transposition) ; // we might want to show a transposed note name
 		if (note<0 || note>=this.noteStrings[0].length) return "";
 		var name = this.noteStrings[theLang.lang=="de"?1:0][note];
 		if (withOctave) return name;
 		else 			return name.replace(/ .*/,'');
 	}
-	
+
 	naturalNoteName(noteNr,withOctave) {
+		// return the natural (untransposed) name of a note
+
 		if (this.transposition==0) return this.noteName(noteNr,withOctave);
 		var transposition=this.transposition;
 		this.transposition=0;
@@ -435,24 +453,17 @@ class Detector {
 		this.transposition=transposition;
 		return name;
 	}
-	
-	noteFromPitch( freq ) {
-		return 12 * (Math.log( freq / this.reference )/Math.log(2) );
-	}
-	
-	noteNameFromPitch ( freq ) {
-		return this.noteName(Math.round(this.noteFromPitch(freq)));
-	}
 
-	frequencyFromNote( note ) {
-		return this.reference * Math.pow(2,(note-69)/12);
+	noteFromPitch( freq ) {
+		// return the note number (-48..+40) for a given frequency
+		return 12 * (Math.log( freq / this.reference )/Math.log(2) );
 	}
 
 	notePos(note) {
+		// calculate the vertical top position and alteration accidentals of a note within a staff system
 		var n = Math.round(note+48+this.transposition);
 		var top = this.notePositions[n];
 		var alt = this.noteAlterations[n];
 		return {top:top,alt:alt};
 	}
 }
-

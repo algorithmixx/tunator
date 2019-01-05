@@ -2,16 +2,16 @@
 
 /*
 
-	Tunator.js : A musical training tool which helps to improve intonation 
+	Tunator.js : A musical training tool which helps to improve intonation
 
 	Various components (pitch detector, oscilloscope, timeline grid, sound generator)
 	can be combined in different ways to form training lessons like
 	* recognizing pitch differences
 	* singing/playing intervals correctly
 	* assisted playing (Tunator plays notes that correspond to detected pitch)
-	
+
 	To avoid acoustic feedback loops the user should wear headphones.
-	
+
 	WORK IN PROGRESS, Gero Scholz, 2019
 
 */
@@ -19,17 +19,17 @@
 
 class Tunator {
 	//	Tunator controls audio sources and initiates the pitch detection process
-	
+
 	constructor() {
 		if (!window.requestAnimationFrame) window.requestAnimationFrame = window.webkitRequestAnimationFrame;
-		
+
 		this.lang					= 1;				// 0 = ENGLISH, 1 = GERMAN
-		
+
 		this.toneFrameSize			= 2048;				// ~ 43 msec at 48.000 Hz sampling when looking for periodic signals
 		this.toneDetectionRate		= 45;				// time period (msec) for detection of periodic signals
 														// no overlap with frame duration
 		// this.toneDetectionRate		= 500;				// test value
-		
+
 		this.tapFrameSize			= 4096;				// ~ 86 msec at 48.000 Hz sampling when looking for rhythmic events
 		this.tapDetectionRate		= 68;				// time period (msec) for detection of rhythmic events
 														// 68 msec = 20% overlap with frame duration
@@ -40,22 +40,22 @@ class Tunator {
 		this.isDetecting			= false;
 		this.detectionTimer			= null;
 		this.detectionStart 		= 0;				// timestamp of last detection start
-		
+
 		this.detectionSource		= "";				// the sound source used for detection
 		this.speakerSource			= "";				// the sound source used for speakers / headphones
 		this.microphoneTrack		= null;
 
 		this.audioNode				= null;
-		
+
 		this.mode					= "";
 
 		this.loadNoteNames();
 	}
-	
+
 	configure(components) {
 		// takes an array of components which shall be presented to the user
 		// and applies default settings to all components
-		
+
 		$("#menu").hide();
 		theOscillator.hideControl();
 		theWave.hide();
@@ -68,7 +68,7 @@ class Tunator {
 		theDetector.setTransposition(0);
 		this.selectDetectionSource("");
 		this.noteNames=true;
-		theAnalyser.speakName(false);
+		theAnalyser.announceNoteNames(false);
 
 		if (components.includes("menu")) {
 			$("#menu").show();
@@ -90,13 +90,16 @@ class Tunator {
 			theTunator.selectDetectionSource("micro");
 		}
 	}
-	
+
 	setDetectionRate(rate) {
+		// defie the detection cycle rate in msec
 		this.detectionRate=rate;
 		$("#rate").text(rate);
 	}
-	
+
 	setMode(mode) {
+		// select "rhythm mode" (experimental) or "intonation mode"
+
 		if (this.mode!="") $("#"+this.mode).css("background-color","");
 		if (mode==this.mode) {
 			this.mode="";
@@ -110,7 +113,7 @@ class Tunator {
 				theOscillator.setDetune(-1200);
 				theOscillator.setType("custom");
 			}
-			
+
 			// $("#wave").show();
 			$("#"+mode).css("background-color","lightgreen");
 			this.mode=mode;
@@ -137,7 +140,7 @@ class Tunator {
 
 	detect(clearSample) {
 		// start pitch detection
-		
+
 		if (theTunator.isDetecting) return;
 		if (clearSample) {
 			$("#sampleLoopSource").css("background-color","");
@@ -149,7 +152,7 @@ class Tunator {
 		if (typeof theOscillator.startTime != "undefined" && theTunator.detectionStart-theOscillator.startTime<100) {
 			theTunator.detectionStart=theOscillator.startTime;
 		}
-		
+
 		setTimeout(function() {
 			if (theTunator.detectionTimer!=null) clearInterval(theTunator.detectionTimer);
 			theTunator.detectionTimer=setInterval(
@@ -159,21 +162,21 @@ class Tunator {
 			);
 			theTunator.isDetecting = true;
 		},20);
-		
+
 		if (theTunator.microphoneTrack!=null && typeof theTunator.microphoneTrack.getSettings().volume != "undefined") {
 			setTimeout(function() {
-				if (theTunator.microphoneTrack==null) return;			
+				if (theTunator.microphoneTrack==null) return;
 				var settings = theTunator.microphoneTrack.getSettings();
 				var microGain = settings.volume.toFixed(2)*100;
 				$("#microGain").text(microGain);
-			},100);	
+			},100);
 		}
 	}
-	
+
 	stopDetection() {
 		// stop pitch detection and audio source (song, oscillator)
 
-		var that=theTunator;		
+		var that=theTunator;
 		if (!that.isDetecting) return;
 		if (that.detectionTimer!=null) {
 			// stop detection loop
@@ -183,13 +186,13 @@ class Tunator {
 		}
 		that.isDetecting = false;
 	}
-	
+
 	stopAudio() {
 		// stop the current audio source
 		if (this.speakerSource=="") return;
-		
+
 		if (this.detectionSource==this.speakerSource) this.selectDetectionSource("");
-		
+
 		if (this.audioNode!=null) {
 			if (this.audioNode==theOscillator) {
 				theOscillator.terminate();
@@ -202,13 +205,13 @@ class Tunator {
 		this.audioNode = null;
 		this.speakerSource="";
 	}
-		
+
 	selectDetectionSource(source) {
 		// stop the detection process (toggle) and select a different source
-		
+
 		this.stopDetection();
 		if (source!="" && source==this.detectionSource) source=""; // toggle behavior
-		
+
 		// remove button highlight
 		if (this.detectionSource!="") $("#"+this.detectionSource+"Input").css("background-color","");
 		this.microphoneTrack = null;
@@ -219,14 +222,14 @@ class Tunator {
 			return;
 		}
 		else {
-			
+
 			// select new source, highlight button
 			this.detectionSource=source;
 			$("#"+this.detectionSource+"Input").css("background-color","lightgreen");
 
 			// if (this.speakerSource!="sample" && this.speakerSource!="") theTimeline.reset();
 			theDetector.reset();
-			
+
 			if (source=="micro") {
 				// get microphone stream, processing happens in gotStream()
 
@@ -249,15 +252,15 @@ class Tunator {
 				// use the current audio source (oscillator, song)
 
 				if (this.speakerSource=="song") {
-					// get audio stream from a file (mp3, ogg, wav)				
+					// get audio stream from a file (mp3, ogg, wav)
 					theAnalyser.create(this.audioNode, this.frameSize);
 					this.detect(true);
 				}
-				else if (this.speakerSource=="oscillator") {			
+				else if (this.speakerSource=="oscillator") {
 					theAnalyser.create(theOscillator.gainMix,this.frameSize);  // connect the first tone of the chord
 					this.detect(true);
 				}
-				else if (this.speakerSource=="sample" || this.speakerSource=="sampleLoop") {					
+				else if (this.speakerSource=="sample" || this.speakerSource=="sampleLoop") {
 					// use captured sample as input
 					theAnalyser.create(this.audioNode, this.frameSize);
 					this.detect(false);
@@ -271,15 +274,15 @@ class Tunator {
 		// if the the selected source is identical with the current source, just stop (toggle behavior)
 		// else start the new output source
 
-		
-		if ((source=="sample" || source=="sampleLoop") && 
+
+		if ((source=="sample" || source=="sampleLoop") &&
 			(theAnalyser.sampleLoop==null || theAnalyser.sampleLoop.length==0)) {
 			alert("There is no sample stored currently. Play a tone it make sure it gets detected. "+
 				"Then use the button '1' or 'N' to store a single wave or a group of waves as a sample. "+
 				"Afterwards the 'loop' button will have a yellow color indicating that it has a sample to play.");
 			return;
-		}	
-		
+		}
+
 		// remove button highlight
 		if (this.speakerSource!="") {
 			$("#"+this.speakerSource+"Source").css("background-color","");
@@ -303,7 +306,7 @@ class Tunator {
 			// select new source, highlight button
 			this.speakerSource=source;
 			$("#"+this.speakerSource+"Source").css("background-color","lightgreen");
-			
+
 			if (source=="oscillator") {
 				// start the oscillator
 				this.audioNode=theOscillator;
@@ -332,18 +335,21 @@ class Tunator {
 	}
 
 	createNode(type,size,loop) {
+		// create a MediaAPI audio node, connect and start setInterval(function () {
+
+		}, 10);
 		this.audioNode = audioContext.createBufferSource();
 		this.audioNode.loop=loop;
 		this.audioNode.buffer = audioContext.createBuffer(1, size, audioContext.sampleRate);
-		this.audioNodeBuffer = this.audioNode.buffer.getChannelData(0);			
+		this.audioNodeBuffer = this.audioNode.buffer.getChannelData(0);
 		if (type=="sample") {
 			theAnalyser.fillFromSampleLoop(this.audioNodeBuffer);
 		}
 		this.audioNode.connect(audioContext.destination); // connect audio file also to speaker
 		this.audioNode.start(0);
-		
+
 	}
-	
+
 	songChanged() {
 		// stop and load a new song if we are currently playing a song
 		if(this.source=="song") {
@@ -351,25 +357,26 @@ class Tunator {
 			this.selectDetectionSource("song");
 		}
 	}
-	
+
 	loadNoteNames() {
-		// create a buffer with the note names
+		// create a buffer with the spoken note names
 		var request = new XMLHttpRequest();
 		request.open("GET", "mp3/noteNames.mp3", true);
 		request.responseType = "arraybuffer";
 		request.onload = function() {
-			audioContext.decodeAudioData( request.response,	function(buffer) { 
+			audioContext.decodeAudioData( request.response,	function(buffer) {
 				theTunator.noteNames = [ buffer.getChannelData(0),buffer.getChannelData(1) ];
 			});
 		}
-		request.send();	
+		request.send();
 	}
 
 	speakNoteName(note) {
+		// announce a note by speaking its name
 		var n = note+9;
 		n = n%12;
 		if (n<0)n+=12;
-		
+
 		var len=0.7 * audioContext.sampleRate; //	(700 msec)
 		var node =audioContext.createBufferSource();
 		node.connect(audioContext.destination);
@@ -380,14 +387,15 @@ class Tunator {
 		node.buffer.copyToChannel(buffer,0);
 		for(var s=0;s<len;s++) buffer[s]=this.noteNames[1][begin+s];
 		node.buffer.copyToChannel(buffer,1);
-		
+
 		// reduce volume of oscillator while speaking
 		theOscillator.setGainPercent(50);
 		node.start(0);
 		setTimeout(function() { theOscillator.setGainPercent(100); }, 700 );
 	}
-	
+
 	loadAudio(url) {
+		// load an audio file (mp3)
 		var request = new XMLHttpRequest();
 		request.open("GET", url, true);
 		request.responseType = "arraybuffer";
@@ -395,7 +403,7 @@ class Tunator {
 		request.onload = function() {
 			that.audioNode = audioContext.createBufferSource();
 			audioContext.decodeAudioData( request.response,
-				function(buffer) { 
+				function(buffer) {
 					var that=theTunator;
 					that.audioNode.buffer = buffer;
 					that.audioNode.connect(audioContext.destination);
@@ -407,58 +415,65 @@ class Tunator {
 				}
 			);
 		}
-		request.send();	
+		request.send();
 	}
 
 	gotStream(stream) {
-		// Create an AudioNode from the stream.
+		// A callbacj function which creates an AudioNode from the stream.
 		mediaStreamSource = audioContext.createMediaStreamSource(stream);
-		
+
 		theTunator.microphoneTrack = stream.getAudioTracks()[0];
 		theTunator.microphoneTrack.applyConstraints({autoGainControl:false});
 
 		// Connect it to the destination.
 		theAnalyser.create(mediaStreamSource,theTunator.frameSize);
-		
+
 		theTunator.detect(true);
 	}
-		
+
 	error() {
 		alert('Stream generation failed.');
 	}
 
 	getUserMedia(dictionary, callback) {
+		// acquire the user media from the browser
 		try {
-			navigator.getUserMedia = 
-				MediaDevices.getUserMedia || 
-				navigator.getUserMedia || 
-				navigator.webkitGetUserMedia || 
+			navigator.getUserMedia =
+				MediaDevices.getUserMedia ||
+				navigator.getUserMedia ||
+				navigator.webkitGetUserMedia ||
 				navigator.mozGetUserMedia;
 			navigator.getUserMedia(dictionary, callback, theTunator.error);
 		} catch (e) {
 			alert('getUserMedia threw exception :' + e);
 		}
 	}
-	
+
 	changeOscDetune(delta) {
+		// change the oscillators frequency (detune amount in cents as compared to a  = 0 ~ 440 Hz)
 		var detune= theOscillator.detune+delta;
 		theOscillator.setDetune(detune,Math.round(detune/100)*100);
 	}
 
 	setOscHarmonic(harm,value) {
+		// set a single harmonic (real part) of the main oscillator
 		theOscillator.setHarmonic(harm,parseInt(value));
 	}
 
 	setOscPhase(harm,value) {
+		// set a single harmonic (imaginary part) of the main oscillator
 		theOscillator.setPhase(harm,parseInt(value));
 	}
-	
+
 	changeChord() {
+		// update the chord setting of the main oscillator
 		theOscillator.setChord($("#chord option:selected").val());
 	}
-	
+
 	fft() {
-		// extract FFT parameters from current audio sample and use them for the oscillator
+		// extract FFT parameters from current audio sample and use them to configure the harmonics of the oscillator
+		// so that it produces a waveform similar to the sample loop data
+
 		var bins = theAnalyser.fft();
 		if (bins==null) {
 			alert(
@@ -488,22 +503,26 @@ class Tunator {
 		}
 		theOscillator.setHarmonic(-1,oscReal);
 		theOscillator.setPhase(-1,oscImag);
-		
+
 		// console.log(real);
 	}
-	
+
 	changeTransposition() {
+		// set the transposition which will be used by Osciallator and Timeline when displaying note names
 		theDetector.setTransposition(parseInt($("#transposition option:selected").val()));
-		theTimeline.setYScale();		
+		theTimeline.setYScale();
 	}
-	
+
 	setLanguage(lang) {
+		// set the user language; refresh HTML tags and lesson titles and current lesson text
 		theLang.load(lang);
 		theLessons.loadList();
 		theLessons.set();
 	}
-	
+
 	introConfirmed() {
+		// a callback which is called after the user confirmed the initial dialog
+		// only after this happened we can activate (resume) the audio context.
 		audioContext.resume();
 		$('#intro').hide();
 		theLessons.adaptHeight();
@@ -513,7 +532,9 @@ class Tunator {
 
 // ======================================================================================================== MAIN
 
-// one instance for each class
+// the MAIN ENTRY POINT for Tunator
+
+// define one object instance for each class
 
 var theCmdLine;
 var theLangDef;
@@ -530,11 +551,13 @@ var theLessons;
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioContext = null;
 var mediaStreamSource = null;
-	
+
 window.onload = function() {
 
+	// create the objects, check command line arguments
+
 	theLang				= new Lang();
-	theCmdLine			= new CmdLine(location.search);	
+	theCmdLine			= new CmdLine(location.search);
 
 	audioContext = new AudioContext();
 
@@ -543,7 +566,7 @@ window.onload = function() {
 	var referenceFreq	= 443;						// used for the detector and the oscillator
 	theDetector			= new Detector(referenceFreq);
 	theTimeline			= new Timeline();
-	theWave				= new Wave(1024,160);		// width and height of window for audio wave signal 
+	theWave				= new Wave(1024,160);		// width and height of window for audio wave signal
 
 	var oscFreq			= referenceFreq*0.5;		// initial frequency in Hz
 	theOscillator		= new Oscillator("straight",referenceFreq,oscFreq, 'custom', 0, [0], [0] );
@@ -551,24 +574,26 @@ window.onload = function() {
 	theTunator			= new Tunator();
 	theLessons			= new Lessons();
 
+	// setup the desired language
 	var lang			= (navigator.language || navigator.userLanguage).replace(/-.*/,"");
 	var lang			= theCmdLine.getString("lang","L",lang);
 	theTunator.setLanguage(lang);
-	
+
+	// bring up initial (or requested) lesson
 	var initialLesson = theCmdLine.getString("lesson","l","");
 	if (initialLesson == "")	theLessons.set("TUNATOR");
 	else						theLessons.set(initialLesson,initialLesson);
-	
-	$(window).resize(function() {	
+
+	// adpat dimensions of the elements to the browser window size
+	$(window).resize(function() {
 		theLessons.adaptHeight();
 		theTimeline.setWidth(-1);
 		theTimeline.drawGrid();
 		theTimeline.drawKeyboard();
 	});
-	
-	// the intro button requires a first user interaction
+
+	// load the intro button which demands a first user interaction
 	// due to security policies ONLY AFTERWARDS the audioContext CAN (and will) be activated via resume()
 	$("#intro").height($(window).innerHeight()).focus();
-	
-}
 
+}
