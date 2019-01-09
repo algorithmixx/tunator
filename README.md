@@ -1,5 +1,6 @@
 
 ﻿# Tunator
+
 *Tunator* is a web application intended for musicians to improve *intonation*, i.e the art of finding the correct pitch.
 
 ## Usage
@@ -8,7 +9,7 @@ A browser with *Web Audio API support* is needed to run the application.
 ## License
 *Tunator* is open source, hosted on [github](https://github.com/algorithmixx/tunator)
 
-Code and documentation copyright is the [GNU GPL3 License](https://github.com/algorithmixx/tunator/LICENSE).
+Code and documentation copyright is the [GNU GPL3 License](https://github.com/algorithmixx/tunator/blob/master/LICENSE).
 
 ## Demo
 *Tunator* is available online under [followthescore.org](https://followthescore.org/train/tunator)
