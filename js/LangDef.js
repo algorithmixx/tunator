@@ -345,67 +345,118 @@ Präge dir solche Korrekturen gut ein.
 		},
 		"lesson-WHAT-NOTE-2": {
  /*-----------------------------------------------------------------------------------------*/   en:`
-<h4>Play or sing your preferred tone!</h4>
+### Play or sing your preferred tone!
 Below the note name in the gray box you now see the deviation (in cents) from the correct pitch.
 The numbers can change quite fast. It is not easy to keep a tone absolutely stable.
-<p>
-<h4>Click on the timeline symbol (third icon in the menu)</h4>
-You will see a large grid in the center of the screen which shows how your pitch changed over time.
+
+### Click on the timeline symbol (third icon in the menu)
+You will see a large grid in the center of the screen which shows how your pitch changes over time.
 Make another sound and you will see the timeline move.
-<p>
+
 Note the small box at the right end of the menu. It allows you to change the vertical resolution
 of the timeline and the degree of details ist shows. By default it highlights the current note and shows
 a thick red line which is a smoothed average value of your pitch. You can see more details or you can simplify
 the presentation.
-<p>
-You can resize the window height of the timeline grid by dragging its BOTTOM RIGHT CORNER up or down.
 
-<h4>Analyse your tone!</h4>
+You can resize the window height of the timeline grid by dragging its *bottom right corner* up or down.
+
+### Analyse your tone!
 
 Did you start your note with a "t" or stop it with your tongue?
 Try to sing without attack (i.e. only on the air, without using your tongue at the beginning)
 and do not stop your note with the tongue. Just take your breath away and keep pitch.
 
-<img style="float:right" src="img/glitches.png">
+IMG[[img/glitches.png| ]]
 The example at the right shows the note "c" being played (major gray block with thick red line and blue dashes).
 The blue dashes show the exact pitch every 50 msec. The thick red line is a smoothed average. It follows lazily the blue dashes.
-<p>
-<ol>
-<li>Initial glitch: The note was started too low: effectively an "h" ("b" in English) was produced instead of a "c".
-<li>The pitch entered the note from its bottom (lower part of the gray box, -50 cent .. -10 cent).
-<li>The pitch stabilized near the center. It was a little too low in general (-10 cents). Now the blue dashes are above
-and below the red line which is almost horizontal.
-<li>Finally the pitch jumped up by ~ 60 cents so that even the next higher note was touched for a very short moment (thin gray area
-at c# level).
-<li>The note ended above its correct pitch, close to the next higher note. Probably the tension of mouth, lips or breast
-had increased while the flow of air stopped.
-</ol>
-<div style="clear:both"></div>
-<ul>
-<li>If you see glitches at the beginning of your note: Create an imagination of the note before you start to produce the tone!
-<li>If you see glitches at the end of your note: Take away breath without altering the attitude of your lips or chest.
-</ul>
 
-<h4>Produce a sequence of the same note!</h4>
-<img style="float:right" src="img/sameTone.png">
+* Initial glitch: The note was started too low: effectively an "h" ("b" in English) was produced instead of a "c".
+* The pitch entered the note from its bottom (lower part of the gray box, -50 cent .. -10 cent).
+* The pitch stabilized near the center. It was a little too low in general (-10 cents). Now the blue dashes are above
+and below the red line which is almost horizontal.
+* Finally the pitch jumped up by ~ 60 cents so that even the next higher note was touched for a very short moment (thin gray area
+at c# level).
+* The note ended above its correct pitch, close to the next higher note. Probably the tension of mouth, lips or breast
+had increased while the flow of air stopped.
+* If you see glitches at the beginning of your note: Create an imagination of the note before you start to produce the tone!
+* If you see glitches at the end of your note: Take away breath without altering the attitude of your lips or chest.
+
+### Produce a sequence of the same note!
+IMG[[img/sameTone.png| ]]
 Can you do better than this example?
 <div style="clear:both"></div>
 
-<h4>Play a chord sequence up and down, like c - e - g - e - c !</h4>
-<img style="float:right" src="img/ceg-1.png">
+### Play a chord sequence up and down, like c - e - g - e - c !
+IMG[[img/ceg-1.png| ]]
 Here is another example:
-<ol>
-<li>The first note was started without sufficient tension (initial bottom glitch)
-<li>Altough the "e" looks very low the <i>relative</i> pitch (interval: major third) was not so bad because the initial note
+
+* The first note was started without sufficient tension (initial bottom glitch)
+* Altough the "e" looks very low the <i>relative</i> pitch (interval: major third) was not so bad because the initial note
 had already been significantly too low.
-<li>The "g" looks "ok" - although it is more like the peak of a mountain than a stable platform. But the interval from the
+* The "g" looks "ok" - although it is more like the peak of a mountain than a stable platform. But the interval from the
 very low "e" to the average "g" was too large.
-<li>Good news with the "e" on the downwards path: it is exactly the same (wrong) "e" as its brother in the climbing phase.
+* Good news with the "e" on the downwards path: it is exactly the same (wrong) "e" as its brother in the climbing phase.
 The short red dot at the beginning of the note is not so crucial. Small transitory glitches can not always be avoided (when singing).
-<li>The final note is still too low but a little bit better than the initial "c". It often happens that in a sequence like
+* The final note is still too low but a little bit better than the initial "c". It often happens that in a sequence like
 "c-e-g-e-c" the final note is slightly higher than the first note. <i>Tunator</i> shows you what happened and makes you aware
 of such typical problems.
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+### Spiele oder singe deinen bevorzugten Ton!
+Unter dem Notennamen im grauen Kästchen siehst du nun auch Abweichung (in Cent) von der richtigen Tonhöhe.
+Die Zahlen können sich sehr schnell ändern. Es ist nicht einfach, einen Ton absolut stabil zu halten.
+
+### Klicke auf das Zeitleisten-Icon (drittes Symbol im Menü).
+In der Mitte des Bildschirms erscheint ein großes Gitter, das zeigt, wie sich deine Tonhöhe im Laufe der Zeit ändert.
+Erzeuge einen weiteren Klang und du wirst sehen, wie sich die Zeitleiste bewegt.
+
+Beachte das kleine Kästchen am rechten Ende des Menüs. Es erlaubt dir, die vertikale Auflösung und den
+Detaillierungsgrad der Darstellung zu beeinflussen. Standardmäßig wird die aktuelle Note hervorgehoben und eine
+dicke rote Linie zeigt den geglätteten Durchschnittswert der Tonhöhe. Du kannst mehr Details sehen oder
+die Darstellung vereinfachen.
+
+Du kannst die Fensterhöhe des Zeitleiste ändern, indem du die *rechte untere Ecke* nach oben oder unten ziehst.
+
+### Analysiere deinen Ton!
+
+Hast du deine Note mit einem "t" begonnen oder mit der Zunge gestoppt?
+Versuchen Sie, ohne Anstoß zu singen (d.h. nur mit der Luft, ohne die Zunge am Anfang zu benutzen).
+und beende die Note ohne Zunge. Nimm einfach den Atem weg und halte die Tonhöhe.
+
+IMG[[img/glitches.png| ]]
+Das Beispiel rechts zeigt die gespielte Note "c" (großer grauer Block mit dicker roter Linie und blauen Strichen).
+Die blauen Striche zeigen alle 50 ms die genaue Tonhöhe an. Die dicke rote Linie ist ein geglätteter Durchschnitt.
+Es folgt etwas verzögert den blauen Strichen.
+
+* Erste Auffälligkeit: Die Note war zu tief angesetzt: Es wurde praktisch ein "h" ("b" auf Englisch) statt eines "c" produziert.
+* Die Anfang ging von unten in die Note hinein (unterer Teil des grauen Kastens, -50 Cent... -10 Cent).
+* Die Tonhöhe hat sich in der Nähe der Mitte stabilisiert. Sie war im Allgemeinen etwas zu niedrig (-10 Cent).
+Danach verlaufen die blauen Striche oberhalb und unterhalb der roten Linie, die fast horizontal verläuft.
+* Schließlich sprang die Tonhöhe um ~ 60 Cent nach oben, so dass auch die nächsthöhere Note für einen sehr kurzen Moment erklang
+(dünne Grauzone auf c#-Ebene).
+* Die Note endete oberhalb ihrer korrekten Tonhöhe, nahe der nächsthöheren Note. Wahrscheinlich hatte sich die Spannung von Mund,
+Lippen oder Zwerchfell erhöht, während der Luftstrom stoppte.
+* Wenn du zu Beginn einer Note Probleme erkennst: Bilde dir eine Vorstellung von der Note, bevor du beginnst, den Ton zu erzeugen!
+* Wenn du am Ende einer Note Probleme siehst: Nimm den Atem weg, ohne die Haltung der Lippen oder des Körpers zu verändern.
+
+### Produziere  eine Sequenz derselben Note!
+IMG[[img/sameTone.png| ]]
+Kannst du es besser als dieses Beispiel?
+<div style="clear:both"></div>
+
+### Spiele eine Akkordfolge auf- und abwärts, wie c - e - e - g - e - e - c !
+IMG[[img/ceg-1.png| ]]
+Hier ist ein weiteres Beispiel:
+
+* Die erste Note wurde ohne ausreichende Spannung gestartet (anfänglich zu tief).
+* Obwohl das "e" sehr tief aussieht, war die <i>relative</i> Tonhöhe (Intervall: große Terz) nicht so schlecht, denn die ursprüngliche Note
+war bereits deutlich zu niedrig.
+* Das "g" sieht "ok" aus - obwohl es eher wie der Gipfel eines Berges als wie eine stabile Plattform wirkt. Aber das Intervall von dem
+sehr niedrigen "e" zum durchschnittlichen "g" war zu groß.
+* Gute Nachrichten für das "e" auf dem Weg nach unten: Es ist genau das gleiche (falsche) "e" wie sein Bruder in der ansteigenden Phrase.
+Der kurze rote Punkt am Anfang der Note ist nicht so entscheidend. Kleine vorübergehende Störungen lassen sich nicht immer vermeiden (beim Singen).
+* Die letzte Note ist immer noch zu niedrig, aber etwas besser als das anfängliche "c". Es kommt oft vor, dass in einer Sequenz wie dieser
+"c-e-g-g-e-c" die letzte Note etwas höher ist als die erste Note. <i>Tunator</i> zeigt dir, was passiert ist, damit du solche wiederkehrenden
+Probleme erkennen und beheben kannst.
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
