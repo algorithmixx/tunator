@@ -1,4 +1,3 @@
-
 ﻿# Tunator
 
 *Tunator* is a web application intended for musicians to improve *intonation*, i.e the art of finding the correct pitch.

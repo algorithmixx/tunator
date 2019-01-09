@@ -43,14 +43,14 @@ var	LangDef = {
 			de: "erkannte Frequenz",
 			es: "",
 		},
-		rms: {
-			en: "signal strenth (0..100)",
-			de: "Signalstärke (0..100)",
+		rmsbg: {
+			en: "signal strenth and peak value (0..100)",
+			de: "Signalstärke und Spitzenwert (0..100)",
 			es: "",
 		},
-		peak: {
-			en: "highest value within the last second",
-			de: "Spitzenwert innerhalb der letzten Sekunde",
+		rms: {
+			en: "signal strenth and peak value (0..100)",
+			de: "Signalstärke und Spitzenwert (0..100)",
 			es: "",
 		},
 		hz: {
@@ -58,15 +58,37 @@ var	LangDef = {
 			de: "Hertz (Schwingungen pro Sekunde)",
 			es: "Hertz",
 		},
-		speakName: {
+		announceNoteNames: {
 			en: "after a tone is stable for some time: speak its note name",
 			de: "wenn ein Ton für einige Zeit stabil ist: Sage den Notennamen an",
 			es: "",
 		},
-										// detected note display area
+		// detected note display area
 		detectedNote: {
 			en: "name of the detected note",
 			de: "Name der erkannten Note",
+			es: "",
+		},
+
+		// master control area
+		microInput: {
+			en: "switch microphone on/off",
+			de: "Mikrofon ein-/ausschalten",
+			es: "",
+		},
+		waveForm: {
+			en: "show wave form (oscilloscope)",
+			de: "Wellenform anzeigen (Oszilloskop)",
+			es: "",
+		},
+		sequence: {
+			en: "show time line",
+			de: "Zeitdiagramm anzeigen",
+			es: "",
+		},
+		soundGen: {
+			en: "show sound generator (oscillator)",
+			de: "Tongenerator anzeigen (Oszillator)",
 			es: "",
 		},
 
@@ -96,7 +118,7 @@ var	LangDef = {
 			de: "Hz",
 			es: "Hz",
 		},
-		speakName: {
+		announceNoteNames: {
 			en: "tell note",
 			de: "Note sagen",
 			es: "",
@@ -147,8 +169,8 @@ Read more on WP[[Scale_(music)|musical scale systems]] and WP[[Interval (music)|
 
 If you see a *large letter* with the name of the note in the **empty gray box** everything works fine.
 Next to it you also see the musical representation of the note within the staff lines.
-Try to keep the note stable for two seconds and check the *peak level* in the **green box**. Any number
-greater than 10 is fine. If your number is smaller: sing louder or move closer to the microphone.
+Try to keep the note stable for two seconds and check the red *peak level* in the **green box**.
+It should be at 20% or more of its range. If it is smaller: sing louder or move closer to the microphone.
 
 *If you do not see a large note letter*
 
@@ -156,7 +178,7 @@ greater than 10 is fine. If your number is smaller: sing louder or move closer t
 * Your browser must support the media API. Make sure that you are using the latest version of your browser.
 * On older Apple devices (like ipad 2) the browser (Safari) does not support the media API - sorry.
 * The microphone of your device must be active and its signal must be strong enough.
-A certain signal strength (peak value > 10) is necessary for successful detection.
+A certain signal strength is necessary for successful detection.
 Check your microphone driver settings if you do not get a signal at all or if your signal is too weak.
 
 ### Begin with the first lesson!
@@ -187,16 +209,17 @@ Lies mehr über WP[[Tonleiter|Tonleitern]] und WP[[Intervall (Musik)#Stimmungen|
 
 Wenn ein *großer Buchstabe* mit dem Namen der Note in der **leeren grauen Box** erscheint, funktioniert alles gut.
 Daneben siehst du auch die musikalische Darstellung der Note innerhalb der Notenlinien.
-Versuche die Note zwei Sekunden lang stabil zu halten und überprüfe den *Peak* (=Spitzenwert der Lautstärke) in der **grünen Box**.
-Ein Wert größer als 10 ist in Ordnung. Wenn die Zahl kleiner ist: Sing lauter oder nähere dich dem Mikrofon.
+Versuche die Note zwei Sekunden lang stabil zu halten und überprüfe den roten Balken mit dem *Spitzenwert der Lautstärke*
+in der **grünen Box**. Er sollte bei 20% oder mehr des Anzeigebereichs liegen.
+Wenn die Zahl kleiner ist: Sing lauter oder nähere dich dem Mikrofon.
 
 *Wenn kein Notenbuchstabe erscheint ...*
 
 * Du musst dieser Website den Zugriff auf das Mikrofon gestatten. Überprüfe die Browsereinstellungen!
-* Dein Browser muss das Media-API unterstützen. Stellen sicher, dass du die neueste Version deines Browsers verwendest.
+* Dein Browser muss das Media-API unterstützen. Stelle sicher, dass du die neueste Version deines Browsers verwendest.
 * Auf älteren Apple-Geräten (wie ipad 2) unterstützt der Browser (Safari) das Media-API nicht - sorry.
 * Das Mikrofon deines Gerätes muss aktiv sein und das Signal muss stark genug sein.
-Für eine erfolgreiche Erkennung ist eine Mindestlautstärke (Peak > 10) nötig.
+Für eine erfolgreiche Erkennung ist eine gewisse Mindestlautstärke nötig.
 Überprüfe die Mikrofon-Treibereinstellungen, wenn du überhaupt kein Signal erhältst oder wenn es zu schwach ist.
 
 ### Beginne mit der ersten Lektion!
@@ -470,60 +493,60 @@ Probleme erkennen und beheben kannst.
 		"lesson-TRANSPOSITION": {
  /*-----------------------------------------------------------------------------------------*/   en:`
 
-If you sing a tone with ~ 130 Hz <i>Tunator</i> will tell you that it is a "c". Go ahead and try it out!
+If you sing a tone with ~ 130 Hz *Tunator* will tell you that it is a "c". Go ahead and try it out!
 A tone of ~ 260 Hz would also be detected as a "c", but one octave higher.
-<p/>
+
 If a composer wants an oboe to play a "c" he will put a black oval into the THIRD SPACE of a standard note system.
 Or he might place the oval ON THE FIRST LINE BELOW the system if he wants the "c" to be one octave lower.
 Musicians all over the world have learnt that an oval in the the third space or on the first line below the system
 is called a "c". If an oboist sees a "c" he will use a certain tension of his lips (embrochure)
 and a certain finger setting and if everything is fine his instrument will produce a frequency of ~260Hz (or ~520 Hz).
-<p/>
+
 If an oboe and a trumpet player read and play the same written "c", however, their instruments WILL NOT PRODUCE THE SAME TONE.
-What comes out of the trumpet will be <b>two semitones lower</b>. This means that the trumpet produces a frequency
+What comes out of the trumpet will be **two semitones lower**. This means that the trumpet produces a frequency
 of only ~230 Hz. A trumpet is said to be a "transposing" instrument. The transposition is defined
 as THE DIFFERENCE IN SEMITONES between the sound that comes out of the instrument and the note
 which the player reads and "plays". If the notated note is higher than the sound an instrument transposes downwards.
 If the sound is higher it transposes upwards.
-<p>
+
 Luckily, many instruments (like a harp, a violin, a piano, an oboe, a flute or a guitar) are non-transposing.
 Formally speaking you could say that they have a transposition of 0 semitones. Which means that their sound
 corresponds exactly to the written notes.
-<p/>
+
 A typical Bb-trumpet has a transposition of -2, a french horn has -7, a saxophone could have -9 or -2 depending on
 its type. Very high instruments like the piccolo flute transpose by +12 semitones. Often a note name is used to describe
 the transposition characteristic of a an instrument. The note used corresponds to the INTERVAL starting from C.
 Thus, a "c" means no transposition, a "Bb" means -2 semitones, an "F" means -7 semitones, an "Eb" is -9.
-<p/>
+
 If a composer wants the same physical frequency to be produced by instruments with different transpositions he must
 COMPENSATE for their individual transpositions.
 This means, that he has to write a "d" for a Bb-instrument (like the trumpet) and a "g" for "F"-instruments
 like the English Horn or the French Horn. In addition he could use different "clefs" -- but that is another story.
-<p/>
+
 If a conductor asks his trumpet players to play a "c"-sound they will have to think of a written "d" to produce the
 expected tone. If some of the players are in doubt what to do the conductor might tell them: "play your notated "d"!".
 
-<h4>Now change the transposition of <i>Tunator</i> and get confused ;-)</h4>
-The green box next to the detected note (which currently shows "==") allows you to change the transposition.
+### Now change the transposition of *Tunator* and get confused ;-)
+The green box next to the detected note (which currently shows "C notation") allows you to change the transposition.
 Select "Bb notation" and sing a tone with <b>~ 260 Hz</b>. Although you are singing the same tone as before
-the note will now be called a "d" by <i>Tunator</i>.
-<p/>
-If you are playing a transposing instrument <i>you should use the transposition settings</i>. Thus you tell <i>Tunator</i>
+the note will now be called a "d" by *Tunator*.
+
+If you are playing a transposing instrument *you should use the transposition settings*. Thus you tell *Tunator*
 to name the notes in the "language" you are familiar with.
 
-<h4>Base tone of an instrument</h4>
+### Base tone of an instrument
 Wind instruments have a so-called base tone. This is the frequency that corresponds to the length of the
 instrument (all flaps closed, no valves activated). Sometimes (but not always)
 the natural name of the note for this frequency defines the transposition of that instrument, i.e. the base
 note is called "c" in scores for this instrument. For example a trumpet being played without
 any buttons pressed produces a "Bb". This note is written as a "c" in music scores for trumpets.
-<p/>
+
 A score for a french horn is written in "F" and indeed, the longer part of a double french horn
 has an "F" as its base tone. The shorter part, however, has a "Bb" as its base tone. But horn players are trained
 to read in "F", regardless which part of their double horn they are using. In fact they often switch between the
 two parts of their instrument because some tones sound more beautifully on one of them.
 
-<h4>Notations with the "wrong" transposition</h4>
+### Notations with the "wrong" transposition
 Sometimes a musician will be confronted with a score that does not match his reading habits.
 A clarinet player might look at a score for "clarinet in A" but he wants to play with his standard Bb-clarinet.
 The composer wrote the score for A-clarinet (transposition = -3) so he used a "G" when he wanted the sound of an "E".
@@ -534,10 +557,80 @@ as (for historical reasons) they often get notes in various transpositions. On t
 will probably never have the necessity to transpose in his whole life because the flute is a "C"-instrument
 and all notes for flute a written in "c"-notation.
 
-<h4>Reference frequency</h4>
-You may also want to adjust the base reference frequency ("a") from its default value (443 Hz) to some other value
-like 440 Hz.
+### Reference frequency
+Regardless of the transposition setting, you can set the basic setpoint frequency of the chamber tone ("a")
+from its default value (443 Hz) to another value, such as 440 Hz. Then all tones will be a few cents lower.
+
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+Wenn du einen Ton mit ~ 130 Hz singst, wird *Tunator* dir sagen, dass es ein "c" ist. Probiere es aus!
+Ein Ton von ~ 260 Hz würde auch als "c" erkannt werden, aber eine Oktave höher.
+
+Wenn ein Komponist möchte, dass eine Oboe ein "c" spielt, setzt er ein schwarzes Oval in den DRITTEN RAUM eines Standard-Noten-Systems.
+Oder er platziert das Oval auf der ersten Linie unter dem System, wenn er möchte, dass das "c" eine Oktave tiefer liegt.
+Musiker auf der ganzen Welt haben gelernt, dass ein Oval im dritten Raum oder in der ersten Linie unter dem System ein "c" ist.
+Wenn ein Oboist ein "c" sieht, verwendet er eine bestimmte Spannung seiner Lippen (Ansatz) und eine bestimmte
+Fingereinstellung; wenn alles in Ordnung ist, erzeugt sein Instrument eine Frequenz von ~260Hz (oder ~520 Hz).
+
+Wenn eine Oboe und ein Trompeter jedoch das gleiche geschriebene "c" lesen und spielen,
+werden ihre Instrumente NICHT den gleichen Ton erzeugen.
+Was aus der Trompete kommt, ist **zwei Halbtöne tiefer**. Das bedeutet, dass die Trompete eine Frequenz von nur ~230 Hz erzeugt.
+Eine Trompete gilt daher als "transponierendes" Instrument. Die Transponierung ist definiert als DIE DIFFERENZ IN HALBTÖNEN
+zwischen dem Klang, der aus dem Instrument kommt, und der Note, die der Spieler liest und "spielt".
+Wenn die notierte Note höher ist als der Klang, transponiert ein Instrument abwärts.
+Wenn der Klang höher ist, transponiert es aufwärts.
+
+Glücklicherweise sind viele Instrumente (wie eine Harfe, eine Geige, ein Klavier, eine Oboe, eine Flöte oder eine Gitarre)
+nicht transponierend. Formal könnte man sagen, dass sie eine Transposition von 0 Halbtönen haben. Was bedeutet, dass ihr Klang
+genau dem schriftlich notierten Ton entspricht.
+
+Eine typische Bb-Trompete hat eine Transposition von -2, ein Waldhorn von -7, ein Saxophon von -9 oder -2, je nach Typ.
+Sehr hohe Instrumente wie die Piccoloflöte transponieren um +12 Halbtöne. Oft wird ein Notenname verwendet, um die
+Transpostionscharakteristik eines Instruments zu beschreiben. Die verwendete Note entspricht dem INTERVAL ab C.
+Ein "c" bedeutet also keine Transposition, ein "Bb" bedeutet -2 Halbtöne, ein "F" bedeutet -7 Halbtöne, ein "Eb" ist -9.
+
+Wenn ein Komponist wünscht, dass die gleiche physikalische Frequenz von Instrumenten mit unterschiedlichen Transpositionen
+erzeugt werden soll, muss er ihre individuellen Transpositionen kompensieren.
+Das bedeutet, dass er ein "d" für ein Bb-Instrument (wie die Trompete) und ein "g" für "F"-Instrumente schreiben muss
+wie das Englischhorn oder das Waldhorn. Alternativ könnte er verschiedene "Schlüssel" verwenden - aber das ist eine andere Geschichte.
+
+Wenn ein Dirigent seine Trompeter bittet, ein "klingendes c" zu spielen, müssen sie sich ein geschriebenes "d" vorstellen,
+um den erwarteten Ton zu produzieren. Wenn einige der Spieler im Zweifel sind, was sie tun sollen,
+könnte der Dirigent ihnen sagen: "Spielt euer notiertes "d"!".
+
+### Ändere jetzt die Transposition von *Tunator* und lass dich verwirren ;-)
+Das grüne Kästchen neben der erkannten Note (das derzeit "C-Notation" anzeigt) ermöglicht es dir, die Transposition zu ändern.
+Wähle die "B-Notation" und singe einen Ton mit <b>~ 260 Hz</b>. Obwohl du den gleichen Ton wie vorher singst, wird die Note
+jetzt von *Tunator* als "d" bezeichnet.
+
+Wenn du ein transponierendes Instrument spielst, *solltest du ab jetzt die Transpositionseinstellungen* verwenden.
+So sagst du *Tunator*, dass er die Noten der "Sprache" benennen soll, die dir vertraut ist.
+
+### Grundton eines Instruments
+Blasinstrumente haben einen sogenannten Grundton. Das ist die Frequenz, die der Länge des
+Instruments (bei geschlossenen Klappen, keine Ventile aktiviert) entspricht. Manchmal (aber nicht immer)
+definiert der natürliche Name der Note für diese Frequenz die Transposition des Instruments, d.h. der Grundton
+wird in den Noten für dieses Instrument als "c" bezeichnet. Zum Beispiel erzeugt eine Trompete, die ohne gedrücktes
+Ventil gespielt wird, ein "Bb". Diese Note ist als "c" in Partituren für Trompeten geschrieben.
+
+Eine Partitur für ein Waldhorn ist oft in "F" geschrieben, denn der längere Teil eines Doppelhorns hat ein "F" als Grundton.
+Der kürzere Teil hat jedoch einen "Bb" als Grundton. Aber Hornisten werden trainiert.
+um in "F" zu lesen, unabhängig davon, welchen Teil ihres Doppelhorns sie verwenden. Tatsächlich wechseln sie oft
+zwischen den beiden Teilen ihres Instruments, weil einige Töne auf einem von ihnen schöner klingen.
+
+### Notenmaterial mit der "falschen" Transposition
+Manchmal wird ein Musiker mit einer Partitur konfrontiert, die nicht zu seinen Lesegewohnheiten passt.
+Ein Klarinettist könnte sich eine Partitur für "Klarinette in A" ansehen, aber er will mit seiner Standard-B-Klarinette spielen.
+Der Komponist schrieb die Partitur für A-Klarinette (Transposition = -3), so dass er ein "G" verwendete,
+wenn er den Klang eines "E" wollte. Auf einer "Bb-Klarinette" würde das Spielen eines "G" jedoch ein "F" ergeben.
+Der Spieler muss also einen Halbton von allen Noten abziehen, während er spielt. Die Fähigkeit dazu wird als "Transponieren" bezeichnet.
+Die Fähigkeit zur Transposition ist für einige Instrumente sehr nützlich, vor allem für Hornisten,
+da sie (aus historischen Gründen) oft Noten in verschiedenen Transpositionen erhalten. Auf der anderen Seite, wird ein Flötenspieler
+wahrscheinlich nie die Notwendigkeit haben, zu transponieren, da die Flöte ein "C"-Instrument ist.
+
+### Referenzfrequenz
+Unabhängig von der eingestellten Transposition kannst du die Basis-Sollfrequenz des Kammertons ("a")
+von ihrem Standardwert (443 Hz) auf einen anderen Wert verändern, wie etwa 440 Hz. Dann werden alle Töne um ein paar Cent niedriger.
+
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
@@ -897,24 +990,21 @@ comfortable than "I+III+V" in those cases.
 		},
 		"lesson-ABOUT": {
  /*-----------------------------------------------------------------------------------------*/   en:`
-*Tunator* is open source, hosted on [github](https://github.com/algorithmixx/tunator)
+*Tunator* is open source, hosted on [github](https://github.com/algorithmixx/tunator).
+Your contribution in further development is welcome.
 
 *Tunator* was created by Gero Scholz, Germany, Bad Nauheim.
 
 *Tunator* is available online under [followthescore.org](https://followthescore.org/train/tunator)
 
-If you want to add more lessons or contribute translations contact me at gero.scholz(at)gmail.com.
-
 January 2019
 `/*-----------------------------------------------------------------------------------------*/ , de:`
-*Tunator* ist Open Source, gehostet auf[github](https://github.com/geschole/tunator)
+*Tunator* ist Open Source, gehostet auf [github](https://github.com/algorithmixx/tunator).
+Deine Mitwirkung an der Verbesserung ist willkommen.
 
 *Tunator* wurde von Gero Scholz, Deutschland, Bad Nauheim, entwickelt.
 
-*Tunator* ist online verfügbar unter[followthescore.org](https://followthescore.org/train/tunator)
-
-Wenn du weitere Lektionen hinzufügen oder Übersetzungen beisteuern möchtest,
-kontaktiere mich unter gero.scholz(at)gmail.com.
+*Tunator* ist online verfügbar unter [followthescore.org](https://followthescore.org/train/tunator)
 
 Januar 2019
 `/*-----------------------------------------------------------------------------------------*/ , es:`

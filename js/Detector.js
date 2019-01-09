@@ -76,7 +76,7 @@ class Detector {
 			detune:			$("#detune"),
 			detuneAmount:	$("#detuneAmount"),
 			rms:			$("#rms"),
-
+			peak:			$("#peak"),
 		}
 
 		this.minCorrelation	= 0.8;  // correlations below this threshold are ignored
@@ -358,9 +358,13 @@ class Detector {
 		// reset the peak signal to the current value if there was no greater value for more than one second
 		var peak = Math.round(signal.peak*100);
 		var now=Date.now();
+		this.ui.rms.width(peak);
+		this.ui.rms.css("backgroundColor",(peak>=8) ? "#4c4" : "#999");
 		if((peak>0 && peak>this.peakSignal) || now-this.lastDisplayTime>1000) {	// hold for 1 second
 			this.peakSignal=peak;
-			this.ui.rms.html(peak);
+			if (peak>=8)	this.ui.peak.show();
+			else 			this.ui.peak.hide();
+			this.ui.peak.css("left",peak-2);
 			this.lastDisplayTime=now;
 		}
 

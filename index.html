@@ -90,7 +90,7 @@
 	<!-- detector    ================================================================================= -->
 
 	<div class="trt" id="detector" style="vertical-align:top;display:inline-block;height:110px;padding:5px;background:#cfc">
-		<select class="trt" id="reference" onchange="theDetector.setReference(parseInt(this[this.selectedIndex].outerText));" style="width:90px;margin-bottom:6px;">
+		<select class="trt" id="reference" onchange="theDetector.setReference(parseInt(this[this.selectedIndex].outerText));" style="margin-bottom:6px;">
 			<option>438</option>
 			<option>439</option>
 			<option>440</option>
@@ -100,7 +100,7 @@
 			<option>444</option>
 		</select>
 		<br/>
-		<select class="trt" id="transposition" onchange="theTunator.changeTransposition()">
+		<select class="trt" id="transposition" style="width:100px" onchange="theTunator.changeTransposition()">
 			<option value="0" selected> C notation </option>
 			<option value="2"  > Bb notation</option>
 			<option value="3"  > A  notation</option>
@@ -115,11 +115,13 @@
 			<option value="+12"> C8 sound</option>
 		</select>
 
-		<div style="vertical-align:top;padding-left:5px;background:#cfc;">
-			<div class="pitch" style="display:inline-block">
-				<span class="trt" id="rms" style="display:inline-block;width:50px;"></span>
-				<span class="trt trh" id="peak">peak</span>
-				<br/>
+		<div style="vertical-align:top;background:#cfc;">
+			<div style="width:100px;height:26px;position:relative">
+				<div class="trt" id="rmsbg" style="position:absolute;top:5px;left:0px;height:16px;background:#efe;width:100px;"></div>
+				<div class="trt" id="rms" style="position:absolute;top:6px;left:0px;height:14px;background:#393;"></div>
+				<div id="peak" style="position:absolute;top:6px;left:0px;height:14px;width:3px;background:#f33;"></div>
+			</div>
+			<div class="pitch" style="position:relative">
 				<span class="trt" id="pitch" style="display:inline-block;width:50px;">--</span>
 				<span class="trt trh" id="hz">Hz</span>
 				<br/>
@@ -145,21 +147,18 @@
 	<!-- main control    ================================================================================= -->
 
 	<div id="menu" style="vertical-align:top;display:inline-block;padding:5px;height:110px;background:#fcf;" title="select a MODE">
-		<button id="microInput" onclick="theTunator.selectDetectionSource('micro')" style="width:70px;"
-			title="switch microphone on/off">
+		<button class="trt" id="microInput" onclick="theTunator.selectDetectionSource('micro')" style="width:70px;">
 			<img alt="microphone" src="img/micro.png"/>
 		</button>
-		<button id="toggleWave" onclick="theWave.toggle();"
-			title="show / hide wave form (oscilloscope)">
-			<img alt="wave" src="img/wave.png"/>
+		<button id="toggleWave" onclick="theWave.toggle();">
+			<img id="waveForm" class="trt" alt="wave" src="img/wave.png"/>
 		</button>
 		<button id="toggleTimeline"		onclick="theTimeline.toggle();"
 			title="show / hide timeline (sequencer)">
-			<img alt="timeline" src="img/timeline.png"/>
+			<img id="sequence" class="trt" alt="timeline" src="img/timeline.png"/>
 		</button>
-		<button id="toggleGenerator"	style="margin-bottom:5px" onclick="theOscillator.toggleControl();"
-			title="show / hide tone generator (oscillator)">
-			<img alt="generator" src="img/generator.png"/>
+		<button id="toggleGenerator" style="margin-bottom:5px" onclick="theOscillator.toggleControl();">
+			<img id="soundGen" class="trt" alt="generator" src="img/generator.png"/>
 		</button>
 
 		<br/>
