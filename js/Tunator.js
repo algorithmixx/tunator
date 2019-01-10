@@ -67,7 +67,6 @@ class Tunator {
 		theDetector.showDeviation(true);
 		theDetector.setTransposition(0);
 		this.selectDetectionSource("");
-		this.noteNames=true;
 		theAnalyser.announceNoteNames(false);
 
 		if (components.includes("menu")) {
@@ -336,7 +335,7 @@ class Tunator {
 
 	createNode(type,size,loop) {
 		// create a MediaAPI audio node, connect and start
-		
+
 		this.audioNode = audioContext.createBufferSource();
 		this.audioNode.loop=loop;
 		this.audioNode.buffer = audioContext.createBuffer(1, size, audioContext.sampleRate);
@@ -382,9 +381,9 @@ class Tunator {
 		node.buffer=audioContext.createBuffer(2, len, audioContext.sampleRate);
 		var begin=len * n;
 		var buffer=new Float32Array(len);
-		for(var s=0;s<len;s++) buffer[s]=this.noteNames[0][begin+s];
+		for(var s=0;s<len;s++) buffer[s]=theTunator.noteNames[0][begin+s];
 		node.buffer.copyToChannel(buffer,0);
-		for(var s=0;s<len;s++) buffer[s]=this.noteNames[1][begin+s];
+		for(var s=0;s<len;s++) buffer[s]=theTunator.noteNames[1][begin+s];
 		node.buffer.copyToChannel(buffer,1);
 
 		// reduce volume of oscillator while speaking
