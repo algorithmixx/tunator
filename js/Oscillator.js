@@ -313,6 +313,7 @@ class Oscillator {
 
 		// produce base tone, then stop
 		that.setDetune(that.pitchComparisons[that.comparisonInx].base);
+		if (that.mode.match(/difficult|hard/)) that.setType("triangle");
 		$("#comparison").html("&nbsp;");
 
 		that.comparator=[];
@@ -328,6 +329,7 @@ class Oscillator {
 		that.comparator.push(setTimeout(
 			function () {
 				that.resume();
+				that.setType("custom");
 				if (that.pitchComparisons[that.comparisonInx].changeHarmonics) {
 					that.randomHarmonics();
 					that.randomPhases();

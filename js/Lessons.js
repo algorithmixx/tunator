@@ -125,10 +125,10 @@ class Lessons {
 		else if (id=="COMPARE") {
 			// setting for pitch comparison
 			theTunator.configure(["menu","osc"]);
-			theOscillator.showControl();
 			theOscillator.setDetune(0);
 			theOscillator.setMode("compare (easy)");
 			theOscillator.setType("custom");
+			theTunator.selectAudio("oscillator"); // disable
 			this.show(id,this.expand("lesson-"+id));
 		}
 
@@ -137,7 +137,7 @@ class Lessons {
 			theTunator.configure(["menu","osc","timeline"]);
 			theTimeline.setHeight(9);
 			theTunator.setMode("intonation");
-			theAnalyser.speakNoteNames(true);
+			theAnalyser.announceNoteNames(true);
 			this.show(id,this.expand("lesson-"+id));
 		}
 

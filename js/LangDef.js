@@ -644,61 +644,65 @@ von ihrem Standardwert (443 Hz) auf einen anderen Wert verändern, wie etwa 440 
 		"lesson-GENERATOR": {
  /*-----------------------------------------------------------------------------------------*/   en:`
 
-<i>Tunator</i> has a powerful sound generator. Let´s have a look at it!
+*Tunator* has a powerful sound generator. Let's have a look at it!
 
 Currently the generator is playing a pure sine wave with 263.41 Hz.
-Relative to our default reference of 443 Hz a frequency of ~260 Hz is a tempered "c".
+Relative to our default reference of 443 Hz a frequency of ~263 Hz is a tempered "c".
 The frequency and the name "c" are shown in the
 <span style="background:#ffc">yellow box (generator control area)</span>.
-<br/>
-Click on the wave symbol <b>[~]</b> in the yellow area if the sound starts bothering you.
-If you stop the generator the "c" will be shown in <i>parenthesis</i>.
-<p/>
-<i>Tunator</i> detects the sound and shows the result: The note "c" as a large letter in the gray area and
+
+Click on the wave symbol **[~]** in the yellow area if the sound starts bothering you.
+If you stop the generator the "c" will be shown in *parenthesis*.
+
+*Tunator* detects the sound and shows the result: The note "c" as a large letter in the gray area and
 the measured frequency (263.3	 Hz .. 263.6 Hz)
 are displayed in the <span style="background:#cfc">green box (detector area)</span>.
 The measured frequency may deviate a little bit from the generated
 frequency - but the error is so small that it can be neglected.
-<p/>
 
-<h4>Look at the oscillogram</h4>
+### Look at the oscillogram
 It shows a time span of ~ 43 msec (= 2048 / 48000 seconds) in gray color. A magnified version (~ 10 msec)
 is shown in solid black. A frequency of ~260 Hz has a period of ~ 4msec. Therefore we see ~ 2,5 cycles
 of the sine wave in black color.
 The current note (c) is highlighted with three red stars after the first wave in black color.
 
-<h4>Now change the frequency in steps of semitones or in finer steps
-	using the "++","+","-","--" buttons in the yellow area</h4>
+### Now change the frequency
 
-Watch the three red starts shift. Watch how the name of the detected note changes. If you use "+" or "-" you will
+Switch the sound generator ON again and use the "++","+","-","--" buttons in the yellow area
+to change the frequency in steps of semitones or in finer steps.
+Watch the three red stars shift. Watch how the name of the detected note changes. If you use "+" or "-" you will
 see that the deviation in "cents" in the gray area with the note letter also changes.
-Open the timeline view if you like and watch the change of pitch over time!
+
 In the yellow generator control area you will see tilde symbols around the note: "~c~".
 They indicate that the frequency produced by the generator "almost" matches the shown note.
-Instead of using the "+"/"-" you can also enter a desired frequency directly. If you hae the timneline
-open you can click somewhere in the time line to change the generator frequency in half-tone steps.<p/>
+Instead of using the "+"/"-" you can also enter a desired frequency directly.
 
-<h4>Try different signal shapes (wave types)</h4>
+### Open the timeline view
+Observe the change of pitch over time!
+You can click anywhere in the time line to change the generator frequency in half-tone steps.
+
+### Try different signal shapes (wave types)
 Use "triangle" instead of "sine" and listen how the sound changes although the note and the pitch are still the same.
 The acoustic spectrum of a sound is defined by its harmonics.
-<p/>
-Click on "custom" and on the button with the triple wave symbol <b>[&apid;]</b> directly below it.
+
+Click on "custom" and on the button with the triple wave symbol **[&apid;]** directly below it.
 This opens a group of sliders which control the intensity and the phase of the first eight harmonics.
 The custom wave type sounds similar to an organ because it is a "rich wave form" composed of the base tone and
 some overtones (harmonics, mutiples of the base tone).
 Feel free to play with the sliders: See and listen how the sound changes. The differences will be more remarkable
 at lower notes. In principle it is possible to produce any desired shape. But the mathematics behind (Fourier synthesis)
 are not easy to understand.
-<p/>
+
 For the remaining part of this lesson we recommend to use the "custom" wave type.
 
-<h4>Try the "vibrato"</h4>
+### Try the "vibrato"
 By default the generator is in "straight mode" which means that it plays a steady tone of constant frequency.
 The selection box for the generator mode offers lots of other options - which we will use in later lessons.
 For the moment, just try "vibrato". Now the frequency changes periodically (about 4 times per second)
 around the central value of a "c" (by +/- 12 cts). Switch back to "straight mode".
 
-<h4>Look at the chord section. Select "I + III" instead of "I"!</h4>
+### Look at the chord section
+Select "I + III" instead of "I"!
 By default the generator plays a single tone. But it can also play two or more notes together (chords).
 ROMAN numbers stand for PURE CHORDS (=JUST INTONATION) whereas ARAB NUMBERS stand for TEMPERED CHORDS.
 If you select "I+III" (=base tone and a major third interval above) the two tones will have a frequency ratio
@@ -709,17 +713,99 @@ than normal - this is the explanation. The diference between 1.26 and 1.25 (less
 But it is clearly perceivable by the human ear. If you try "i+iii" (third minor in just intonation) and compare it
 to 1+3_ you will notice a similar difference - but in the other direction: a minor third should be played
 somewhat "larger".
-<p/>
+
 Try also with I+III+V and 1+3+5. The perfect intonation (roman numbers) sounds much clearer whereas
 the tempered intonation produces a "spatial" effect which in essence is some kind of "vibrato" BETWEEN the tones
 of the chord. It is a matter of taste and hearing habits whether one prefers the perfect integer ratios
 or the tempered chord. When playing with wind instrument most people like to produce just intonation.
-<p/>
+
 Listen to 1+3+5 carefully. Can you hear how the highest note fades away and returns almost every second?
 The energy of the three waves gets added and due to the minimal differences in their frequency ratio they can
 partly extinguish each other from time to time. You can see this effect happen in the oscillogram:
 the amplitude and the shape of the waves change periodically, they seem to "breath".
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+*Tunator* hat einen leistungsstarken Klangerzeuger. Betrachten wit ihn näher!
+
+Derzeit erzeugt der Generator eine reine Sinuswelle mit 263,41 Hz.
+Bezogen auf unsere Standardreferenz von 443 Hz ist eine Frequenz von ~263 Hz ein temperiertes "c".
+Die Frequenz und der Name "c" werden in der <span style="background:#ffc">gelben Box (Generator-Steuerungsbereich)</span>
+angezeigt.
+
+Klicke auf das Wellensymbol **[~]** im gelben Bereich, wenn dich der Ton zu stören beginnt.
+Wenn der Generator stoppt, wird das "c" *in Klammern* angezeigt.
+
+*Tunator* erkennt den Ton und zeigt das Ergebnis an: Die Note "c" als großer Buchstabe im grauen Bereich und
+die gemessene Frequenz (263,3 Hz .. 263,6 Hz)
+werden im <span style="background:#cfc">grünen Kasten (Detektorbereich)</span> angezeigt.
+Die gemessene Frequenz kann geringfügig von der erzeugten Frequenz abweichen,
+aber der Fehler ist so klein, dass er vernachlässigt werden kann.
+
+### Sieh dir das Oszillogramm an
+Es zeigt eine Zeitspanne von ~ 43 msec (= 2048 / 48000 Sekunden) in grauer Farbe. Eine vergrößerte Version (~ 10 msec)
+wird in schwarz dargestellt. Eine Frequenz von ~260 Hz hat eine Periode von ~ 4msec. Deshalb sehen wir ~ 2,5 Zyklen
+der Sinuswelle in schwarzer Farbe.
+Die aktuelle Note (c) wird mit drei roten Sternen nach der ersten Welle in schwarzer Farbe hervorgehoben.
+
+### Ändere nun die Frequenz
+
+Schalte den Klangerzeuger wieder ein und verwende die Tasten "++", "+", "+","-","--" im gelben Bereich,
+um die Frequenz in Halbtonschritten oder in feineren Schritten zu ändern.
+Beobachte, wie die drei roten Sterne sich verschieben und wie sich der Name der erkannten Note ändert.
+Wenn du "+" oder "-" verwendest, wirst du sehen, dass sich auch die Abweichung in "Cent" im Graubereich
+mit dem Notenbuchstaben ändert.
+
+Im gelben Generator-Steuerungsbereich siehst du die Tilde-Symbole rund um den Hinweis: "~c~".
+Sie zeigen an, dass die vom Generator erzeugte Frequenz "fast" mit der dargestellten Note übereinstimmt.
+Anstatt das "+"/"-" zu verwenden, kannst du auch direkt eine gewünschte Frequenz eingeben.
+
+### Öffne die Zeitleisten-Ansicht (Gitter-Symbol)
+
+Beobacht die Veränderung der Tonhöhe über die Zeit! Man kann auch irgendwo in der Zeitleiste klicken,
+um die Generatorfrequenz in Halbtonschritten zu ändern.
+
+### Probiere verschiedene Signalformen (Wellentypen) aus
+Verwende z.B. "Dreieck" anstelle von "Sinus" und höre, wie sich der Klang ändert, obwohl die Note und die Tonhöhe noch gleich sind.
+Das akustische Spektrum eines Klangs wird durch seine Oberwellen definiert.
+
+Klicke auf "Custom" und auf die Schaltfläche mit dem Dreifachwellensymbol **[&apid;]** direkt darunter.
+Dies öffnet eine Gruppe von Reglern, die die Intensität und die Phase der ersten acht Oberwellen steuern.
+Der aktuelle benutzerdefinierte Wellentyp klingt ähnlich wie eine Orgel, da es sich um eine Wellenform handelt,
+die sich aus dem Basiston und einigen Obertöne (=Vielfachen des Grundtons) zusammensetzt.
+Du kannst gerne mit den Reglern spielen. Die Unterschiede sind am stärksten warnehmbar bei tieferen Tönen.
+Grundsätzlich ist es möglich, jede gewünschte Form herzustellen. Aber die Mathematik dahinter (Fourier-Synthese)
+ist nicht leicht zu verstehen.
+
+Für den restlichen Teil dieser Lektion empfehlen wir, den "benutzerdefinierten" Wellentyp ("custom") zu verwenden.
+
+### Probiere das "Vibrato" aus
+Standardmäßig befindet sich der Generator im "straight mode", d.h. er spielt einen gleichmäßigen Ton mit konstanter Frequenz.
+Die Auswahlbox für den Generator-Modus bietet viele weitere Optionen, die wir in späteren Lektionen verwenden werden.
+Probiere im Moment einfach nur mal "Vibrato" aus. Jetzt ändert sich die Frequenz periodisch (ca. 4 mal pro Sekunde).
+um den zentralen Wert eines "c" (um +/- 12 cts). Wechsle wieder in den "straight mode" zurück.
+
+### Sieh dir die Akkord-Einstellungen an.
+Wähle "I + III" statt "I"!
+Standardmäßig spielt der Generator einen Einzelton. Er kann aber auch zwei oder mehr Noten zusammen spielen (Akkorde).
+RÖMISCHE Zahlen stehen für REINE Akkorde, während ARABISCHE Zahlen für TEMPERIERTE Akkorde stehen.
+Wenn du "I+III" (=Basiston und eine große Terz darüber) wählst, dann haben die beiden Töne ein Frequenzverhältnis.
+von genau 3:4. Wenn du "1+3" wählst, beträgt das Verhältnis 1:1,2599, was fast das gleiche ist.
+Aber nicht ganz. Du kannst den Unterschied gut hören, wenn du zwischen diesen Akkorden wechselst.
+Falls du jemals gehört hast, dass **eine große Terz "etwas enger"** gespielt werden sollte als normal - das ist die Erklärung.
+Der Unterschied zwischen 1,26 und 1,25 (weniger als 1%) klingt möglicherweise nicht groß.
+Aber er ist für das menschliche Ohr deutlich wahrnehmbar. Wenn du "i+iii" versuchst (Mollterz in reiner Intonation)
+und mit 1+3_ vergleichst, dann wirst du einen ähnlichen Unterschied feststellen - aber in die andere Richtung:
+eine Mollterz sollte etwas größer (weiter) gespielt werden.
+
+Versuche es auch mit I+III+V und 1+3+5. Die perfekte Intonation (römische Zahlen) klingt viel klarer, während die
+die temperierte Intonation einen "räumlichen" Effekt erzeugt, der im Wesentlichen eine Art "Vibrato" zwischen den Tönen
+des Akkords ist. Es ist eine Frage des Geschmacks und der Hörgewohnheiten, ob man die perfekten ganzzahligen Verhältnisse bevorzugt.
+oder den temperierten Akkord. Beim Spielen mit Blasinstrumenten mögen es die meisten Menschen, eine reine Intonation zu erzeugen.
+
+Höre 1+3+5 aufmerksam an. Kannst du hören, wie die höchste Note verblasst und fast jede Sekunde zurückkehrt?
+Die Energie der drei Wellen wird addiert und kann aufgrund der minimalen Unterschiede in ihrem Frequenzverhältnis
+sich von Zeit zu Zeit gegenseitig teilweise löschen. Du kannst diesen Effekt auch im Oszillogramm sehen:
+die Amplitude und die Form der Wellen ändern sich periodisch, sie scheinen zu "atmen".
+
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
@@ -738,7 +824,7 @@ when they play together. "Tuning" means that an "a" shall match exactly a certai
 Ideally all other notes on the different instruments will then also be "in tune". We will see later that this is
 not the case in reality. Nevertheless it is a good idea to have at least ONE note that sounds in tune on all
 instruments.
-<p/>
+
 By convention the "a"-sound is used for this purpose. If a group of wind instruments play together they will prefer
 to use a "Bb" as a common reference note as this is the physical base tone for many wind instruments.
 Which means that the players do not have to press flaps or keys/valves to produce a "Bb". If you remember what
@@ -748,18 +834,20 @@ F-Instruments will play a (written) "F" which means that they also produce the s
 will have to play a "g" to produce the "Bb". If wind instruments play together with string instruments
 they tune on an "a" which means that a trumpet player thinks of a "B" ("H" in German notation), a french horn player
 thinks of an "E".
-<p/>
+
 The reference frequency for an "a" is defined by the conductor;
 it is chosen in a way that all instruments are capable to be tuned to that frequency. A common value
 nowadays is 442 or 443 Hz.
-<p/>
+
+### Pitch drift
 Many instruments change their base pitch due to physical reasons when their temperature changes.
 Typically their pitch becomes higher when they get warmer. The tension of strings also changes with temperature
 and over time.
 A cold wind instrument becomes warmer by the flow of the breath of the player.
 On a hot stage the difference might even be a semitone! This means that it does not make much sense to
 tune a set of "cold" instruments.
-<p/>
+
+### Tuning process in an orchestra
 When players tune their instruments they listen to the reference tone (normally being played by the oboe),
 produce their own tone for a short moment and try to decide very quickly which one is lower or higher.
 This needs some practice. Of course you can - and should - repeat the process if you noticed a difference
@@ -771,87 +859,217 @@ for the sequence of the instrument groups during the tuning process. Many orches
 or harp players may use their own electronic device and do the tuning independently from the other members
 of the orchestra.
 
-<h4>Let us recognize some simple pitch differences!</h4>
-Click on the <b>[~]</b> symbol in the yellow area to start the oscillator. It will produce a reference tone ("a"=443 Hz)
+### EXERCISE: Let us recognize some simple pitch differences!
+Click on the **[~]** symbol in the yellow area to start the oscillator. It will produce a reference tone ("a"=443 Hz)
 and after a very short pause it will produce another tone which is slightly higher or lower. After a longer pause
 you will hear the next pair of tones. The reference tone will always be the same, the "deviating" tones are randomly
-chosen by <i>Tunator</i>.
-<p/> Close your eyes and try to decide whether the second tone is higher or lower than the reference tone. Then open
+chosen by *Tunator*.
+
+Close your eyes and try to decide whether the second tone is higher or lower than the reference tone. Then open
 your eyes and check! You can look at the "cents" indicator below the large note name, at the frequency numbers in the
 yellow area or in the green area. There is also a tiny "+" or "-" sign directly behind the "generator mode setting"
 in the yellow area. The mode is currently set to "compare (easy)". Look there and you will se a small "+" or "-"
 sign appear and disappear. "+" means that the second was too high, "-" means it was too low. By the way, you can also
-use the timeline to "see" th epitch differences.
-<p/>
+use the timeline to "see" the pitch differences.
+
 This lesson was "easy" because:
-<ul>
-<li>the reference tone was always the same
-<li>the differences were relatively large
-<li>the sound character (harmonics) was identical for both tones
-<li>there were no octave changes involved.
-</ul>
+* the reference tone was always the same
+* the differences were relatively large
+* the sound character (harmonics) was identical for both tones
+* there were no octave changes involved.
+
 In reality, however, you have to consider all these aspects.
 
-<h4>Try the other three comparison modes: medium, difficult, very hard!</h4>
-<ul>
-<li><b>compare (easy)</b>: stable reference tone, large pitch differences, identical sound, same octave.</li>
-<li><b>compare (medium)</b>: various reference tones, medium size pitch differences, different sound (harmonics),  same octave.</li>
-<li><b>compare (difficult)</b>: various reference tones, small pitch differences, different sound, tones may be one octave apart.</li>
-<li><b>compare (very hard)</b>: various reference tones, tiny pitch differences, different sound, tones may be up to two octaves apart.</li>
-</ul>
+### Try the other comparison modes: medium, difficult, very hard!
+* **compare (easy)**: stable reference tone, large pitch differences, identical sound, same octave.</li>
+* **compare (medium)**: various reference tones, medium size pitch differences, different sound (harmonics),  same octave.</li>
+* **compare (difficult)**: various reference tones, small pitch differences, different sound, tones may be one octave apart.</li>
+* **compare (very hard)**: various reference tones, tiny pitch differences, different sound, tones may be up to two octaves apart.</li>
 
-You should get all exercises right at "medium level" and <b>most of them</b> in the "difficult" setting.
+In the last two exercises the base tone is always played with a triangular wave shape.
+This makes it much easier to idebntify small pitch differences between tones when their base difference
+is one or two octaves apart. In reality the instrument that comes closest to a "triangle" wave shape is the oboe.
+The oboe has an especially rich set of harmonics. This is why the oboe player has to produce the reference tone for the
+orchestra. If the tuba did the same job it would be much harder for the other musicians to tune their instruments.
+You should get all exercises right at "medium level" and **most of them** in the "difficult" setting.
 The "difficult" setting is more or less what you experience in a real instrument tuning session during
 a rehearsal or before the concert.
-<p/>
+
 If you have a hit rate of 75% in the "very hard" level you should feel proud!
 
-<h4>Find the octave</h4>
+### Find the octave
 Switch the generator mode to "straight" and change its frequency to an "a" (443 Hz).
 We are going to find the LOWER OCTAVE for that tone.
-Click on the "auxiliary generator button" <b>[≈]</b> in the yellow area. This produces a second tone which
+Click on the "auxiliary generator button" **[≈]** in the yellow area. This produces a second tone which
 you can freely control. At the beginning its pitch is slightly above the main generator´s pitch.
-<p/>
-As soon as you HOLD DOWN the arrow button next to it FOR SOME TIME its pitch will go down and you can
+
+As soon as you HOLD DOWN the arrow button next to **[≈]** FOR SOME TIME its pitch will go down and you can
 hear the difference. Stay on the button until you think that you have more or less the LOWER OCTAVE.
 Then FINE-ADJUST the tone of the auxiliary generator with the large slider next to the two arrow buttons.
-<p/>
+
 Once you think that you got the lower octave right PUT YOUR MOUSE OVER the button with the question mark!
 As a response you will see the interval and the deviation in cents. Placing the mouse over the
-<b>[≈]</b> button will give you the frequency of the aux generator in Hz.
-<p/>
+**[≈]** button will give you the frequency of the aux generator in Hz.
+
 Try the octave upwards as well. You should be as close as 2..3 cents to the correct value. Pay attention
 to the "fading effect" which you start to hear when you are close enough to the correct value.
 
-<h4>Find partial tones of a chord</h4>
+### Find single tones which are part of a chord
 
 Stop the auxiliary generator. Switch the main generator to a "c" (263 Hz) and select the chord I-III-V
-(which equals to "c-e-g"). Now activate the auxiliary generator again and move its frequency UPWARDS
+(which equals to "c-e-g"). Now activate the auxiliary generator again and move its frequency
 until it matches the "e". Check how well you did and go further up to the fifth ("g") and then to the octave
 ("c" with 527 Hz).
-<p>
-It is rather easy to match the "e" but the "g" is a little bit harder. Sometimes you will get fooled into
+
+It is rather easy to match the "e" but the "g" is a little bit harder. Sometimes you may get fooled into
 the sixth ("a" instead of "g").
 
-<h4>Follow your neighbor with drifting tones</h4>
+### Follow your neighbor with drifting tones
 
-Sometimes when two players hold a tone "unisonso" for a long time one of them may drift away a little. I such cases
+Sometimes when two players hold a tone "unisonso" for a long time one of them may drift away a little. In such cases
 the other player should follow him to keep the tone perfectly sounding together. Use the "drifting" generator
-mode to simulate thios situation. You can open the timeline to see what happens. Try to notice the small
-pitch variations of <i>Tunator</i> as fast as possible, decode whether you have to go up or down to follow
+mode to simulate this situation. You can open the timeline to see what happens. Try to notice the small
+pitch variations of *Tunator* as fast as possible, decide whether you have to go up or down to follow
 and try to match your tone with the changed tone! You can use a simple tone or a chord for this training.
 
-<h4>Keep brave in wild environment</h4>
+### Keep brave in wild environment
 Select "major scale slow 1 octave" at the generator control, use a sept chord "I+II+V+VII" and play a constant tone.
-Watch carefully for the monents when one of the tones form the generator matches your tone!
-Use the timeline to check if you can withstand the tendency to get drawn away after those moments.
+Watch carefully for the monents when one of the tones from the generator matches your tone!
+Use the timeline to check if you can withstand the tendency to get drawn away AFTER those moments.
 The most crucial moment is when the base tone of the scale goes down, matches your tone and then goes
 a semitone lower. Keep your tone!
-<p/>
-If you like you can play the octave movement together with the generator, with your tone being !,II,V,VII or VIII
+
+If you like you can play the octave movement together with the generator, with your tone being I,III,V,VI,VII or VIII
 or even with II or IV (which is not easy to do). You can also start with the octave going in opposite direction.
-Always watch out for the "matching moments" and if there is no match keep your tone bravely!
+Always watch out for the "magical matching moments" and **when there is no match keep your tone bravely!**
+
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+
+Wenn Musiker zusammen spielen, müssen sie ihre Instrumente stimmen. Sonst wäre der Klang rau und unbefriedigend.
+"Tuning" bedeutet, dass ein "a" bei allen Instrumenten genau einer bestimmten Referenzfrequenz entsprechen muss.
+Im Idealfall sind dann auch alle anderen Noten auf den verschiedenen Instrumenten "gestimmt". Wir werden später sehen,
+dass dies allerdings nicht immer der Fall ist. Dennoch ist es eine gute Idee, mindestens EINE Note zu haben,
+die auf allen Instrumenten übereinstimmt.
+
+Per Konvention wird zu diesem Zweck die Note "a" verwendet. Wenn eine Gruppe von Blasinstrumenten zusammen spielt,
+wird sie es allerdings bevorzugen ein "B" als gemeinsame Referenznote zu verwenden, da dies der physikalische Basiston
+für viele Blasinstrumente ist.
+Das bedeutet, dass die Spieler keine Klappen oder Ventile drücken müssen, um ein "B" zu erzeugen. Erinnere dich an unsere
+Erklärungen zum Thema *Transposition*. Bei der Notation solcher Instrumente wird das klingende "B" typischerweise als "c"
+geschrieben. Die Spieler haben also ein "c" in ihren Köpfen, wenn sie ein "B" produzieren.
+F-Instrumente spielen ein (geschriebenes) "F", was bedeutet, dass auch sie den Klang eines "Bb" erzeugen. Ein Saxophon in "Eb"
+gestimmt und muss daher ein "g" spielen, um das "B" zu erzeugen.
+Wenn Blasinstrumente zusammen mit Streichinstrumenten spielen, stimmen sie jedoch auf ein "a",
+was bedeutet, dass ein Trompeter an ein "H" denkt, ein Waldhornist denkt an ein "E".
+
+Die Referenzfrequenz für ein "a" wird durch den Dirigenten festgelegt;
+er wählt sie so, dass alle Instrumente in der Lage sind, auf diese Frequenz gestimmt zu werden. Ein gemeinsamer Wert
+ist heute 442 oder 443 Hz.
+
+#### Wanderung der Tonhöhe
+Viele Instrumente ändern ihre Grundtonhöhe aus physikalischen Gründen, wenn sich ihre Temperatur ändert.
+Typischerweise wird ihre Tonhöhe höher, wenn sie wärmer wird. Die Spannung der Saiten ändert sich auch mit der Temperatur.
+und im Laufe der Zeit.
+Ein kaltes Blasinstrument wird durch den Atemzug des Spielers wärmer.
+Auf einer heißen Bühne kann der Unterschied sogar ein Halbton sein! Das bedeutet, dass es nicht viel Sinn macht, mit "kalten"
+Instrumenten zu stimmen.
+
+### Stimmprozess in einem Orchester
+Wenn Spieler ihre Instrumente stimmen, hören sie den Referenzton (der normalerweise von der Oboe gespielt wird),
+erzeugen für einen kurzen Moment ihren eigenen Ton und versuchen, sehr schnell zu entscheiden, welcher niedriger oder höher ist.
+Das erfordert etwas Übung. Natürlich kann - und sollte - man den Vorgang wiederholen, wenn ein Unterschied vermutet wurde,
+aber im Allgemeinen sollten die Spieler sehr schnell bei der Erkennung von Tonhöhenunterschieden sein.
+Sobald sie ihr Instrument richtig gestimmt haben, sollten die Musiker schweigen, damit die anderen Spieler ihren Job machen können.
+Typischerweise gibt es eine Regel in einem Orchester für die Reihenfolge der Instrumentengruppen während des Stimmprozesses.
+Viele Orchester beginnen mit Blasinstrumenten (von hoch bis tief), gefolgt vom Kontrabass und den anderen Streichinstrumenten.
+Einige Musiker wie Schlagzeuger oder Harfenspieler können ihre eigene elektronische Vorrichtung benutzen und die Stimmung
+unabhängig von den anderen Mitgliedern des Orchesters vornehmen.
+
+### ÜBUNG: Lass uns einige einfache Tonhöhenunterschiede erkennen!
+Klicke auf das Symbol **[~]** im gelben Bereich, um den Oszillator zu starten. Es wird ein Referenzton erzeugt ("a"=443 Hz).
+und nach einer sehr kurzen Pause erzeugt er einen anderen Ton, der etwas höher oder niedriger ist. Nach einer längeren Pause
+hörst du das nächste Tonpaar. Der Referenzton ist immer gleich, die "abweichenden" Töne sind zufällig ausgewählt von *Tunator*.
+
+Schließe die Augen und versuche zu entscheiden, ob der zweite Ton höher oder niedriger als der Referenzton ist. Dann öffne
+die Augen und überprüfe es! Du kannst den "Cent"-Indikator unter dem Namen der großen Note dazu benutzen,
+die Frequenzangabe in dem gelben Menu-Bereich oder im grünen Bereich. Es gibt auch ein winziges "+" oder "-" Zeichen direkt
+hinter der Einstellung "Generator-Modus" im gelben Bereich. Der Modus ist derzeit auf "Vergleichen (einfach)" eingestellt.
+Schau dort hin und du wirst ein kleines "+" oder "-" erscheinen und verschwinden sehen. "+" bedeutet, dass der zweite Ton
+zu hoch war, "-" bedeutet, dass er zu niedrig war. Übrigens kannst du auch die Zeitleiste verwenden, um die
+Tonhöhenunterschiede zu "sehen".
+
+Diese Lektion war "einfach":
+* der Referenzton war immer derselbe
+* Die Unterschiede waren relativ groß
+* der Klangcharakter (Oberwellen) war für beide Töne identisch
+* es gab keine Oktavwechsel
+
+In Wirklichkeit muss man jedoch all diese Aspekte berücksichtigen.
+
+### Versuche jetzt die anderen Vergleichsmodi: mittel, schwierig, sehr hart!
+* **Vergleich (einfach)**: stabiler Referenzton, große Tonhöhenunterschiede, identischer Klang, gleiche Oktave.</li>
+* **Vergleich (mittel)**: verschiedene Referenztöne, mittlere Tonhöhenunterschiede, unterschiedlicher Klang (Oberwellen), gleiche Oktave.</li>
+* * **Vergleich (schwierig)**: verschiedene Referenztöne, kleine Tonhöhenunterschiede, unterschiedlicher Klang, Töne können eine Oktave auseinander liegen.</li>
+* * **Vergleich (sehr hart)**: verschiedene Referenztöne, winzige Tonhöhenunterschiede, unterschiedlicher Klang, Töne können bis zu zwei Oktaven auseinander liegen.</li>
+
+In den letzten beiden Übungen wird der Basiston immer mit einer dreieckigen Wellenform gespielt.
+Dies macht es viel einfacher, kleine Tonhöhenunterschiede zwischen Tönen zu erkennen, wenn ihre Basisdifferenz
+eine oder zwei Oktaven auseinander liegt. In Wirklichkeit ist das Instrument, das einem "Dreieck" am nächsten kommt, die Oboe.
+Die Oboe hat einen besonders reichen Satz an Obertönen. Deshalb muss der Oboist den Referenzton für das Orchester produzieren.
+Wenn es stattdessen die Tuba machen würde, wäre es für die anderen Musiker viel schwieriger, ihre Instrumente zu stimmen.
+Du solltest alle Übungen direkt auf "mittlerem Niveau" und **die meisten von ihnen** in der "schwierigen" Einstellung
+erfolgreich bewältigen.
+Die "schwierige" Einstellung ist mehr oder weniger das, was bei einer echten Instrumentenstimmung vor einer Probe oder vor
+einem Konzert passiert.
+
+Wenn du eine Trefferquote von 75% im "sehr harten" Level hast, solltest du stolz sein!
+
+### Finde die Oktave
+Schalte den Generator-Modus auf "straight" und ändere seine Frequenz auf ein "a" (443 Hz).
+Wir werden die untere Oktave für diesen Ton suchen gehen.
+Klicke auf die Schaltfläche "Hilfsgenerator" **[≈]** im gelben Bereich. Dadurch entsteht ein zweiter Ton, den du
+frei kontrollieren kannst. Zu Beginn liegt seine Tonhöhe leicht über der Tonhöhe des Hauptgenerators.
+
+Sobald du die Pfeiltaste neben **[≈]** FÜR EINE WEILE gedrückt hältst, wird die Tonhöhe verringert und du kannst
+den Unterschied hören. Bleibe auf der Taste, bis du denkst, dass du mehr oder weniger die untere Oktave gefunden hast.
+Dann stelle den Ton des Hilfsgenerators mit dem großen Schieberegler neben den beiden Pfeiltasten fein ein.
+
+Sobald du denkst, dass es genau stimmt, stelle die Maus über den Knopf mit dem Fragezeichen!
+Als Antwort siehst du das Intervall und die Abweichung in Cent. Wenn du die Maus über die
+**[≈]**-Taste stellst, siehst du dort übrigens die Frequenz des Aux-Generators in Hz.
+
+Versuche es auch mit der Oktave nach oben. Du solltest etwa 2..3 Cent am richtigen Wert sein. Achte auf
+auf den "Fading-Effekt", der einsetzt, wenn man nahe genug am richtigen Wert ist.
+
+### Einzelne Töne finden, die Teil eines Akkords sind
+
+Stoppe den Hilfsgenerator. Schalte den Hauptgenerator auf ein "c" (263 Hz) und wählen den Akkord I-III-V aus.
+(was gleich "c-e-g" ist). Aktivieren nun wieder den Hilfsgenerator wieder und verschiebe seine Frequenz,
+bis sie mit dem "e" übereinstimmt. Überprüfe, wie gut du das "e" getroffen hast; dann gehe weiter bis zur Quinte ("g")
+und dann bis zur Oktave ("c" mit 527 Hz).
+
+Es ist ziemlich einfach, das "e" einzustellen, aber das "g" ist etwas schwieriger. Manchmal wirst du dich vielleicht
+irren und die Sexte ("a" statt "g") erwischen.
+
+### Folge deinem Nachbarn bei driftenden Tönen
+
+Manchmal, wenn zwei Spieler einen Ton "unisonso" für eine lange Zeit halten, kann einer von ihnen ein wenig wegdriften. In solchen Fällen
+sollte der andere Spieler ihm folgen, damit der Ton perfekt zusammen klingt. Verwende den "drifting" Modus des Generators,
+um diese Situation zu simulieren. Du kannst die Zeitleiste öffnen, um zu sehen, was passiert. Versuche, die kleinen
+Tonhöhenvariationen des *Tunators* so schnell wie möglich zu erfassen und entscheide, ob du nach oben oder unten gehen musst,
+um zu folgen. Bleibe dran! Du kannst für dieses Training einen einfachen Ton oder einen Akkord verwenden.
+
+### Bleib tapfer in wilder Umgebung
+Wähle am Generatorregler "Dur-Tonleiter langsam 1 Oktave", verwende einen Septakkord "I+II+V+V+VII" und spiele einen konstanten Ton.
+Achte sorgfältig auf die Momente, wenn einer der Töne des Generators zu deinem Ton passt!
+Verwenden die Zeitachse, um zu überprüfen, ob du der Tendenz widerstehen kannst, dich nach diesen Momenten wegziehen zu lassen.
+Der problematischste Augenblick ist es, wenn der Grundton der Tonleiter nach unten geht, zu deinem Ton passt und dann
+weiter nach unten geht, also einen Halbton tiefer. Bleib in deinem Ton!
+
+Wenn du magst, kannst du eine Oktavbewegung zusammen mit dem Generator spielen, wobei dein Ton I,III,V,VI,VII oder VIII ist.
+oder sogar mit II oder IV (was nicht einfach ist). Du kannst auch deine Tonleiter in entgegengesetzte Richtung spielen.
+Achte immer auf die "magischen Momente" und **wenn es keine Übereinstimmung gibt, halte deinen Ton tapfer!**
+
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
@@ -865,51 +1083,107 @@ Always watch out for the "matching moments" and if there is no match keep your t
 		"lesson-ASSISTED": {
  /*-----------------------------------------------------------------------------------------*/   en:`
 
-<h4>Put on a headset, sing or play a tone and try to stay precisely "in tune"</h4>
+### Put on a headset, sing or play a tone and try to stay precisely "in tune"
 
 The green "intonation" button in the left area of the menu activated "assisted playing". This means
-that <i>Tunator</i> now listens to the microphone; as soon as it detects a tone it <b>starts playing
-the correct note</b> for this frequency.
-<p/>
-Through the headphones you hear the correct tone from <i>Tunator</i> and directly you hear your own sound -
+that *Tunator* now listens to the microphone; as soon as it detects a tone it *starts playing
+the correct note* for this frequency.
+
+Through the headphones you hear the correct tone from *Tunator* and directly you hear your own sound -
 adjust the volume of the headphones so that you can hear both sounds equally well.
-<p/>
+
 In the previous lessons you trained your ear to detect small differences in pitch. Now it is your tasks
 to minimize the pitch difference by adjusting the frequency of your tone. We have also activated the "tell me"
 checkbox. So you will hear the note name once you kept the difference small enough for some time.
 
-<h4>Sing octave intervals or simple interval sequences!</h4>
+### Sing octave intervals or simple interval sequences!
 Set the coloring mode of the timeline from "smoothed" to "simple". Sing octave intervals and try to minize
 the percentage of false notes. Listen to the note being played and adjust your pitch.
-A good sequence for practicing is "I -V -VIII I -i I". Starting from f (for example) this would mean "f-Bb-F-f-e-f".
+A good sequence for practicing is "I -IV -VIII I -ii I". Starting from f (for example) this would mean "f-c-F-f-e-f".
 
-<h4>Assisted interval playing</h4>
-Choose one of the chords that DO NOT start with a "I", for example "+III". Now, when you sing or play <i>Tunator</i>
+### Assisted interval playing
+Choose one of the chords that DO NOT start with a "I", for example "+III". Now, when you sing or play *Tunator*
 will play a tone which forms the mentioned interval with your tone (when played correctly). Let us say you sing or
 play a frequency of 258 Hz - which is a very low "c" (-30 cts). If "+III" is chosen you will hear a tone which is
-a pure major third above a perfect "c". It will be an "e" but slightly below the perfect chromatic "e" (331.9 Hz) because
-it must have an integer ratio of 5:4 compared to a perfect "c" (263.4 Hz). So the tone you hear has a frequency of
-263.4 Hz * 5 / 4 = 329.2 Hz. If you now aim for playing the correct "d" you will hear the consonance of a perfect (pure)
+a pure major third above a perfect "c". It will be an "e" but slightly below the standard chromatic "e" (331.9 Hz) because
+it must have an integer ratio of 5:4 compared to a standard "c" (263.4 Hz). So the tone you hear has a frequency of
+263.4 Hz * 5 / 4 = 329.2 Hz. If you now aim for playing the correct "c" you will hear the consonance of a perfect (pure)
 major third.
-<p>
+
 There are also triple chords available where one part is misssing. Especially useful is "-III +iii" which means that
 we have a major triple chord where your note functions as the middle tone: The generator plays a pure major third
 below your tone and a pure minor third above. When you look at the timeline you see what happens. Make sure that the
 timeline window is high enough or use a small vertical resolution so that you see a range of one octave.
 
-<h4>Free interval playing</h4>
+### Free interval playing
 This time the generator will play a constant chord and we will try to match one of the tones or add a missing tone.
-Choose straight mode and a chord of "I+V" and SWITCH OFF "intonation" and SWITCH ON the microphone icon. You
+Choose "straight" mode and a chord of "I+V" and SWITCH OFF "intonation" and SWITCH ON the microphone icon. You
 hear a perfect fifth and now you can place your tone in relation to these tones. You can try to match the base tone,
 then the fifth and finally you can place a minor third, a major third or add the octave. If you are ambitious
 you could also try for a "tritone".
-<p>
+
 You could start with "c-g" being played by <i>Tunator</i> and you play or sing "c-g-c-e-c-eb-g-c'-c". The timeline
-gives you optical feedback how good your intonation was. Then use "++"/"--" OR CLICK SOMEWHERE INTO THE TIMELIEN GRID
-to choose another generator base tone.
+gives you optical feedback how good your intonation was. Then use "++"/"--" OR CLICK SOMEWHERE INTO THE TIMELINE GRID
+to choose another chord base tone.
 Depending on your instrument and your capability to compensate for the weekness of some tones you will
 observe greater deviations when you switch from "c-g" to "c#-g#" for instance.
+
+Continue with other examples: set "I +VI" (sext chord) and place a fourth interval in between!
+
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+
+### Setze ein Headset auf, singe oder spiele einen Ton und versuche, präzise "die Stimmung zu halten".
+
+Mit der grünen Taste "Intonation" im linken Bereich des Menüs wurde "Assisted Play" aktiviert. Das bedeutet
+dass *Tunator* nun auf das Mikrofon hört; sobald er einen Ton erkennt, beginnt er *mit der Wiedergabe der
+richtigen Note* für diese Frequenz.
+
+Über die Kopfhörer hörst du den richtigen Ton vom *Tunator* und direkt hörst du deinen eigenen Ton -
+stelle die Lautstärke des Kopfhörers so ein, dass beide Töne etwa gleich laut wirken.
+
+In den vorangegangenen Lektionen hast du dein Ohr trainiert, um kleine Unterschiede in der Tonhöhe zu erkennen.
+Jetzt ist es deine Aufgabe, die Tonhöhenabweichung durch Anpassen deines Gesangs oder Spiels zu minimieren.
+Wir haben auch die Funktion "Note sagen" aktiviert. Du wirst den Namen der Note hören, sobald der
+Unterschied für einige Zeit klein genug geblieben ist.
+
+### Sing Oktavintervalle oder einfache Intervallsequenzen!
+Stelle den Farbmodus der Timeline von "geglättet" auf "einfach" oder auf "shading" ein.
+Sing Oktavintervalle und versuche den Anteil falscher Noten gering zu halten. Höre dir die gespielte Note an und passe
+deine Tonhöhe an.
+Eine gute Übungssequenz ist "I -IV -VIII I -ii I". Ausgehend von f (zum Beispiel) würde dies "f-c-F-f-e-f" bedeuten.
+
+### Unterstützte Intervallwiedergabe
+Wähle einen der Akkorde, die NICHT mit einer "I" beginnen, z.B. "+III". Wenn du jetzt singst oder spielst ergänzt *Tunator*.
+einen Ton, der mit deinem Ton (bei richtiger Spielweise) das genannte Intervall bildet. Sagen wir, du singst oder spielst
+eine Frequenz von 258 Hz - das ist ein sehr niedriges "c" (-30 cts). Wenn du "+III" eingestellt hast, hörst du einen Ton,
+der eine reine große Terz über einem korrekten "c" darstellt. Es wird ein "e" sein, aber etwas unter dem normalen
+chromatischen "e" (331,9 Hz), denn es muss ein ganzzahliges Verhältnis von 5:4 im Vergleich zu diesem "c" (263,4 Hz) aufweisen.
+Der Ton, den du hörst, hat also eine Frequenz von 263,4 Hz * 5 / 4 = 329,2 Hz.
+Wenn du das richtige "c" spielst, hörst du eine perfekte (reine) große Terz.
+
+Es gibt auch Dreifach-Akkorde, bei denen eine Note fehlt. Besonders nützlich ist "-III +iii", was bedeutet, dass
+wir einen Durakkord haben, bei dem deine Note als Mittelton fungiert: Der Generator spielt eine reine große Terz
+unter deinem Ton und eine reine kleine Terz darüber. Wenn du dir die Zeitleiste ansiehst, siehst du, was passiert.
+Stelle sicher, dass das Zeitachsenfenster hoch genug ist oder verwenden eine kleine vertikale Auflösung,
+so dass ein Bereich von mindestens einer Oktave sichtbar ist.
+
+### Freie Intervallwiedergabe
+Diesmal spielt der Generator einen konstanten Akkord und wir werden versuchen, uns an einen der Töne anzupassen
+oder einen fehlenden Ton hinzuzufügen.
+Wähle den "straight"-Modus und einen Akkord aus, z.B. "I+V"; dann schalte den Knopf "Intonation" aus und schalte das
+Mikrofonsymbol ein. Du hörst jetzt eine perfekte Quinte und kannst jetzt deinen Ton in Beziehung dazu setzen.
+Du kannst versuchen, den Basiston zu spielen, dann die Quinte und schließlich die kleine Terz, eine große Terz oder
+eine Oktave hinzufügen. Wenn du ehrgeizig bist, könntest du auch versuchen, einen "Tritonus" einzubauen.
+
+Du kannst damit beginnen, dass "c-g" von *Tunator* gespielt wird und du spielst oder singst: "c-g-c-e-c-e-c-eb-g-g-c'-c".
+Die Zeitleiste gibt optisches Feedback, wie gut die Intonation war. Dann benutze "++"/"--" oder klicke in dass Gitter
+der Zeitleiste, um einen anderen Akkord-Basiston zu wählen.
+
+Abhängig von deinem Instrument und deiner Fähigkeit, die Schwächen mancher Töne auszugleichen, wirst du bei bestimmten
+Tonarten größere Abweichungen feststellen, etwa, wenn du von "c-g" auf "c#-g#" wechselst.
+
+Fahre mit anderen Beispielen fort: Stelle "I +VI" (Sext-Akkord) ein und lege dich mit einer Quart dazwischen!
+
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
@@ -923,24 +1197,44 @@ observe greater deviations when you switch from "c-g" to "c#-g#" for instance.
 		"lesson-SAMPLING": {
  /*-----------------------------------------------------------------------------------------*/   en:`
 
-<i>Tunator</i> can extract a periodic pattern from a sound sample and use it
+*Tunator* can extract a periodic pattern from a sound sample and use it
 for looped replay or even for configuring the oscillator.
 
-<h4>Sing a tone and click on "1" in the blue sampling control area.</h4>
+### Sing a tone and click on "1" in the blue sampling control area.
 The oscillogram gets frozen and the "loop" button becomes yellow to indicate that there is a stored sample
 available. Now press on "loop" and you will hear a steady repetition of the sound which you had produced.
-<br/>(Note: the buttons "n","all" and "noise" are experimental and of little practical use at the moment).
 
-<h4>Shape the oscillator</h4>
-While the loop is playing open the generator (yellow control area) and press the <b>[&perp;]</b> button.
+(Note: the buttons "n","all" and "noise" are experimental and of little practical use at the moment).
+
+### Shape the oscillator
+While the loop is playing open the generator (yellow control area) and press the **[&perp;]** button.
 Now the harmonics are set in way that the generator (nearly) reproduces the sound from the loop.
-If you click on the oscillator button <b>[~]</b> you can hear and see the wave form produced by the generator.
+If you click on the oscillator button **[~]** you can hear and see the wave form produced by the generator.
 Pressing "loop" again lets you compare the generator tone to the recorded loop sample.
-<p/>
+
 Now that you have the tone in the generator you can change its pitch as you like, use it for chords etc.
-You will notice that chords may sound strongly vibrating sometimes. A chord like "1+3+5" may sound more
+You will notice that chords may sound strongly vibrate sometimes. A chord like "1+3+5" may sound more
 comfortable than "I+III+V" in those cases.
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+
+*Tunator* kann ein periodisches Muster aus einer Klangprobe extrahieren und
+zur Loop-Wiedergabe verwenden oder auch zur Konfiguration des Oszillators.
+
+### Singe einen Ton und klicke auf die "1" im blauen Sampling-Kontrollbereich.
+Das Oszillogramm wird eingefroren und die Taste "Loop" wird gelb, um anzuzeigen, dass eine gespeicherte
+Klangprobe verfügbar ist. Drücke nun auf "Loop" und du hörst eine ständige Wiederholung des Sounds.
+
+(Hinweis: Die Tasten "n", "alle" und "Rauschen" sind experimentell und im Moment wenig sinnvoll).
+
+### Den Oszillator formen
+Während die Schleife läuft, öffne den Generator (gelber Kontrollbereich) und drücke die Taste **[&perp;]**.
+Nun werden die Oberwellen so eingestellt, dass der Generator den Klang aus der Schleife (fast exakt) wiedergibt.
+Wenn du auf die Oszillator-Taste **[~]** klickst, kannst du die vom Generator erzeugte Wellenform hören und sehen.
+Wenn du "loop" erneut drückst, kannst du den Generatorton mit dem aufgenommenen Loop-Sample vergleichen.
+
+Nun, da der Ton im Generator ist, kann man seine Tonhöhe beliebig ändern, ihn für Akkorde etc. verwenden.
+Du wirst feststellen, dass Akkorde manchmal stark vibrieren können. Ein Akkord wie "1+3+5" klingt in solchen Fällen
+vielleicht besser als "I+III+V".
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
@@ -956,6 +1250,7 @@ comfortable than "I+III+V" in those cases.
 
 ... text missing ...
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+... Text fehlt noch ...
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
@@ -971,6 +1266,7 @@ comfortable than "I+III+V" in those cases.
 
 ... more to come ...
 `/*-----------------------------------------------------------------------------------------*/ , de:`
+... hier kommt noch mehr ...
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},
