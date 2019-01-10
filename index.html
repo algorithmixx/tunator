@@ -90,7 +90,7 @@
 	<!-- detector    ================================================================================= -->
 
 	<div class="trt" id="detector" style="vertical-align:top;display:inline-block;height:110px;padding:5px;background:#cfc">
-		<select class="trt" id="reference" onchange="theDetector.setReference(parseInt(this[this.selectedIndex].outerText));" style="margin-bottom:6px;">
+		<select class="trt" id="reference" onchange="theDetector.setReference(parseInt(this[this.selectedIndex].text));" style="margin-bottom:6px;">
 			<option>438</option>
 			<option>439</option>
 			<option>440</option>
@@ -162,7 +162,7 @@
 		</button>
 
 		<br/>
-		<button style="margin-bottom:5px" id="songSource"	onclick="theTunator.selectAudio(this.outerText)">song</button>
+		<button style="margin-bottom:5px" id="songSource"	onclick="theTunator.selectAudio(this.text)">song</button>
 		<select id="song" onchange="theTunator.songChanged()">
 			<option selected>melody.mp3</option>
 			<option>melody.ogg</option>
@@ -177,7 +177,7 @@
 		<button id="intonation" onclick="theTunator.setMode('intonation')" style="width:80px;margin-bottom:6px;" title="play along with reference note">
 			intonation
 		</button>
-		<button id="audioInput" onclick="theTunator.selectDetectionSource(this.outerText)" style="width:70px;margin-bottom:5px">audio</button>
+		<button id="audioInput" onclick="theTunator.selectDetectionSource(this.text)" style="width:70px;margin-bottom:5px">audio</button>
 		<br/>
 	</div>
 
@@ -261,7 +261,7 @@
 						<option>random: 1 octave, 90%</option>
 					</select>
 					<span id="comparison" style="font-family:Courier;">&nbsp;</span>
-					<select id="oscType" onchange="theOscillator.setType(this[this.selectedIndex].outerText)">
+					<select id="oscType" onchange="theOscillator.setType(this[this.selectedIndex].text)">
 						<option>sine</option>
 						<option>triangle</option>
 						<option>sawtooth</option>
