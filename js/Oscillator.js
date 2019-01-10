@@ -760,7 +760,7 @@ class Oscillator {
 				 5, 7,	 -2,-1,-2,-2,+2,	 +2,+3,		+90,-88,-2,	 5, 2,-2,-1,  	 -2, 3,-1,	 1,-5,-3,-2,-2,	 2,-7];
 			this.rhythm = [
 				 2, 2,	  4, 8, 4, 8, 4,	  3, 4,		 4, 4,	2,	 4, 8, 4, 8,	 4, 2, 4,	 4, 8, 4, 8, 4,	 2, 2];
-			this.sweep(500,0);
+			this.sweep(400,0);
 		}
 		else if (mode=="random: 1 octave, 40%") {
 			// relative frequency of intervals
