@@ -162,7 +162,7 @@
 		</button>
 
 		<br/>
-		<button style="margin-bottom:5px" id="songSource"	onclick="theTunator.selectAudio(this.text)">song</button>
+		<button style="margin-bottom:5px" id="songSource"	onclick="theTunator.selectAudio('song')">song</button>
 		<select id="song" onchange="theTunator.songChanged()">
 			<option selected>melody.mp3</option>
 			<option>melody.ogg</option>
@@ -177,7 +177,7 @@
 		<button id="intonation" onclick="theTunator.setMode('intonation')" style="width:80px;margin-bottom:6px;" title="play along with reference note">
 			intonation
 		</button>
-		<button id="audioInput" onclick="theTunator.selectDetectionSource(this.text)" style="width:70px;margin-bottom:5px">audio</button>
+		<button id="audioInput" onclick="theTunator.selectDetectionSource('audio')" style="width:70px;margin-bottom:5px">audio</button>
 		<br/>
 	</div>
 
@@ -203,7 +203,7 @@
 
 			timeline:
 			<br/>
-			<select id="yscale" style="margin-left:auto; margin-right:0;width:100px;height:30px;" onchange="theTimeline.setYScale(parseInt($('#yscale option:selected').text()));" title="y scale">
+			<select id="yscale" style="margin-left:auto; margin-right:0;width:100px;height:30px;" onchange="theTimeline.setYScale(parseInt(this[this.selectedIndex].text));" title="y scale">
 				<option value="10">10</option>
 				<option value="15">15</option>
 				<option value="20">20</option>
