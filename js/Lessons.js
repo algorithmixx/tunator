@@ -52,10 +52,10 @@ class Lessons {
 		var markup =  theLang.tr(id).replace(/§/g,'`');
 		var parsed = new commonmark.Parser().parse(markup); // parsed is a 'Node' tree
 		var result =new commonmark.HtmlRenderer().render(parsed); // result is a String
-		result=result.replace(/DEMO\[\[([^|]+)[|]([^\]]+)\]\]/g,'<button class="demo" onclick="theLessons.demo(\'$1\')">$2</button>');
-		result=result.replace(/WP\[\[([^|]+)[|]([^\]]+)\]\]/g,'<a target="link" href="https://'+theLang.lang+'.wikipedia.org/wiki/$1">$2</a>');
-		result=result.replace(/LINK\[\[([^|]+)[|]([^\]]+)\]\]/g,'<a target="link" href="$1">$2</a>');
-		result=result.replace(/IMG\[\[([^|]+)[|]([^\]]+)\]\]/g,'<img src="$1" style="float:right;margin-left:20px;margin-bottom:10px;$2"/>');
+		result=result.replace(/DEMO\[\[([^|]+)[|]([^\]]*)\]\]/g,'<button class="demo" onclick="theLessons.demo(\'$1\')">$2</button>');
+		result=result.replace(/WP\[\[([^|]+)[|]([^\]]*)\]\]/g,'<a target="link" href="https://'+theLang.lang+'.wikipedia.org/wiki/$1">$2</a>');
+		result=result.replace(/LINK\[\[([^|]+)[|]([^\]]*)\]\]/g,'<a target="link" href="$1">$2</a>');
+		result=result.replace(/IMG\[\[([^|]+)[|]([^\]]*)\]\]/g,'<img src="$1" style="float:right;margin-left:20px;margin-bottom:10px;$2"/>');
 		return result;
 	}
 

@@ -170,6 +170,7 @@ class Wave {
 			// this.canvas.lineTo(i,this.height/2-(buf[Math.round(crossing+i*fac)]*(this.height-10)/2));
 		}
 
+		this.canvas.fillText("max signal = "+Math.round(signal.peak*100)+" %", 5,this.height-10);
 		this.canvas.stroke();
 
 		// asterisks

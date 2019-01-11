@@ -15,7 +15,7 @@ class Timeline {
 
 		this.timeGrid=8;		// 8 units per segment ("measure")
 		this.timeGroup=32;		// 4 segments per group
-		this.lookAhead = 32;	// number of notes reserved for preview of playing instruction
+		this.lookAhead = 0;		// number of notes reserved for preview of playing instruction
 		this.shift = 192;		// number of notes to shift left when the right border (at "lookAhead") is reached
 
 		// arrays to store the sequence of events
@@ -24,7 +24,7 @@ class Timeline {
 		this.melSmooth=new Array(this.melSize).fill(1000);
 		this.tones=new Array(this.melSize).fill([]);
 		this.lastNoteDrawn=0;
-		this.lastNoteAdded=0;
+		this.lastNoteAdded= -999;
 		this.begin=0;
 
 		this.noteColors= ["#95ff00","#3bb307","#0ba28c","#0045fb","#8802e0","#961fac","#e21275","#ff1100","#ff5b00","#ff7f00","#ffae00","#ffff00",];
@@ -90,7 +90,7 @@ class Timeline {
 	}
 
 	setWidth(width) {
-		// set the width of the diagram to a certain value (used when th user resizes the browser window)
+		// set the width of the diagram to a certain value (used when the user resizes the browser window)
 		if (width==-1)	width = Math.floor($(window).width())-48;
 		this.canvas.clearRect(0,0,this.tag.width(),this.tag.height());
 		var cv=document.getElementById( "timeline" );
@@ -100,6 +100,7 @@ class Timeline {
 		var size = this.tag.width()-this.rightMargin;
 		size -= size % this.stretch;
 		this.size=size/this.stretch; // number of note units which are stored
+		this.shift= this.size-5;
 	}
 
 	setYScale(val) {
@@ -136,7 +137,7 @@ class Timeline {
 		// calculate and return a smoothed note value
 
 		if (signal.freq<0) {
-			if(++this.autoStop>this.autoStopLimit) return 1000;
+			if(++this.autoStop>this.autoStopLimit || this.lastNoteAdded==-999) return 1000;
 		}
 		else {
 			this.autoStop=0;

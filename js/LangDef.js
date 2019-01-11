@@ -429,8 +429,10 @@ Select "dynamic" mode in the timeline settings and use large note spacing, e.g. 
 The width of the red line with the (smoothed) pitch now shows the volume. At maximum volume
 the red line fills the entire space of a note, at minimum volume it is only a thin line.
 
-Sing a note and change the volume from pp to ff and back again. You'll be amazed at how
-the pitch changes greatly without you intending to. **Try to keep constant pitch from piano to forte and back to pp!**
+IMG[[img/pitchdyn.png|]]
+Sing a note and change the volume from pp to ff and back again. Not always will your result look as perfectly
+as the image on the right. You'll be amazed at how the pitch changes greatly without you intending to.
+**Try to keep constant pitch from piano to forte and back to pp!**
 
 Sing or play a chromatic tone sequence in a healthy forte (about 50-70% signal level).
 Are there tones where the red line becomes thicker or thinner? Wind instruments often have
@@ -499,9 +501,10 @@ Wähle den Modus "dynamic" in der Zeitleistendarstellug aus und stelle große No
 Die Breite der roten Linie mit der (geglätteten) Tonhöhe zeigt jetzt die Lautstärke an. Bei maximaler Lautstärke
 füllt die rote Linie den gesamten Raum einer Note aus, bei minimaler Lautstärke ist sie nur ein dünner Strich.
 
-Singe einen Ton und verändere die Lautstärke von pp bis ff und wieder zurück. Du wirst erstaunt sein, wie
-stark sich dabei die Tonhöhe ändert, ohne dass du es beabsichtigst. Versuche von p - f (und zurück zu pp)
-annähernd die Tonhöhe konstant zu halten.
+IMG[[img/pitchdyn.png|]]
+Singe einen Ton und verändere die Lautstärke von pp bis ff und wieder zurück. Nicht immer wird dein Ergebnis
+so perfekt sein wie in dem Bild rechts. Du wirst erstaunt sein, wie stark sich deine Tonhöhe ändert,
+ohne dass du es beabsichtigst. Versuche von p - f (und zurück zu pp) annähernd die Tonhöhe konstant zu halten.
 
 Singe oder spiele eine chromatische Tonfolge in einem gesunden forte (ca. 50-70% Signalpegel).
 Gibt es Töne, bei denen die rote Linie dicker oder dünner wird? Blasinstrumente bieten bei
