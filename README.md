@@ -17,6 +17,9 @@ Code and documentation copyright is the [GNU GPL3 License](https://github.com/al
 ## Author
 *Tunator* was created by Gero Scholz, Germany, Bad Nauheim in January 2019.
 
+## Ideas for new features
+Apart from open Issues there is a [list of ideas for new features](https://github.com/algorithmixx/tunator/blob/master/TODO.md).
+
 ## Contributing
 Contributions are welcome! I'd love to hear any ideas for how this application could be functionally extended
 or become more user-friendly. Also suggestions for **new lessons** or **translations of existing lessons**

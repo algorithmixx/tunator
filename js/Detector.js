@@ -168,7 +168,7 @@ class Detector {
 		// if we do not have at least 10 usable samples or if we are only looking for ticks: quit
 		if (tickOnly || end-start<10) {
 			if (start>0) start=peakPos;
-			return {freq:-1,rms:0,period:0,peak:peak,start:start,end:end};
+			return {freq:-1,rms:0,period:0,peak:peak,start:start,end:end,note:1000};
 		}
 
 		mean /= (buf.length-start+1);
@@ -187,7 +187,7 @@ class Detector {
 		// ignore frames which do not have enough energy, RETURN immediately
 		if (rms<that.minRMS) {
 			that.nextMinOffset=that.minOffset;
-			return {freq:-1,rms:rms,period:0,peak:peak,start:start,end:end}; // not enough signal
+			return {freq:-1,rms:rms,period:0,peak:peak,start:start,end:end,note:1000}; // not enough signal
 		}
 
 		// framesize = 2048 ~ 43 msec at 48.000 Hz sampling rate
@@ -292,7 +292,7 @@ class Detector {
 			// stop if we did not find any good correlation in the first iteration
 			if (iter== 0 && bestCorrelations[iter] <= that.minCorrelation) {
 				that.nextMinOffset=that.minOffset;
-				return {freq:-2,rms:rms,period:0,peak:peak,start:start,end:end};
+				return {freq:-2,rms:rms,period:0,peak:peak,start:start,end:end,note:1000};
 			}
 
 			// if we have a good result let us check also the lower octave
@@ -317,7 +317,7 @@ class Detector {
 			// This should hardly occur: we have a good correlation and the adjacent offsets did not deliver
 			// sufficient valid samples
 			that.nextMinOffset=that.minOffset;
-			return {freq:-2,rms:rms,period:0,peak:peak,start:start,end:end};
+			return {freq:-2,rms:rms,period:0,peak:peak,start:start,end:end,note:1000};
 		}
 		// start next search close to this offset
 		that.nextMinOffset=Math.round(bestOffset/2.6);  // this finds upward jumps of 1 (octave+quint)

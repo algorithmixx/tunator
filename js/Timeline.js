@@ -131,20 +131,20 @@ class Timeline {
 		this.begin = (b+1) % this.mel.length;
 	}
 
-	add(val) {
+	add(signal) {
 		// insert a note value at position "this.begin" into the circular melody memory
 		// calculate and return a smoothed note value
 
-		if (val==1000) {
+		if (signal.freq<0) {
 			if(++this.autoStop>this.autoStopLimit) return 1000;
 		}
 		else {
 			this.autoStop=0;
-			this.lastNoteAdded=val;
+			this.lastNoteAdded=signal.note;
 		}
 
 		var b=this.begin;
-		this.mel[b]=val;
+		this.mel[b]=signal;
 
 		this.tones[b]=theOscillator.getChord();
 
@@ -155,20 +155,20 @@ class Timeline {
 		var last2 = (b-2+this.mel.length)%this.mel.length;	// one before the previous
 
 		// decision criterion is the deviation from the smoothed pitch
-		dev = val - this.melSmooth[last];
+		dev = signal.note - this.melSmooth[last];
 
 		var smoothedNote;
 
-		if (dev> -0.6 && dev<0.6 && val!=1000) {
+		if (dev> -0.6 && dev<0.6 && signal.freq>=0) {
 			// if the current note is close to the last one: apply (volatile) exponential smoothing
-			smoothedNote = this.melSmooth[b] = 0.8*this.melSmooth[last] + 0.2 * val;
+			smoothedNote = this.melSmooth[b] = 0.8*this.melSmooth[last] + 0.2 * signal.note;
 		}
 		else {
 			// we have a significant jump; believe in the new value
-			smoothedNote = this.melSmooth[b]=val;
+			smoothedNote = this.melSmooth[b]=signal.note;
 
 			// if we are at the beginning of a break and we have seen a smoothed value before: keep that value
-			if (this.mel[last]!=1000 && val==1000 && this.melSmooth[last]!=1000) {
+			if (this.mel[last].note!=1000 && signal.note==1000 && this.melSmooth[last]!=1000) {
 				// this.melSmooth[b]=this.melSmooth[last];
 			}
 
@@ -393,6 +393,15 @@ class Timeline {
 					cv.lineTo(x,y+2);
 				cv.stroke();
 			}
+			else if (this.coloring=="DY") {
+				// dynamic: red line of variable height (signal rms)
+				cv.beginPath();
+					cv.lineWidth = 4;
+					cv.strokeStyle = "#f44";
+					cv.moveTo(x,y-this.mel[mm].rms*this.yScale);
+					cv.lineTo(x,y+this.mel[mm].rms*this.yScale);
+				cv.stroke();
+			}
 			else if (this.coloring=="SI" || this.coloring=="SH") {
 				// red note: smoothed pitch (simple coloring)
 				cv.beginPath();
@@ -410,8 +419,8 @@ class Timeline {
 				cv.beginPath();
 					cv.strokeStyle = "blue";
 					cv.lineWidth = 1;
-					if (this.mel[mm]==1000) continue;
-					y = this.yScale * (39.5-this.mel[mm]);
+					if (this.mel[mm].note==1000) continue;
+					y = this.yScale * (39.5-this.mel[mm].note);
 					cv.moveTo(x,y);
 					cv.lineTo(x+this.stretch,y);
 				cv.stroke();

@@ -237,7 +237,7 @@ class Oscillator {
 		if (that.mode.substr(0,7)=="compare") {							// create a group of tone pairs for comparison
 
 			// insert some space into the timeline
-			for(var t=0;t<50;t++) theTimeline.add(1000);
+			for(var t=0;t<50;t++) theTimeline.add(1000,null);
 
 			// create a series of comparisons (pitch pairs)
 			that.pitchComparisons= [];

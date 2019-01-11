@@ -423,6 +423,19 @@ The short red dot at the beginning of the note is not so crucial. Small transito
 * The final note is still too low but a little bit better than the initial "c". It often happens that in a sequence like
 "c-e-g-e-c" the final note is slightly higher than the first note. <i>Tunator</i> shows you what happened and makes you aware
 of such typical problems.
+
+### Coordinate volume and pitch
+Select "dynamic" mode in the timeline settings and use large note spacing, e.g. 100.
+The width of the red line with the (smoothed) pitch now shows the volume. At maximum volume
+the red line fills the entire space of a note, at minimum volume it is only a thin line.
+
+Sing a note and change the volume from pp to ff and back again. You'll be amazed at how
+the pitch changes greatly without you intending to. **Try to keep constant pitch from piano to forte and back to pp!**
+
+Sing or play a chromatic tone sequence in a healthy forte (about 50-70% signal level).
+Are there tones where the red line becomes thicker or thinner? Wind instruments often have
+a different amount of resistence for differing tones. Some tones respond less well, others "burst
+out quickly". If you know your instrument, you can take countermeasures.
 `/*-----------------------------------------------------------------------------------------*/ , de:`
 ### Spiele oder singe deinen bevorzugten Ton!
 Unter dem Notennamen im grauen Kästchen siehst du nun auch Abweichung (in Cent) von der richtigen Tonhöhe.
@@ -480,6 +493,20 @@ Der kurze rote Punkt am Anfang der Note ist nicht so entscheidend. Kleine vorüb
 * Die letzte Note ist immer noch zu niedrig, aber etwas besser als das anfängliche "c". Es kommt oft vor, dass in einer Sequenz wie dieser
 "c-e-g-g-e-c" die letzte Note etwas höher ist als die erste Note. <i>Tunator</i> zeigt dir, was passiert ist, damit du solche wiederkehrenden
 Probleme erkennen und beheben kannst.
+
+### Laustärke und Tonhöhe koordinieren
+Wähle den Modus "dynamic" in der Zeitleistendarstellug aus und stelle große Notenabstände ein, z.B. 100.
+Die Breite der roten Linie mit der (geglätteten) Tonhöhe zeigt jetzt die Lautstärke an. Bei maximaler Lautstärke
+füllt die rote Linie den gesamten Raum einer Note aus, bei minimaler Lautstärke ist sie nur ein dünner Strich.
+
+Singe einen Ton und verändere die Lautstärke von pp bis ff und wieder zurück. Du wirst erstaunt sein, wie
+stark sich dabei die Tonhöhe ändert, ohne dass du es beabsichtigst. Versuche von p - f (und zurück zu pp)
+annähernd die Tonhöhe konstant zu halten.
+
+Singe oder spiele eine chromatische Tonfolge in einem gesunden forte (ca. 50-70% Signalpegel).
+Gibt es Töne, bei denen die rote Linie dicker oder dünner wird? Blasinstrumente bieten bei
+unterschiedlichen Tönen unterschiedlich viel Widerstand. Manche Töne sprechen weniger gut an, andere "platzen
+schnell heraus". Wenn du dien Instrument kennst, kannst du entgegensteuern.
 `/*-----------------------------------------------------------------------------------------*/ , es:`
 `,
 		},

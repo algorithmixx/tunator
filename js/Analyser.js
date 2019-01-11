@@ -115,7 +115,7 @@ class Analyser {
 				}
 			}
 
-			theTimeline.add(1000);
+			theTimeline.add(signal);
 			theTimeline.drawNote(1000);
 
 			if (signal.freq<-1) theWave.drawNoise(that.buf);
@@ -133,7 +133,7 @@ class Analyser {
 			// we found a periodic signal
 
 			// add freq to timeline array (also calculates smoothed pitch)
-			var smoothedNote = theTimeline.add(signal.note);
+			var smoothedNote = theTimeline.add(signal);
 			var smoothedNoteCents = Math.round(100 * smoothedNote);
 			var scaledNoteCents = 100 * Math.round(smoothedNote);
 
