@@ -9,11 +9,11 @@ class Oscillator {
 	The main generator can play melodies, let the tone drift away, produce vibrato,
 	produce pairs of tones for pitch comparison etc.
 
-				 /----> main osc [0] ---\
-				/-----> main osc [1] ----\
-	sweeper -->					  ...        -----+--> gainSum --\         /--> wave (scope)
-				\----->	main osc [n] ----/                        \       /
-															       +-----+----> gainMix -----> speakers
+				 /----> main osc [0] ---> toneGains[0] --\
+				/-----> main osc [1] ---> toneGains[1] ---\
+	sweeper -->					  ...                      +--> gainSum --+                   +--> wave (scope)
+				\----->	main osc [n] ---> toneGains[n] ---/                \                /
+															       +--------+----> gainMix ------> speakers
 						second osc [1] --------------->-----------/
 
 	The UI has a primary yellow area for the most important controls
@@ -35,6 +35,7 @@ class Oscillator {
 		this.reference		= reference;			// in Hz
 		this.setReference(reference);
 		this.tones			= [0];					// offset in cents for each tone of a chord
+		this.mutes			= [];					// boolean array of muted tones
 		this.setFreq(freq);							// initial frequency in Hertz
 
 		this.gainMix		= audioContext.createGain();	// mixer for main generator and auxiliary
@@ -42,6 +43,7 @@ class Oscillator {
 
 		this.gainSum		= audioContext.createGain();	// a node to sum the partial chord tones of the main oscillator
 		this.gainSum.connect(this.gainMix);
+		this.usingToneGains	= false;
 
 		this.aux			= null;					// auxiliary generator for comparisons
 		this.auxDetune		= 0;					// the base detune of the auxiliary generator
@@ -138,6 +140,11 @@ class Oscillator {
 		}
 	}
 
+	useToneGains(use) {
+		this.usingToneGains=use;
+		this.toneGains=[];
+	}
+
 	start() {
 		// create a new main oscillator based on the current settings
 		// effectively we need an oscillator node for each tone of a chord
@@ -147,8 +154,10 @@ class Oscillator {
 
 		// one Media API oscillator node for each tone of a chord
 		this.osc=[];
+		this.toneGains=[];
 		for (var t=0;t<this.tones.length;t++) {
 			this.osc.push(audioContext.createOscillator());
+			if (this.usingToneGains) this.toneGains.push(audioContext.createGain());
 		}
 
 		// set frequency and wave form
@@ -158,7 +167,15 @@ class Oscillator {
 
 		// add the chord tones in the gainSum node
 		this.gainSum.gain.value= 1.0 / this.tones.length;
-		for (var t=0;t<this.tones.length;t++) this.osc[t].connect(this.gainSum);
+		for (var t=0;t<this.tones.length;t++) {
+			if (this.usingToneGains) {
+				this.osc[t].connect(this.toneGains[t]);
+				this.toneGains[t].connect(this.gainSum);
+			}
+			else {
+				this.osc[t].connect(this.gainSum);
+			}
+		}
 
 		// start the oscillator for each tone, note starting time
 		this.startTime=Date.now();
@@ -213,6 +230,10 @@ class Oscillator {
 			this.setDetune(this.lastDetune);
 			this.paused=false;
 		}
+	}
+
+	isPlaying() {
+		return this.osc && !this.paused;
 	}
 
 	sweep(span,drift) {
@@ -426,7 +447,7 @@ class Oscillator {
 		}
 	}
 
-	setChord(chord) {
+	setChord(chord,vols) {
 		// take a comma separated representation of an array holding (arab or roman) numbers like e.g. "0,3,7" or "0.1"
 		// the numbers define RELATIVE detune values (in semi-notes) : [ val0, val1, val2, ..]
 		// which build a chord. Often the first values will be 0 (i.e. it will produce the base note);
@@ -456,12 +477,25 @@ class Oscillator {
 			}
 			else {
 				tone=parseInt(tone);
-				if (Math.abs(tone)>100) tone = theOscillator.getRatio(tone);
+				if (Math.abs(tone)>=100) tone = theOscillator.getRatio(tone);
 				this.tones.push(tone*100);  // cents
 			}
 		}
 		if (mustStart) this.start();	// create new number of oscillators
 		else this.setDetune(this.detune);	// adapt pitches of existing chord tones
+
+		// adjust gain for each single tone if requested
+		if (this.usingToneGains && this.toneGains.length>= this.tones.length && typeof vols!="undefined") {
+			var v;
+			for(var t=0,v=0;t<this.tones.length; t++) {
+				this.toneGains[t].gain.value=vols[v]*0.01;
+				if (v+1<vols.length) v++;
+			}
+		}
+	}
+
+	muteChord(mutes) {
+		this.mutes=mutes.slice(0);
 	}
 
 	getChord() {
@@ -469,7 +503,8 @@ class Oscillator {
 		if (!this.osc) return [];
 		var chord=[];
 		for(var t=0;t<this.tones.length;t++) {
-			chord.push(this.osc[t].detune.value);
+			chord.push(this.tones[t]+this.detune);
+			// chord.push(this.osc[t].detune.value);
 		}
 		return chord;
 	}
@@ -480,6 +515,7 @@ class Oscillator {
 		// returns a detune value in cents which corresponds to the result
 		var ratio=1;
 		switch(Math.abs(val)) {
+			case +100: ratio=  1.    ; break;
 			case +102: ratio=  9./ 8.; break;
 			case +103: ratio=  6./ 5.; break;
 			case +104: ratio=  5./ 4.; break;
@@ -489,6 +525,17 @@ class Oscillator {
 			case +109: ratio=  5./ 3.; break;
 			case +110: ratio=  7./ 4.; break;
 			case +111: ratio= 15./ 8.; break;
+			case +112: ratio=  2.    ; break;
+			case +114: ratio= 17./ 8.; break;
+			case +115: ratio= 11./ 5.; break;
+			case +116: ratio=  9./ 4.; break;
+			case +117: ratio=  7./ 3.; break;
+			case +119: ratio=  5./ 2.; break;
+			case +120: ratio= 13./ 5.; break;
+			case +121: ratio=  8./ 3.; break;
+			case +122: ratio= 11./ 4.; break;
+			case +123: ratio= 23./ 8.; break;
+			case +124: ratio=  4.    ; break;
 		}
 		if (val<0) ratio = 1. / ratio;
 		return Math.log(ratio) / Math.log(2) * 12;
@@ -510,12 +557,18 @@ class Oscillator {
 					}
 					else tone= 0;
 				}
-				if (this.detune<-153000)this.osc[t].detune.value=-153000;
+				if (this.detune<-153000) {
+					this.osc[t].detune.value=-153000;
+				}
+				else if (this.usingToneGains && this.mutes.length>=this.tones.length && this.mutes[t]) {
+					this.osc[t].detune.value= -100000;
+				}
 				else					this.osc[t].detune.value=this.detune+tone;
+
 			}
 		}
 		if (detune==-1000000)	{
-			// a special value to indicate the oscialltor is "off" without really terminating it
+			// a special value to indicate the oscillator is "off" without really terminating it
 			$("#oscFreq").val("--");
 			$("#oscNote").html("--");
 		}
@@ -532,9 +585,14 @@ class Oscillator {
 					for(var t=0;t<this.tones.length;t++) {
 						if (chord!="") chord += " - ";
 						var tone=this.osc[t].detune.value/100;
-						chord += theDetector.naturalNoteName(tone);
-						if (t==0 || tone<this.range.low ) this.range.low  = tone;
-						if (t==0 || tone>this.range.high) this.range.high = tone;
+						if (tone==-1000) {
+							chord += "()"
+						}
+						else {
+							chord += theDetector.naturalNoteName(tone);
+							if (t==0 || tone<this.range.low ) this.range.low  = tone;
+							if (t==0 || tone>this.range.high) this.range.high = tone;
+						}
 					}
 				}
 				else {

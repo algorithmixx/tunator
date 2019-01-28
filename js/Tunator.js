@@ -48,6 +48,7 @@ class Tunator {
 		this.audioNode				= null;
 
 		this.mode					= "";
+		this.scoreVisible			= false;
 
 		this.loadNoteNames();
 	}
@@ -509,6 +510,24 @@ class Tunator {
 		// set the transposition which will be used by Osciallator and Timeline when displaying note names
 		theDetector.setTransposition(parseInt($("#transposition option:selected").val()));
 		theTimeline.setYScale();
+	}
+
+	toggleScore(val) {
+		var file="Interval1";
+
+		var that=theTunator;
+		if (val==0) that.scoreVisible = !that.scoreVisible;
+		else that.scoreVisible = (val>0);
+		$("#pdfScore").prop("src","./score/"+file+".pdf");
+		$("#midi").prop("src","./score/"+file+".mid");
+		if (that.scoreVisible)	{
+			$("#scoreBox").show();
+			$("#score").css("background-color","lightgreen");
+		}
+		else {
+			$("#scoreBox").hide();
+			$("#score").css("background-color","");
+		}
 	}
 
 	setLanguage(lang) {

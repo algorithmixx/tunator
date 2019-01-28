@@ -170,6 +170,7 @@
 			<option>Aennchen_von_Tharau.mp3</option>
 			<option>Tschaikowsky_5_2.mp3</option>
 		</select>
+		<button style="margin-bottom:5px" id="score" onclick="theTunator.toggleScore(0)">score</button>
 		<br/>
 		<button id="rhythm" onclick="theTunator.setMode('rhythm')" style="width:80px;margin-bottom:6px;" title="tap a rhythm">
 			rhythm
@@ -232,14 +233,14 @@
 		<table>
 			<tr>
 				<td>
-					<button id="oscillatorSource" onclick="theTunator.selectAudio('oscillator')" style="width:40px;margin-bottom:5px;"><b>&acd;</b></button>
+					<button id="oscillatorSource" onclick="theTunator.selectAudio('oscillator')" style="width:40px;margin-top:5px;margin-bottom:5px;"><b>&acd;</b></button>
 					<button onclick="theTunator.changeOscDetune(-100)">--</button>
 					<button onclick="theTunator.changeOscDetune(+100)">++</button>
 					<input id="oscFreq" onchange="theOscillator.setFreq(this.value);" style="width:70px"/>
 					<button onclick="theTunator.changeOscDetune(-5)">-</button>
 					<button onclick="theTunator.changeOscDetune(+5)">+</button>
 					<br/>
-					<select id="oscMode" onchange="theOscillator.setMode(this[this.selectedIndex].text)" title="select operations mode">
+					<select id="oscMode" style="margin-bottom:3px;" onchange="theOscillator.setMode(this[this.selectedIndex].text)" title="select operations mode">
 						<option>straight</option>
 						<option>vibrato</option>
 						<option>compare (easy)</option>
@@ -272,12 +273,12 @@
 				</td>
 
 				<td>
-					<span id="oscNote" style="margin-left:10px;display:inline-block;width:80px;vertical-align:top;font-size:150%;fontWeight:800;"></span>
+					<span id="oscNote" style="margin-left:10px;display:inline-block;width:110px;vertical-align:top;font-size:140%;fontWeight:800;"></span>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<select id="chord" style="font-family:monospace;font-size:150%;" onchange="theTunator.changeChord()" title="interval between your note and the reference note">
+					<select id="chord" style="font-family:monospace;font-size:140%;" onchange="theTunator.changeChord()" title="interval between your note and the reference note">
 						<option value="0">I</option>
 						<option value="0.0040">I [&plusmn; 40 ct.]</option>
 						<option value="0.0030">I [&plusmn; 30 ct.]</option>
@@ -335,7 +336,7 @@
 					&nbsp; &nbsp; <span id="auxInterval">...</span>
 
 					<br/>
-					<button id="aux" style="width:40px" onclick="theOscillator.toggleAux();"><b>&asymp;</b></button>
+					<button id="aux" style="width:40px;margin-top:1px;" onclick="theOscillator.toggleAux();"><b>&asymp;</b></button>
 					<button
 						onmousedown="$(this).css('backgroundColor','#faa');theOscillator.auxShifter = setInterval(function() {theOscillator.changeAuxDetune(-4);},20);"
 						onmouseup="$(this).css('backgroundColor','');clearInterval(theOscillator.auxShifter);"
@@ -402,6 +403,15 @@
 
 	<canvas style="padding-top:5px;background-color:#e8e8ff;" id="wave" width="1024" height="160"></canvas>
 
+
+	<!-- score (pdf)    ========================================================================================= -->
+
+	<div id="scoreBox" style="display:none"  title="to play the sound you need to install and activate the midi player browser plugin from jazz-soft.net">
+		<iframe width="640px" height="200px" id="pdfScore"></iframe><br/>
+		<audio controls="controls">
+ 			<source id=midi" src="score/Interval1.mid" type="audio/midi">
+		</audio>
+	</div>
 
 	<!-- timeline (sequencer)    ================================================================================= -->
 

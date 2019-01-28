@@ -1219,9 +1219,41 @@ Fahre mit anderen Beispielen fort: Stelle "I +VI" (Sext-Akkord) ein und lege dic
 		},
 
 
+				"lesson-title-CHORDS": {					// ##########################################################################################################################################
+					en: "7. Chord sequences",
+					de: "7. Akkordfolgen",
+					es: "",
+				},
+				"lesson-CHORDS": {
+		 /*-----------------------------------------------------------------------------------------*/   en:`
+
+		### ...
+
+		`/*-----------------------------------------------------------------------------------------*/ , de:`
+
+### Grundlegende Akkordwechsel
+Wir spielen jetzt eine choralartige Folge von Akkorden. Die Tabelle zeigt die Leiterstufen der Töne,
+wobei der Bass noch eine Oktave tiefer gespielt wird als notiert. Es sind 8 Takte, im 4/4 Takt.
+Der Choral beginnt mit dem aktuell eingestellten Ton des Tongenerators,
+d.h. dieser Ton ist der Grundton. Der Bass spielt die untere Oktave dazu, die Sopranstimme die obere Oktave.
+Wenn du den Grundton änderst, erklingt der Choral höher oder tiefer.
+Zu Beginn werden 2/4 vorgezählt (Höhe = der erste Ton der Sopranstimme).
+
+		 DEMO[[basicChange|alle Stimmen ]]
+		 DEMO[[basicChangeS|ohne Sopran]] |  8  |  8  | 8-7 |  8  |,|  5  |  6  | 6-5 |  5  |
+		 DEMO[[basicChangeA|ohne Alt]]    |  5  |  6  | 5-5 |  5  |,|  3  |  4  | 4-4 |  3  |
+		 DEMO[[basicChangeT|ohne Tenor]]  |  3  |  4  | 3-2 |  3  |,|  1  |  1  | 1-7 |  1  |
+		 DEMO[[basicChangeB|ohne Bass]]   |  1  |  4  | 5-5 |  1  |,|  1  | 4-3 | 2-5 |  1  |
+
+
+		`/*-----------------------------------------------------------------------------------------*/ , es:`
+		`,
+				},
+
+
 		"lesson-title-SAMPLING": {					// ##########################################################################################################################################
-			en: "7. Using sound samples",
-			de: "7. Klangmuster benutzen",
+			en: "8. Using sound samples",
+			de: "8. Klangmuster benutzen",
 			es: "",
 		},
 		"lesson-SAMPLING": {
@@ -1271,8 +1303,8 @@ vielleicht besser als "I+III+V".
 
 
 		"lesson-title-RHYTHM": {						// ##########################################################################################################################################
-			en: "8. Rhythmic exercise",
-			de: "8. Rhythmus üben",
+			en: "9. Rhythmic exercise",
+			de: "9. Rhythmus üben",
 			es: "",
 		},
 		"lesson-RHYTHM": {
@@ -1287,8 +1319,8 @@ vielleicht besser als "I+III+V".
 
 
 		"lesson-title-MORE": {						// ##########################################################################################################################################
-			en: "9. (more to come)",
-			de: "9. (wird noch ergänzt)",
+			en: "10. (more to come)",
+			de: "10. (wird noch ergänzt)",
 			es: "",
 		},
 		"lesson-MORE": {

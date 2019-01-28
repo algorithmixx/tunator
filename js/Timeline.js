@@ -137,7 +137,7 @@ class Timeline {
 		// calculate and return a smoothed note value
 
 		if (signal.freq<0) {
-			if(++this.autoStop>this.autoStopLimit || this.lastNoteAdded==-999) return 1000;
+			if((!theOscillator.isPlaying() || theTunator.mode=="intonation") && (++this.autoStop>this.autoStopLimit || this.lastNoteAdded==-999)) return 1000;
 		}
 		else {
 			this.autoStop=0;
@@ -357,32 +357,43 @@ class Timeline {
 			n++;
 		}
 
-		// detected note background, osc note (green), smoothed pitch (red)
+		// detected note background, osc note (dark green), smoothed pitch (red)
 		var x = this.stretch * (this.size-this.lookAhead-this.shift+this.begin%this.shift);
 		for (var m=0;m<this.size;m++) {
 			x -= this.stretch;
 			if (x<0) break;
 			var mm = (this.begin+this.mel.length-1-m) % this.mel.length;
-			if (this.melSmooth[mm]==1000) continue;
 			y = this.yScale * (39.5-this.melSmooth[mm]);
+
 			// grey background: detected note
-			cv.beginPath();
-				cv.lineWidth = 4;
-				cv.strokeStyle = "#d0d0d0";
-				var yy=y-y%this.yScale;
-				cv.moveTo(x,yy);
-				cv.lineTo(x,yy+this.yScale-1);
-			cv.stroke();
+			if (this.melSmooth[mm]!=1000) {
+				cv.beginPath();
+					cv.lineWidth = 4;
+					cv.strokeStyle = "#d0d0d0";
+					var yy=y-y%this.yScale;
+					cv.moveTo(x,yy);
+					cv.lineTo(x,yy+this.yScale-1);
+				cv.stroke();
+			}
+
 			// thick green line: oscillator note
-			cv.beginPath();
-				cv.lineWidth = 4;
-				cv.strokeStyle = "#afa";
+			if (typeof theTunator!="undefined" && theTunator.mode!="intonation" || this.melSmooth[mm]!=1000) {
+				var strokeStyles=["#358","#6ac","#a95","#9e5","#afa"]
+				var s=0;
 				for(var tone of this.tones[mm]) {
 					var yy= (39.25-Math.round(tone/100))*this.yScale;
-					cv.moveTo(x,yy);
-					cv.lineTo(x,yy+(this.yScale/2-1));
+					cv.beginPath();
+						cv.lineWidth = 4;
+						cv.strokeStyle = strokeStyles[s++];
+						cv.moveTo(x,yy);
+						cv.lineTo(x,yy+(this.yScale/2-1));
+					cv.stroke();
 				}
-			cv.stroke();
+			}
+
+			// did we detect a note?
+			if (this.melSmooth[mm]==1000) continue;
+
 
 			// detected pitch
 			if (this.coloring=="PR" || this.coloring=="SM") {

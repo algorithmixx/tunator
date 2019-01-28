@@ -17,6 +17,7 @@ class Lessons {
 			{id: "GENERATOR"		},
 			{id: "COMPARE"			},
 			{id: "ASSISTED"			},
+			{id: "CHORDS"			},
 			{id: "SAMPLING"			},
 			{id: "RHYTHM"			},
 			{id: "MORE"				},
@@ -133,11 +134,23 @@ class Lessons {
 		}
 
 		else if (id=="ASSISTED") {
-			// setting for assisted playing ("intomation mode")
+			// setting for assisted playing ("intonation mode")
 			theTunator.configure(["menu","osc","timeline"]);
 			theTimeline.setHeight(9);
 			theTunator.setMode("intonation");
 			theAnalyser.announceNoteNames(true);
+			this.show(id,this.expand("lesson-"+id));
+		}
+
+		else if (id=="CHORDS") {
+			// setting for chord progression
+			theTunator.configure(["menu","timeline"]);
+			theOscillator.showControl();
+			theOscillator.setDetune(-2100);
+			theOscillator.setMode("straight");
+			theOscillator.setType("custom");
+			theTimeline.setYScale(15);
+			theTimeline.setHeight(26);
 			this.show(id,this.expand("lesson-"+id));
 		}
 
@@ -237,6 +250,75 @@ class Lessons {
 			theOscillator.setMode("wandering");
 			theOscillator.start();
 			setTimeout(function() {	theOscillator.terminate(); theOscillator.setMode("straight"); theOscillator.setDetune(-1200);},4500);
+		}
+
+		else if (demo.substr(0,11)=="basicChange") {
+			// ...
+			var t=1000;
+			var d=30;
+			var D = 0.5;
+			var o=theOscillator;
+			var n=3;
+			theTunator.selectAudio("oscillator");
+			o.useToneGains(true);
+			var mute = demo.substr(-1);
+			o.muteChord([]);
+
+			// play two ticks of the muted tone or of highest tone (if none is muted)
+			var startTone= "24";
+			if 		(mute=="A") startTone="7";
+			else if (mute=="T") startTone="4";
+			else if (mute=="B") startTone="-12";
+
+			o.setChord(startTone,[10]); o.pause();
+			theTunator.selectDetectionSource('micro');
+			for (var nn=n-1;nn>0;nn--) {
+				setTimeout(function() { o.resume();	}, nn*t);
+				setTimeout(function() {	o.pause();	}, nn*t+100);
+			}
+
+			setTimeout(function() {	o.muteChord([mute=="B",mute=="T",mute=="A",mute=="S"]); }, n*t-d);
+
+			//----------------------------------------------------------------------------------
+
+			setTimeout(function() {	o.resume();o.setChord(	"-12,  4,  7, 12", [ 80 ]			);},n*t);	n+=2;	setTimeout(function() {	o.pause();	},  n*t-d);
+
+			setTimeout(function() {	o.resume(),o.setChord(	" -7,  5,  9, 12", [ 60 ]			);},n*t);	n+=2;	setTimeout(function() {	o.pause();	},  n*t-d);
+
+			setTimeout(function() {	o.resume(),o.setChord(	" -5,  4,  7, 12", [ 60, 80, 60, 80]);},n*t);	n+=1;	setTimeout(function() {	o.pause();	},  n*t-d);
+			setTimeout(function() {	o.resume(),o.setChord(	" -5,  2,  7, 11", 					);},n*t);	n+=1;	setTimeout(function() {	o.pause();	},  n*t-d);
+
+			setTimeout(function() {	o.resume(),o.setChord(	"-12,  4,  7, 12", [ 50 ]			);},n*t);	n+=2;	setTimeout(function() {	o.pause();	},	(n-0.3)*t-d);
+
+			//----------------------------------------------------------------------------------
+
+			setTimeout(function() {	o.resume(),o.setChord(	"-12,  0,  4,  7", [ 80 ]			);},n*t);	n+=2;	setTimeout(function() {	o.pause();	}, n*t-d);
+
+			setTimeout(function() {	o.resume(),o.setChord(	" -7,  0,  5,  9", [100, 40, 60, 60]);},n*t);	n+=1;	setTimeout(function() {	o.pause();	}, n*t-d);
+			setTimeout(function() {	o.resume(),o.setChord(	" -8,  0,  5,  9", 					);},n*t);	n+=1;	setTimeout(function() {	o.pause();	}, n*t-d);
+
+			setTimeout(function() {	o.resume(),o.setChord(	"-10,  0,  5,  9", [ 80,100, 60, 60]);},n*t);	n+=1;	setTimeout(function() {	o.pause();	}, n*t-d);
+			setTimeout(function() {	o.resume(),o.setChord(	" -5, -1,  5,  7", 					);},n*t);	n+=1;	setTimeout(function() {	o.pause();	}, n*t-d);
+
+			setTimeout(function() {	o.resume(),o.setChord(	"-12,  0,  4,  7", [ 40 ]			);},n*t);	n+=3;	setTimeout(function() {	o.pause();	}, n*t-d);
+
+			//----------------------------------------------------------------------------------
+			setTimeout(function() {
+				o.terminate();
+				o.setChord("0");
+				o.muteChord([]);
+				o.useToneGains(false);
+				theTunator.selectDetectionSource("");
+				theTunator.selectAudio("");
+			},n*t);
+		}
+		else if (demo=="basicChange2") {
+			// ...
+			theOscillator.setChord("100,116,119,124");
+			theOscillator.start();
+			setTimeout(function() {	theOscillator.pause(); },1400);
+			setTimeout(function() {	theOscillator.setChord("105,117,121,124"); theOscillator.resume(); },1500);
+			setTimeout(function() {	theOscillator.terminate(); theOscillator.setChord("0"); },2900);
 		}
 
 	}
