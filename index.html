@@ -1,67 +1,67 @@
 ﻿<!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<!-- css -->
+	<link href="css/MIDIPlayer.css" rel="stylesheet" type="text/css" />
+	<link href="css/Tunator.css" 	rel="stylesheet" type="text/css" />
+
+	<!-- jquery -->
+	<script src="lib/jquery-3.3.1.min.js"		></script>
+	<script src="lib/mresize.min.js"			></script>
+
+	<!-- markdown -->
+	<script src="js/commonmark.js"				></script>
+
+	<!-- shim -->
+	<script src="inc/shim/Base64.js"			></script>
+	<script src="inc/shim/Base64binary.js"		></script>
+	<script src="inc/shim/WebAudioAPI.js"		></script>
+	<script src="inc/shim/WebMIDIAPI.js"		></script>
+
+	<!-- jasmid package -->
+	<script src="inc/jasmid/stream.js"			></script>
+	<script src="inc/jasmid/midifile.js"		></script>
+	<script src="inc/jasmid/replayer.js"		></script>
+
+	<!-- midi.js package -->
+	<script src="js/midi/audioDetect.js"		></script>
+	<script src="js/midi/gm.js"					></script>
+	<script src="js/midi/loader.js"				></script>
+	<script src="js/midi/plugin.audiotag.js"	></script>
+	<script src="js/midi/plugin.webaudio.js"	></script>
+	<script src="js/midi/plugin.webmidi.js"		></script>
+	<script src="js/midi/player.js"				></script>
+	<script src="js/midi/synesthesia.js"		></script>
+
+	<!-- utils -->
+	<script src="js/util/dom_request_xhr.js"	></script>
+	<script src="js/util/dom_request_script.js"	></script>
+
+	<!-- includes -->
+	<script src="inc/timer.js"					></script>
+	<script src="inc/colorspace.js"				></script>
+	<script src="inc/event.js"					></script>
+
+	<!-- application -->
+	<script src="js/Utils.js"					></script>
+	<script src="js/LangDef.js"					></script>
+	<script src="js/Lang.js"					></script>
+	<script src="js/Wave.js"					></script>
+	<script src="js/Timeline.js"				></script>
+	<script src="js/Oscillator.js"				></script>
+	<script src="js/Detector.js"				></script>
+	<script src="js/Analyser.js"				></script>
+	<script src="js/Lessons.js"					></script>
+	<script src="js/Staff.js"					></script>
+	<script src="js/Midi.js"					></script>
+	<script src="js/Tunator.js"					></script>
+
 	<title>Tunator</title>
-	<style>
-		body 			{ }
-		code {
-			padding: 2px 4px;
-			font-size: 90%;
-			color: #c7254e;
-			background-color: #f9f2f4;
-			border-radius: 4px;
-			box-sizing: border-box;
-			font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-		}
 
-		h2,h3,h4,h5     {font-family:Arial;}
-		.droptarget 	{ background-color: #348781}
-		#deviation		{ display: inline-block; }
-		.demo			{ font-size:80%; background:#ffc; }
-		.slider {
-			margin-left: 10px;
-			-webkit-appearance: none;
-			width:		80px;
-			height:		1px;
-			background: #000;
-			-webkit-transition: .2s;
-			transition: opacity .2s;
-		}
-
-		.slider::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			appearance: none;
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			background: #000;
-			cursor: pointer;
-		}
-
-		.slider::-moz-range-thumb {
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			background: #000;
-			cursor: pointer;
-		}
-	</style>
 </head>
 <body>
-	<script src="lib/jquery-3.3.1.min.js"></script>
-	<script src="lib/mresize.min.js"></script>
-	<script src="js/commonmark.js"></script>
-	<script src="js/Utils.js"></script>
-	<script src="js/LangDef.js"></script>
-	<script src="js/Lang.js"></script>
-	<script src="js/Wave.js"></script>
-	<script src="js/Timeline.js"></script>
-	<script src="js/Oscillator.js"></script>
-	<script src="js/Detector.js"></script>
-	<script src="js/Analyser.js"></script>
-	<script src="js/Lessons.js"></script>
-	<script src="js/Tunator.js"></script>
 
 	<!-- intro    ================================================================================= -->
 
@@ -216,7 +216,7 @@
 				<option value="200">200</option>
 			</select>
 			<br/>
-			<select id="coloring" style="margin-left:auto; margin-right:0;width:100px;height:30px;" onchange="theTimeline.setColoring($('#coloring option:selected').val());" title="coloring mode">
+			<select id="coloring" style="margin-left:auto; margin-right:0;margin-top:6px;width:100px;height:30px;" onchange="theTimeline.setColoring($('#coloring option:selected').val());" title="coloring mode">
 				<option value="SM" selected>smoothed</option>
 				<option value="DY">dynamic</option>
 				<option value="SH">shading</option>
@@ -354,6 +354,45 @@
 		</table>
 	</div>
 
+
+	<!-- midi control area   =========================================================================================== -->
+
+	<div id="midiControl" style="vertical-align:top;display:inline-block;padding:5px;height:110px;background:#fca" title="midi control">
+		<span style="width:50px;display:inline-block">midi:</span>
+		<select id="midiSelect"onchange="theMidi.loadMidi(this[this.selectedIndex].text)" title="load built-in midi title">
+			<option>select a file ..</option>
+			<option>Basic Change</option>
+			<option>Flowers</option>
+		</select>
+		<!-- <button onclick="theMidi.loadEmbeddedSong(1)">Entertainer</button> -->
+		<!-- <button onclick="theMidi.loadMidi64('Waltz of the Flowers')">Waltz of the Flowers 64</button> -->
+		<br/>
+		<span style="width:50px;display:inline-block">tempo</span>
+		<input
+			id="midiTempo" style="margin-top:6px;"
+			type="range" min="-10" max="10" value="0" step="1"
+			oninput="$('#midiTempoVal').html(theMidi.calcTempo(this.value))"
+			onchange="theMidi.setTempo(this.value);"
+		/>
+		<span id="midiTempoVal" style="margin-left:10px">100</span>
+		<br/>
+		<input type="file" style=margin-top:6px;" onchange="theMidi.loadFile()" onclick="theMidi.pausePlayStop(true);" title="load a midi file"/>
+		<br/>
+		<button
+			id = "just" onclick="theMidi.toggleJust(); $('#just').css('background-color',theMidi.justIntonation?'#cfc':'');"
+			title="toggle between tempered and just intonation"
+		>
+			just
+		</button>
+		<button onclick="theMidi.clearEvents();" title="clear event list window">
+			clear
+		</button>
+		transpose:
+		<input id=midiTranspose value="0" size="2" onchange="theMidi.transpose(this.value);"/>
+		<input type="checkbox" style="transform:scale(1.5);" value="1" title="loop long notes" onchange="theMidi.toggleLoopLongNotes();"/>
+	</div>
+
+
 	<!-- other    ================================================================================= -->
 
 	<div id="other" style="vertical-align:top;display:inline-block;padding:5px;height:110px;background:#eee" title="other settings">
@@ -398,6 +437,45 @@
 		<input id="p8" type="range" min="-300" max="300" value="0"		class="slider" oninput="theTunator.setOscPhase(8,this.value);"/>
 	</div>
 
+	<!-- midi player, pdf score, lilypond score, midi events  ========================================================================= -->
+
+	<div id="lilymidi">
+
+		<div style="margin-top:6px;border: 1px solid #000; border-radius: 11px; width: 680px; position: relative; z-index: 2;">
+			<div class="player" style="height: 42px; margin-bottom: 0;">
+				<div style="margin: 0 auto; width: 70px; float: right;">
+					<input type="image" src="img/pause.png" align="absmiddle" value="pause" onclick="theMidi.pausePlayStop()" id="pausePlayStop">
+					<input type="image" src="img/stop.png" align="absmiddle" value="stop" onclick="theMidi.pausePlayStop(true)">
+				</div>
+				<div class="time-controls" style="float: left; margin: 0; position: relative; top: 5px;">
+					<span id="time1" class="time">0:00</span>
+					<span id="capsule">
+						<span id="cursor"></span>
+					</span>
+					<span id="time2" class="time" style="text-align: left;"></span>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<embed
+				id="pdfScoreMidi" type="application/pdf"
+				style="width:600px;height:324px;display:inline-block;vertical-align:top;margin-top:6px;border:1px solid black;overflow-y:scroll;"
+			/>
+
+			<canvas
+				id="staff" width="200px" height="324px"
+				style="display:inline-block;vertical-align:top;margin-top:6px;margin-left:10px;border:1px solid black;overflow-y:scroll;">
+			</canvas>
+			<textarea
+				id="lyScore"
+				style="width:400px;height:320px;display:inline-block;vertical-align:top;margin-top:6px;margin-left:10px;border:1px solid black;overflow-y:scroll;">.</textarea>
+		</div>
+
+		<div id="midiEvents" style="margin-top:6px;border:1px solid black;font-family:Courier;overflow-y:scroll;height:120px;width:100%">
+		</div>
+
+	</div>
 
 	<!-- wave (oscilloscope)    ================================================================================= -->
 
@@ -409,7 +487,7 @@
 	<div id="scoreBox" style="display:none"  title="to play the sound you need to install and activate the midi player browser plugin from jazz-soft.net">
 		<iframe width="640px" height="200px" id="pdfScore"></iframe><br/>
 		<audio controls="controls">
- 			<source id=midi" src="score/Interval1.mid" type="audio/midi">
+ 			<source id="midiAudio" src="score/Interval1.mid" type="audio/midi">
 		</audio>
 	</div>
 
@@ -427,6 +505,6 @@
 		<div id="instruction" style="font-size:16pt;display:none;padding:10px;background-color:#fafaf7;">
 		</div>
 	</div>
-	ok
+
 </body>
 </html>

@@ -81,7 +81,7 @@ class Lessons {
 		if (id=="USER-MODE") 	{
 			// show everything, no lesson text, let the user fiddle with the elements of the program
 			this.clear();
-			theTunator.configure(["menu","micro","osc","wave","timeline"]);
+			theTunator.configure(["menu","micro","osc","wave","timeline","midi"]);
 			$("#other").show();
 			theTunator.selectAudio("");
 			return;

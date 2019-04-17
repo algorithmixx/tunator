@@ -61,6 +61,7 @@ class Tunator {
 		theOscillator.hideControl();
 		theWave.hide();
 		theTimeline.hide();
+		theMidi.hide();
 		$("#other").hide();
 
 		$("#reference").val(443);
@@ -85,6 +86,9 @@ class Tunator {
 		}
 		if (components.includes("timeline")) {
 			theTimeline.show();
+		}
+		if (components.includes("midi")) {
+			theMidi.show();
 		}
 		if (components.includes("micro")) {
 			theTunator.selectDetectionSource("micro");
@@ -519,7 +523,7 @@ class Tunator {
 		if (val==0) that.scoreVisible = !that.scoreVisible;
 		else that.scoreVisible = (val>0);
 		$("#pdfScore").prop("src","./score/"+file+".pdf");
-		$("#midi").prop("src","./score/"+file+".mid");
+		$("#midiAudio").prop("src","./score/"+file+".mid");
 		if (that.scoreVisible)	{
 			$("#scoreBox").show();
 			$("#score").css("background-color","lightgreen");

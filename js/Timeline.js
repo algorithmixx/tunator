@@ -23,6 +23,7 @@ class Timeline {
 		this.mel=new Array(this.melSize).fill(1000);
 		this.melSmooth=new Array(this.melSize).fill(1000);
 		this.tones=new Array(this.melSize).fill([]);
+		this.tonesScore=new Array(this.melSize).fill([]);	// the tones which we expect to be played
 		this.lastNoteDrawn=0;
 		this.lastNoteAdded= -999;
 		this.begin=0;
@@ -122,6 +123,10 @@ class Timeline {
 		this.coloring=coloring;
 	}
 
+	loadScore(score) {
+
+	}
+	
 	addTick(val,offset) {
 		// add one element to the circular melody memory at position "this.begin"
 		// in this case we add the signal object;

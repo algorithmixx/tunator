@@ -1,0 +1,44 @@
+body {
+}
+
+code {
+	padding: 2px 4px;
+	font-size: 90%;
+	color: #c7254e;
+	background-color: #f9f2f4;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+h2,h3,h4,h5     {font-family:Arial;}
+.droptarget 	{ background-color: #348781}
+#deviation		{ display: inline-block; }
+.demo			{ font-size:80%; background:#ffc; }
+.slider {
+	margin-left: 10px;
+	-webkit-appearance: none;
+	width:		80px;
+	height:		1px;
+	background: #000;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #000;
+	cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #000;
+	cursor: pointer;
+}

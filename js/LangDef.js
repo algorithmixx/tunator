@@ -309,7 +309,7 @@ Die Erinnerung an diesen Song wird dir helfen, deinen persönlichen Ton immer wi
 
 * Ist dein persönlicher Ton ein "Bb/A#"? Dann ist es vielleicht einfach für dich, den Anfang des
 LINK[[https://www.youtube.com/watch?v=LQCooL_q91k&start=65|Gefangenenchors aus Verdis Nabucco]]] zu singen.
-Er beginnt mit der Tonfolge **§a#-g#-f#-f#-c#-c#'-c#'§**. Aber das sind ziemlich seltsame Noten, oder?
+Er beginnt mit der Tonfolge **§a#-g#-f#-c#-c#'-c#'§**. Aber das sind ziemlich seltsame Noten, oder?
 Du suchst vielleicht besser nach einem anderen Lied ;-)
 * Ist dein persönlicher Ton ein "A"? Dann könnte
 LINK[[https://www.youtube.com/watch?v=A_MjCqQoLLA&start=55|Hey Jude (von den Beatles)]]
@@ -344,7 +344,7 @@ um das **C** zu erreichen.
 Versuche es mehrmals mit geschlossenen Augen. Kannst du das **C** reproduzieren,
 auch wenn du zwischen durch wilden Lärm produziert hast?
 
-### Klicke auf das Kontrollkästchen im grünen Bereich, das "tell me" heißt, und singe erneut.
+### Klicke auf das Kontrollkästchen im grünen Bereich, das "Note sagen" heißt, und singe erneut.
 
 Wenn du die Note über einen längeren Zeitraum (=für mehr als eine Sekunde) stabil genug hältst,
 wird ihr Name über den Lautsprecher angesagt.

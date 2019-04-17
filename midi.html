@@ -1,0 +1,29 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Midi experiments</title>
+	<style>
+		body 			{ }
+	</style>
+</head>
+<body>
+	<script src="lib/jquery-3.3.1.min.js"></script>
+	<script src="lib/midiplayer.min.js"></script>
+	<script src="lib/soundfont-player.min.js"></script>
+
+	hello
+	<script type="text/javascript">
+ 
+// Initialize player and register event handler
+var Player = new MidiPlayer.Player(function(event) {
+    console.log(event);
+});
+ 
+// Load a MIDI file
+Player.loadFile('./score/basicChange.mid');
+Player.play();
+		
+	</script>
+</body>
+</html>
